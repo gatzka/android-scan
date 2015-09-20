@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/menu_search"
+	/>
+
+    <item
+        android:id="@+id/action_pause_control"
+        android:icon="@drawable/ic_action_pause"
+        android:showAsAction="always"
+        android:title="@string/menu_pause_option"
+	/>
+
+</menu>

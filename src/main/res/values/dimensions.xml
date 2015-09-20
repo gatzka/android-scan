@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="level1_start_padding">6dp</dimen>
+    <dimen name="level2_start_padding">30dp</dimen>
+    <dimen name="level3_start_padding">54dp</dimen>
+    <dimen name="level2_top_bottom_padding">2dp</dimen>
+</resources>

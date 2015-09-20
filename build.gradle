@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: "sonar-runner"
+
+repositories {
+	mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.3.1'
+    }
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+        }
+    }
+	buildDir = "/tmp/${rootProject.name}/${project.name}"
+}
+
+dependencies {
+    compile files('libs/devscan.jar')
+	compile 'com.android.support:support-v4:23.0.1'
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+	signingConfigs {
+		release {
+			//storeFile file("myReleaseKey.keystore")
+			//storePassword "passwd"
+			//keyAlias "MyReleaseKey"
+			//keyPassword "passwd"
+		}
+	}
+
+	buildTypes {
+		release {
+			//signingConfig signingConfigs.release
+		}
+	}
+
+	lintOptions {
+		checkAllWarnings true
+    }
+}
+
+sonarRunner {
+	toolVersion = '2.4' // default
+	sonarProperties {
+		def android_sdk = System.getenv("ANDROID_SDK")
+
+		property "sonar.projectName", "Android Scan" 
+		property "sonar.projectVersion", "1.0" 
+		property "sonar.projectDescription", "Android scanner for HBM devices" 
+		property "sonar.projectKey", "my.group:project-key" 
+		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.sourceEncoding", "UTF-8"
+		property "sonar.language", "java"
+		property "sonar.sources", "src" 
+		property "sonar.java.binaries", "build/intermediates/classes/release/" 
+		property "sonar.java.libraries", "libs/*.jar,${android_sdk}/platforms/android-22/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
+	}
+}
+
+tasks.sonarRunner.dependsOn = ["build"]
