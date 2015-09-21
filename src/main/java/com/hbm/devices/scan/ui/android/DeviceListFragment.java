@@ -161,17 +161,22 @@ public final class DeviceListFragment extends Fragment {
 
     void setFilterString(String filterString) {
         this.filterString = filterString;
-        deviceFilter.filter(filterString);
+        updateList();
     }
     
     void notify(List<Announce> announces) {
         collectedAnnounces.set(announces);
         System.out.println("------------------ got new item before filter");
-        deviceFilter.filter(filterString);
+        updateList();
     }
 
     void setAdapter(ModuleListAdapter adapter) {
         this.adapter.set(adapter);
+        updateList();
+    }
+
+    private void updateList() {
+        deviceFilter.filter(filterString);
     }
 
     private class DeviceFilter extends Filter {
