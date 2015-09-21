@@ -128,6 +128,11 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         //searchView.clearFocus();
 
         final MenuItem pauseItem = menu.findItem(R.id.action_pause_control);
+        if (adapter.isPaused()) {
+            pauseItem.setIcon(R.drawable.ic_action_play);
+        } else {
+            pauseItem.setIcon(R.drawable.ic_action_pause);
+        }
     }
 
     @Override
