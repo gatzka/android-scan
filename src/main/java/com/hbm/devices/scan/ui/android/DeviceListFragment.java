@@ -30,17 +30,12 @@ package com.hbm.devices.scan.ui.android;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 
 import java.util.ArrayList;
