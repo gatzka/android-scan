@@ -60,7 +60,6 @@ public final class DeviceListFragment extends Fragment {
     private String filterString;
     private ScanThread scanThread;
     private DeviceFilter deviceFilter;
-    private boolean updateAfterConfigChange;
     private WifiLock wifiLock;
     private MulticastLock mcLock;
 
@@ -166,8 +165,9 @@ public final class DeviceListFragment extends Fragment {
     
     void notify(List<Announce> announces) {
         collectedAnnounces.set(announces);
-        System.out.println("------------------ got new item before filter");
-        updateList();
+        if (!paused) {
+            updateList();
+        }
     }
 
     void setAdapter(ModuleListAdapter adapter) {
@@ -207,11 +207,8 @@ public final class DeviceListFragment extends Fragment {
             filteredAnnounces = (ArrayList<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
             System.out.println("-------------------- publish: a: " + a + " pause: " + paused);
-            if (a != null && (!paused || updateAfterConfigChange)) {
+            if (a != null) {
                 a.notifyList(filteredAnnounces);
-            }
-            if (updateAfterConfigChange) {
-                updateAfterConfigChange = false;
             }
         }
 
