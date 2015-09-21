@@ -174,7 +174,6 @@ final class ModuleListAdapter extends BaseAdapter {
         listFragment.setPaused(true);
     }
 
-
     private static final class ViewHolderItem {
         private TextView moduleType;
         private TextView moduleID;
