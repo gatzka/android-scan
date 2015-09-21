@@ -145,7 +145,7 @@ public final class DeviceListFragment extends Fragment {
     void setPaused(boolean paused) {
         this.paused = paused;
         if (!paused) {
-            deviceFilter.filter(filterString);
+            updateList();
         }
     }
 
