@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Filter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -72,8 +73,12 @@ public final class DeviceListFragment extends Fragment {
 
         collectedAnnounces = new AtomicReference<List<Announce>>(new ArrayList<Announce>());
         deviceFilter = new DeviceFilter();
-        scanThread = new ScanThread(this);
-        scanThread.start();
+        try {
+            scanThread = new ScanThread(this);
+            scanThread.start();
+        } catch (IOException e) {
+            Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
+        }
     }
 
     @Override
@@ -119,9 +124,12 @@ public final class DeviceListFragment extends Fragment {
     @Override
     public void onDestroy() {
         adapter.set(null);
+        System.out.println("---------------- DeviceList Fragment onDestroy call finish");
         scanThread.finish();
+        System.out.println("---------------- DeviceList Fragment onDestroy after finish");
         try {
             scanThread.join();
+            System.out.println("---------------- DeviceList Fragment onDestroy after join");
         } catch (InterruptedException e) {
             Log.d(ScanActivity.LOG_TAG, "Interrupt while joining thread", e);
         }
@@ -201,7 +209,6 @@ public final class DeviceListFragment extends Fragment {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredAnnounces = (ArrayList<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
-            System.out.println("-------------------- publish: a: " + a + " pause: " + paused);
             if (a != null) {
                 a.notifyList(filteredAnnounces);
             }

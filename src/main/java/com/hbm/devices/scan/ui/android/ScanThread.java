@@ -35,6 +35,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Inet4Address;
@@ -48,9 +49,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.hbm.devices.scan.AbstractMessageReceiver;
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
+import com.hbm.devices.scan.announce.AnnounceReceiver;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.DeviceMonitor;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
@@ -61,14 +64,14 @@ final class ScanThread extends Thread implements Observer {
 
     public static final int INITIAL_ANNOUNCE_CAPACITY = 100;
 
-    private final FakeMessageReceiver messageReceiver;
+    private final AbstractMessageReceiver messageReceiver;
     private final DeviceMonitor deviceMonitor;
     private final BestConnectableAddressComparator addressComparator;
     private ConnectionFinder connectionFinder;
     private final List<Announce> collectedAnnounces;
     private final DeviceListFragment listFragment;
 
-    ScanThread(DeviceListFragment listFragment) {
+    ScanThread(DeviceListFragment listFragment) throws IOException {
         super("device scan thread");
 
         collectedAnnounces = new ArrayList<Announce>(INITIAL_ANNOUNCE_CAPACITY);
@@ -80,6 +83,7 @@ final class ScanThread extends Thread implements Observer {
         final AnnounceDeserializer announceParser = new AnnounceDeserializer();
         announceParser.addObserver(deviceMonitor);
         messageReceiver = new FakeMessageReceiver();
+        //messageReceiver = new AnnounceReceiver();
         messageReceiver.addObserver(announceParser);
     }
     
@@ -89,6 +93,7 @@ final class ScanThread extends Thread implements Observer {
             final ScanInterfaces interfaces = new ScanInterfaces();
             connectionFinder = new ConnectionFinder(interfaces.getInterfaces());
             messageReceiver.run();
+            System.out.println("--------------- ScanThread shulz");
         } catch (SocketException e) {
             Log.e(ScanActivity.LOG_TAG, "Could not get list of network interfaces!", e);
         }
@@ -99,6 +104,7 @@ final class ScanThread extends Thread implements Observer {
         messageReceiver.close();
         deviceMonitor.deleteObservers();
         deviceMonitor.close();
+        this.interrupt();
     }
 
     @Override

@@ -34,9 +34,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray; 
 import com.google.gson.JsonObject; 
 
-import com.hbm.devices.scan.MessageReceiver;
+import com.hbm.devices.scan.AbstractMessageReceiver;
 
-public final class FakeMessageReceiver extends Observable implements MessageReceiver {
+public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private boolean shallRun = true;
     private final Gson gson = new Gson();
@@ -44,8 +44,8 @@ public final class FakeMessageReceiver extends Observable implements MessageRece
 
     @Override
     public void run() {
-        //announceAtSameTime(100);
-        announceOneEverySecond();
+        announceAtSameTime(100);
+        //announceOneEverySecond();
     }
 
     private void announceAtSameTime(int numberOfModules) {
