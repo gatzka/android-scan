@@ -33,7 +33,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-public final class BrowserStartTask extends AsyncTask<String, Void, Integer> {
+import java.net.InetSocketAddress;
+
+public final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, Integer> {
 
     private final Activity activity;
 
@@ -43,11 +45,14 @@ public final class BrowserStartTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String... addresses) {
-        final String hostName = addresses[0];
+    protected Integer doInBackground(InetSocketAddress... addresses) {
+        final InetSocketAddress address = addresses[0];
+        final String hostName = address.getHostName();
         final Uri.Builder uriBuilder = new Uri.Builder();
         uriBuilder.scheme("http");
-        uriBuilder.authority(hostName);
+        uriBuilder.encodedAuthority(hostName + ':' + address.getPort());
+        uriBuilder.build();
+
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
         activity.startActivity(browserIntent);
         return 0;

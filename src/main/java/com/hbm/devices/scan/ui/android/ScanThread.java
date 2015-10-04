@@ -37,9 +37,10 @@ import android.net.wifi.WifiManager.WifiLock;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,7 @@ import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.DeviceMonitor;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
 import com.hbm.devices.scan.announce.NewDeviceEvent;
+import com.hbm.devices.scan.announce.ServiceEntry;
 import com.hbm.devices.scan.announce.UpdateDeviceEvent;
 
 final class ScanThread extends Thread implements Observer {
@@ -134,9 +136,25 @@ final class ScanThread extends Thread implements Observer {
         Collections.sort(addresses, addressComparator);
         if (!addresses.isEmpty()) {
             final InetAddress address = addresses.get(0);
-            final String hostName = address.getCanonicalHostName();
-            announce.setCookie(hostName);
+            final int httpPort = getHttpPort(announce);
+            if (httpPort != -1) {
+                final InetSocketAddress isa = new InetSocketAddress(address, httpPort);
+                announce.setCookie(isa);
+            }
         }
+    }
+
+    private int getHttpPort(Announce announce) {
+        final List<ServiceEntry> entries = announce.getParams().getServices();
+        if (entries == null) {
+            return -1;
+        }
+        for (final ServiceEntry entry : entries) {
+            if (entry.getType().equals("http")) {
+                return entry.getPort();
+            }
+        }
+        return -1;
     }
 
     private static List<InetAddress> removeIPv6LinkLocal(List<InetAddress> addresses) {

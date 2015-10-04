@@ -42,6 +42,8 @@ import android.widget.ListView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView;
 
+import java.net.InetSocketAddress;
+
 import com.hbm.devices.scan.announce.Announce;
 
 public final class DevicesFragment extends ListFragment implements View.OnClickListener {
@@ -99,12 +101,11 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
     @Override
     public void onListItemClick(ListView list, View view, int position, long identifier) {
         final Announce announce = adapter.getItem(position);
-        final String hostName = (String) announce.getCookie();
-        System.out.println("-------------- " + hostName);
-        if (hostName == null) {
+        final InetSocketAddress address  = (InetSocketAddress) announce.getCookie();
+        if (address == null) {
             //TODO: showConfigure(announce);
         } else {
-			openBrowser(hostName);
+			openBrowser(address);
         }
     }
 
@@ -168,9 +169,9 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         }
     }
 
-    private void openBrowser(String connectAddress) {
+    private void openBrowser(InetSocketAddress address) {
         final BrowserStartTask browserTask = new BrowserStartTask(getActivity());
-        browserTask.execute(new String[] {connectAddress});
+        browserTask.execute(new InetSocketAddress[] {address});
     }
 }
 
