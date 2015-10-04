@@ -64,7 +64,7 @@ public final class DeviceDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = getActivity();
-        activity.getActionBar().setTitle(announce.getParams().getDevice().getName());
+        activity.getActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
         layout = new LinearLayout(activity);
@@ -79,6 +79,15 @@ public final class DeviceDetailsFragment extends Fragment {
         paddingStartLevel3 = (int) resources.getDimension(R.dimen.level3_start_padding);
 
     }
+
+   	private String getDisplayName(Device device) {
+        String displayName = device.getName();
+        if (displayName == null || displayName.length() == 0) {
+            displayName = device.getUuid();
+        }
+        return displayName;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
