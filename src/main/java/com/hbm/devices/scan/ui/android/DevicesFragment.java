@@ -157,6 +157,16 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.right) {
+            final int position = ((Integer) view.getTag()).intValue();
+            final Announce announce = adapter.getItem(position);
+            final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
+            detailsFragment.setAnnounce(announce);
+            final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, detailsFragment, "detail");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     } 
 
     private void handlePause(MenuItem item) {
