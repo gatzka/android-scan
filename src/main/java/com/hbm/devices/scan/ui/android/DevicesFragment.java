@@ -160,8 +160,11 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         if (view.getId() == R.id.right) {
             final int position = ((Integer) view.getTag()).intValue();
             final Announce announce = adapter.getItem(position);
+            ParceledAnnounce pa = new ParceledAnnounce(announce);
+            Bundle args = new Bundle();
+            args.putParcelable("bla", pa);
             final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
-            detailsFragment.setAnnounce(announce);
+            detailsFragment.setArguments(args);
             final FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, detailsFragment, "detail");
             transaction.addToBackStack(null);

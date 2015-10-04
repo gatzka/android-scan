@@ -50,7 +50,7 @@ import com.hbm.devices.scan.announce.ServiceEntry;
 
 public final class DeviceDetailsFragment extends Fragment {
 
-    private Announce announce;
+    private ParceledAnnounce announce;
 
     private ScrollView scroller;
     private LinearLayout layout;
@@ -64,6 +64,8 @@ public final class DeviceDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = getActivity();
+
+        announce = getArguments().getParcelable("bla");
         activity.getActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
@@ -77,17 +79,15 @@ public final class DeviceDetailsFragment extends Fragment {
         paddingStartLevel1 = (int) resources.getDimension(R.dimen.level1_start_padding);
         paddingStartLevel2 = (int) resources.getDimension(R.dimen.level2_start_padding);
         paddingStartLevel3 = (int) resources.getDimension(R.dimen.level3_start_padding);
-
     }
 
-   	private String getDisplayName(Device device) {
+   	private String getDisplayName(ParceledDevice device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
         }
         return displayName;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,12 +110,8 @@ public final class DeviceDetailsFragment extends Fragment {
         return scroller;
     }
 
-    void setAnnounce(Announce announce) {
-        this.announce = announce;
-    }
-
     private void addDeviceInformation(LinearLayout layout) {
-        final Device device = announce.getParams().getDevice();
+        final ParceledDevice device = announce.getParams().getDevice();
 
         final TextView deviceText = new TextView(activity);
         deviceText.setTextAppearance(activity, android.R.style.TextAppearance_Large);
@@ -140,7 +136,7 @@ public final class DeviceDetailsFragment extends Fragment {
     }
 
     private void addNetSettings(LinearLayout layout) {
-        final Interface iface = announce.getParams().getNetSettings().getInterface();
+        final ParceledInterface iface = announce.getParams().getNetSettings().getInterface();
 
         final TextView settings = new TextView(activity);
         settings.setTextAppearance(activity, android.R.style.TextAppearance_Large);
@@ -152,7 +148,7 @@ public final class DeviceDetailsFragment extends Fragment {
         addSecondLevelText(layout, iface.getType(), "Interface Type: ");
         addSecondLevelText(layout, iface.getDescription(), "Interface Description: ");
 
-        final List<IPv4Entry> ipv4 = iface.getIPv4();
+        final List<ParceledIPv4Entry> ipv4 = iface.getIPv4();
         if (ipv4 != null && !ipv4.isEmpty()) {
             final TextView ipv4Text = new TextView(activity);
             ipv4Text.setTextAppearance(activity, android.R.style.TextAppearance_Medium);
@@ -160,14 +156,14 @@ public final class DeviceDetailsFragment extends Fragment {
             ipv4Text.setText("IPv4 addresses");
             layout.addView(ipv4Text);
 
-            for (final IPv4Entry entry : ipv4) {
+            for (final ParceledIPv4Entry entry : ipv4) {
                 final StringBuilder builder = new StringBuilder(entry.getAddress()).append("/")
                     .append(entry.getNetmask());
                 addThirdLevelText(layout, builder.toString(), "∙ ");
             }
         }
 
-        final List<IPv6Entry> ipv6 = iface.getIPv6();
+        final List<ParceledIPv6Entry> ipv6 = iface.getIPv6();
         if (ipv6 != null && !ipv6.isEmpty()) {
             final TextView ipv6Text = new TextView(activity);
             ipv6Text.setTextAppearance(activity, android.R.style.TextAppearance_Medium);
@@ -175,7 +171,7 @@ public final class DeviceDetailsFragment extends Fragment {
             ipv6Text.setText("IPv6 addresses");
             layout.addView(ipv6Text);
 
-            for (final IPv6Entry entry : ipv6) {
+            for (final ParceledIPv6Entry entry : ipv6) {
                 final StringBuilder builder = new StringBuilder(entry.getAddress())
                     .append("/").append(entry.getPrefix());
                 addThirdLevelText(layout, builder.toString(), "∙ ");
@@ -184,7 +180,7 @@ public final class DeviceDetailsFragment extends Fragment {
     }
 
     private void addServices(LinearLayout layout) {
-        final List<ServiceEntry> services = announce.getParams().getServices();
+        final List<ParceledServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
             final TextView servicesText = new TextView(activity);
             servicesText.setTextAppearance(activity, android.R.style.TextAppearance_Large);
@@ -192,7 +188,7 @@ public final class DeviceDetailsFragment extends Fragment {
             servicesText.setText("Services");
             layout.addView(servicesText);
 
-            for (final ServiceEntry entry : services) {
+            for (final ParceledServiceEntry entry : services) {
                 final StringBuilder builder = new StringBuilder(entry.getType())
                     .append(": ").append(entry.getPort());
                 addThirdLevelText(layout, builder.toString(), "∙ ");
