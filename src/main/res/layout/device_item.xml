@@ -32,14 +32,6 @@
         android:singleLine="true"
 	/>
 	
-	<View
-      android:layout_width="1px"
-      android:layout_height="match_parent"
-	  android:layout_marginTop="0dp"
-	  android:layout_marginBottom="0dp"
-      android:background="@android:color/darker_gray"
-	/>
-
     <ImageView
         android:id="@+id/right"
 		android:contentDescription="@string/device_info"
