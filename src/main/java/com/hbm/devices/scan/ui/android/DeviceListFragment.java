@@ -60,15 +60,8 @@ public final class DeviceListFragment extends Fragment {
     private MulticastLock mcLock;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        System.out.println("---------------- DeviceList Fragment onAttach");
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("---------------- DeviceList Fragment onCreate");
         setRetainInstance(true);
 
         collectedAnnounces = new AtomicReference<List<Announce>>(new ArrayList<Announce>());
@@ -84,14 +77,12 @@ public final class DeviceListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        System.out.println("---------------- DeviceList Fragment onActivityCreated");
 
         /*
          * Probably a good idea to update UI only after this method was called.
          * Then we should have a complete view. In onDestroyView we can stop updating UI.
-         * Proably a better idea is to start/stop updating UI in onResume/onPause. 
+         * Probably a better idea is to start/stop updating UI in onResume/onPause. 
          * Has to be clarified if these methods are called when activity goes into background.
-         *
          */
         final ScanActivity activity = (ScanActivity) getActivity();
         final WifiManager wifi = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
@@ -110,40 +101,23 @@ public final class DeviceListFragment extends Fragment {
     }
 
     @Override
-    public void onResume () {
-        super.onResume();
-        System.out.println("---------------- DeviceList Fragment onResume");
-    } 
-
-    @Override
-    public void onPause () {
-        super.onPause();
-        System.out.println("---------------- DeviceList Fragment onPause");
-    } 
-
-    @Override
     public void onDestroy() {
         adapter.set(null);
-        System.out.println("---------------- DeviceList Fragment onDestroy call finish");
         scanThread.finish();
-        System.out.println("---------------- DeviceList Fragment onDestroy after finish");
         try {
             scanThread.join();
-            System.out.println("---------------- DeviceList Fragment onDestroy after join");
         } catch (InterruptedException e) {
             Log.d(ScanActivity.LOG_TAG, "Interrupt while joining thread", e);
         }
         mcLock.release();
         wifiLock.release();
-        System.out.println("---------------- DeviceList Fragment onDestroy");
         super.onDestroy();
     }
 
     @Override
     public void onDetach() {
-        super.onDetach();
         adapter.set(null);
-        System.out.println("---------------- DeviceList Fragment onDetach");
+        super.onDetach();
     }
 
     boolean isPaused() {

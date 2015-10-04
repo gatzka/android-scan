@@ -53,30 +53,6 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
     private ModuleListAdapter adapter;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        System.out.println("---------------- DevicesFragment onAttach");
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        System.out.println("---------------- DevicesFragment onActivityCreated");
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        System.out.println("---------------- DevicesFragment onViewStateRestored");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("---------------- DevicesFragment onStart");
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
@@ -85,19 +61,12 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
 
         setHasOptionsMenu(true);
         getActivity().getActionBar().setTitle(R.string.app_name);
-        System.out.println("---------------- DevicesFragment onCreate");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().setTitle(R.string.app_name);
-    }
-
-    @Override
-    public void onDestroy() {
-        System.out.println("---------------- DevicesFragment onDestroy");
-        super.onDestroy();
     }
 
     @Override

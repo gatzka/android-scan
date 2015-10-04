@@ -95,7 +95,6 @@ final class ScanThread extends Thread implements Observer {
             final ScanInterfaces interfaces = new ScanInterfaces();
             connectionFinder = new ConnectionFinder(interfaces.getInterfaces());
             messageReceiver.run();
-            System.out.println("--------------- ScanThread shulz");
         } catch (SocketException e) {
             Log.e(ScanActivity.LOG_TAG, "Could not get list of network interfaces!", e);
         }
