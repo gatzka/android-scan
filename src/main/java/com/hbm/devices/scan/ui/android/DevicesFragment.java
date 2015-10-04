@@ -48,6 +48,8 @@ import com.hbm.devices.scan.announce.Announce;
 
 public final class DevicesFragment extends ListFragment implements View.OnClickListener {
 
+    static final String DETAILS = "Details";
+
     private ModuleListAdapter adapter;
 
     @Override
@@ -162,7 +164,7 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
             final Announce announce = adapter.getItem(position);
             ParceledAnnounce pa = new ParceledAnnounce(announce);
             Bundle args = new Bundle();
-            args.putParcelable("bla", pa);
+            args.putParcelable(DETAILS, pa);
             final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
             detailsFragment.setArguments(args);
             final FragmentTransaction transaction = getFragmentManager().beginTransaction();

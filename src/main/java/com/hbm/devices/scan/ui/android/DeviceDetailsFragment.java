@@ -70,7 +70,7 @@ public final class DeviceDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.activity = getActivity();
 
-        announce = getArguments().getParcelable("bla");
+        announce = getArguments().getParcelable(DevicesFragment.DETAILS);
         activity.getActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
