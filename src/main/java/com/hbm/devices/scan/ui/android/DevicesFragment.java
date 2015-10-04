@@ -31,6 +31,7 @@ package com.hbm.devices.scan.ui.android;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,6 +98,14 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
 
     @Override
     public void onListItemClick(ListView list, View view, int position, long identifier) {
+        final Announce announce = adapter.getItem(position);
+        final String hostName = (String) announce.getCookie();
+        System.out.println("-------------- " + hostName);
+        if (hostName == null) {
+            //TODO: showConfigure(announce);
+        } else {
+			openBrowser(hostName);
+        }
     }
 
     @Override
@@ -157,6 +166,11 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
             item.setIcon(R.drawable.ic_action_play);
             adapter.pauseDeviceUpdates();
         }
+    }
+
+    private void openBrowser(String connectAddress) {
+        final BrowserStartTask browserTask = new BrowserStartTask(getActivity());
+        browserTask.execute(new String[] {connectAddress});
     }
 }
 
