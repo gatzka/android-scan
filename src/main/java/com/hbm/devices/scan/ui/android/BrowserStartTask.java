@@ -51,7 +51,6 @@ public final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, I
         final Uri.Builder uriBuilder = new Uri.Builder();
         uriBuilder.scheme("http");
         uriBuilder.encodedAuthority(hostName + ':' + address.getPort());
-        uriBuilder.build();
 
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
         activity.startActivity(browserIntent);
