@@ -32,9 +32,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -59,6 +61,9 @@ public final class DeviceDetailsFragment extends Fragment {
     private int paddingStartLevel1;
     private int paddingStartLevel2;
     private int paddingStartLevel3;
+    private int textSizeLarge;
+    private int textSizeMedium;
+    private int textSizeSmall;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,9 +74,11 @@ public final class DeviceDetailsFragment extends Fragment {
         activity.getActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
+        HorizontalScrollView hscroller = new HorizontalScrollView(activity);
+        scroller.addView(hscroller);
         layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
-        scroller.addView(layout);
+        hscroller.addView(layout);
 
         final Resources resources = this.getResources();
         paddingTop = (int) resources.getDimension(R.dimen.level2_top_bottom_padding);
@@ -79,6 +86,10 @@ public final class DeviceDetailsFragment extends Fragment {
         paddingStartLevel1 = (int) resources.getDimension(R.dimen.level1_start_padding);
         paddingStartLevel2 = (int) resources.getDimension(R.dimen.level2_start_padding);
         paddingStartLevel3 = (int) resources.getDimension(R.dimen.level3_start_padding);
+
+        textSizeLarge = (int) resources.getDimension(R.dimen.text_size_large);
+        textSizeMedium = (int) resources.getDimension(R.dimen.text_size_medium);
+        textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
     }
 
    	private String getDisplayName(ParceledDevice device) {
@@ -114,8 +125,8 @@ public final class DeviceDetailsFragment extends Fragment {
         final ParceledDevice device = announce.getParams().getDevice();
 
         final TextView deviceText = new TextView(activity);
-        deviceText.setTextAppearance(activity, android.R.style.TextAppearance_Large);
-        deviceText.setPadding(paddingStartLevel1, paddingStartLevel1, paddingStartLevel1, 0);
+        deviceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
+        deviceText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
         deviceText.setText("Device Information");
         layout.addView(deviceText);
 
@@ -139,8 +150,8 @@ public final class DeviceDetailsFragment extends Fragment {
         final ParceledInterface iface = announce.getParams().getNetSettings().getInterface();
 
         final TextView settings = new TextView(activity);
-        settings.setTextAppearance(activity, android.R.style.TextAppearance_Large);
-        settings.setPadding(paddingStartLevel1, paddingStartLevel1, paddingStartLevel1, 0);
+        settings.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
+        settings.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
         settings.setText("Network Settings");
         layout.addView(settings);
 
@@ -151,8 +162,8 @@ public final class DeviceDetailsFragment extends Fragment {
         final List<ParceledIPv4Entry> ipv4 = iface.getIPv4();
         if (ipv4 != null && !ipv4.isEmpty()) {
             final TextView ipv4Text = new TextView(activity);
-            ipv4Text.setTextAppearance(activity, android.R.style.TextAppearance_Medium);
-            ipv4Text.setPadding(paddingStartLevel2, paddingTop, paddingStartLevel2, paddingTop);
+            ipv4Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
+            ipv4Text.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             ipv4Text.setText("IPv4 addresses");
             layout.addView(ipv4Text);
 
@@ -166,8 +177,8 @@ public final class DeviceDetailsFragment extends Fragment {
         final List<ParceledIPv6Entry> ipv6 = iface.getIPv6();
         if (ipv6 != null && !ipv6.isEmpty()) {
             final TextView ipv6Text = new TextView(activity);
-            ipv6Text.setTextAppearance(activity, android.R.style.TextAppearance_Medium);
-            ipv6Text.setPadding(paddingStartLevel2, paddingTop, paddingStartLevel2, paddingTop);
+            ipv6Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
+            ipv6Text.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             ipv6Text.setText("IPv6 addresses");
             layout.addView(ipv6Text);
 
@@ -183,8 +194,8 @@ public final class DeviceDetailsFragment extends Fragment {
         final List<ParceledServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
             final TextView servicesText = new TextView(activity);
-            servicesText.setTextAppearance(activity, android.R.style.TextAppearance_Large);
-            servicesText.setPadding(paddingStartLevel1, paddingStartLevel1, paddingStartLevel1, 0);
+            servicesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
+            servicesText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
             servicesText.setText("Services");
             layout.addView(servicesText);
 
@@ -199,8 +210,8 @@ public final class DeviceDetailsFragment extends Fragment {
     private void addSecondLevelText(LinearLayout layout, String text, String label) {
         if (text != null && text.length() > 0) {
             final TextView view = new TextView(activity);
-            view.setTextAppearance(activity, android.R.style.TextAppearance_Medium);
-            view.setPadding(paddingStartLevel2, paddingTop, paddingStartLevel2, paddingTop);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
+            view.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             view.setText(label + text);
             layout.addView(view);
         }
@@ -209,8 +220,9 @@ public final class DeviceDetailsFragment extends Fragment {
     private void addThirdLevelText(LinearLayout layout, String text, String label) {
         if (text != null && text.length() > 0) {
             final TextView view = new TextView(activity);
-            view.setTextAppearance(activity, android.R.style.TextAppearance_Small);
-            view.setPadding(paddingStartLevel3, paddingTop, paddingStartLevel3, paddingTop);
+            view.setSingleLine(true);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall);
+            view.setPadding(paddingStartLevel3, paddingTop, 0, paddingTop);
             view.setText(label + text);
             layout.addView(view);
         }

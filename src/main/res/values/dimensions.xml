@@ -4,4 +4,7 @@
     <dimen name="level2_start_padding">30dp</dimen>
     <dimen name="level3_start_padding">54dp</dimen>
     <dimen name="level2_top_bottom_padding">2dp</dimen>
+	<dimen name="text_size_small">8sp</dimen>
+	<dimen name="text_size_medium">10sp</dimen>
+	<dimen name="text_size_large">12sp</dimen>
 </resources>
