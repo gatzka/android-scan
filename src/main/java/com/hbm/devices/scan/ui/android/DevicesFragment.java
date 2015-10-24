@@ -30,8 +30,6 @@ package com.hbm.devices.scan.ui.android;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -82,6 +80,7 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.device_fragment_actions, menu);
         final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -89,24 +88,16 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
             @Override
             public boolean onQueryTextSubmit(final String query) {
                 searchView.clearFocus();
-                System.out.println("-------------- onQueryTextSubmit " + query);
+                adapter.setFilterString(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                System.out.println("-------------- onQueryTextChange: " + newText);
+                adapter.setFilterString(newText);
                 return true;
             }
         });
-        //if (filterString == null || filterString.length() == 0) {
-        //    searchView.setIconified(true);
-        //    searchView.setQuery("", false);
-        //} else {
-        //    searchView.setIconified(false);
-        //    searchView.setQuery(filterString, false);
-        //}
-        //searchView.clearFocus();
 
         final MenuItem pauseItem = menu.findItem(R.id.action_pause_control);
         if (adapter.isPaused()) {
@@ -129,7 +120,7 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.right) {
-            final int position = ((Integer) view.getTag()).intValue();
+            final int position = ((Integer) view.getTag());
             final Announce announce = adapter.getItem(position);
             ParceledAnnounce pa = new ParceledAnnounce(announce);
             Bundle args = new Bundle();
@@ -155,7 +146,7 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
 
     private void openBrowser(InetSocketAddress address) {
         final BrowserStartTask browserTask = new BrowserStartTask(getActivity());
-        browserTask.execute(new InetSocketAddress[] {address});
+        browserTask.execute(address);
     }
 }
 
