@@ -83,6 +83,7 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.device_fragment_actions, menu);
         final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
