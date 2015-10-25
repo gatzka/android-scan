@@ -79,9 +79,55 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         return filteredAnnounces.size();
     }
 
+    private void applyAndAnimateRemovals(List<Announce> newAnnounces) {
+        for (int i = filteredAnnounces.size() - 1; i >= 0; i--) {
+            final Announce model = filteredAnnounces.get(i);
+            if (!newAnnounces.contains(model)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Announce> newAnnounces) {
+        for (int i = 0, count = newAnnounces.size(); i < count; i++) {
+            final Announce model = newAnnounces.get(i);
+            if (!filteredAnnounces.contains(model)) {
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Announce> newAnnounces) {
+        for (int toPosition = newAnnounces.size() - 1; toPosition >= 0; toPosition--) {
+            final Announce model = newAnnounces.get(toPosition);
+            final int fromPosition = filteredAnnounces.indexOf(model);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    private Announce removeItem(int position) {
+        final Announce announce = filteredAnnounces.remove(position);
+        notifyItemRemoved(position);
+        return announce;
+    }
+
+    private void addItem(int position, Announce announce) {
+        filteredAnnounces.add(position, announce);
+        notifyItemInserted(position);
+    }
+
+    private void moveItem(int fromPosition, int toPosition) {
+        final Announce announce = filteredAnnounces.remove(fromPosition);
+        filteredAnnounces.add(toPosition, announce);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
     void notifyList(List<Announce> filteredAnnounces) {
-        this.filteredAnnounces = filteredAnnounces;
-        notifyDataSetChanged();
+        applyAndAnimateRemovals(filteredAnnounces);
+        applyAndAnimateAdditions(filteredAnnounces);
+        applyAndAnimateMovedItems(filteredAnnounces);
     }
 
     void setFilterString(String filterString) {
