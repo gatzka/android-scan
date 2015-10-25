@@ -31,8 +31,12 @@ package com.hbm.devices.scan.ui.android;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,8 +45,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.SearchView;
 
 import java.net.InetSocketAddress;
 
@@ -73,7 +75,7 @@ public final class DevicesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().getActionBar().setTitle(R.string.app_name);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
 
         devicesView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -84,14 +86,15 @@ public final class DevicesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getActionBar().setTitle(R.string.app_name);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.device_fragment_actions, menu);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new OnQueryTextListener() {

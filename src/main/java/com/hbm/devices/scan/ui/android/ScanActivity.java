@@ -57,7 +57,7 @@ public final class ScanActivity extends AppCompatActivity implements FragmentMan
         setContentView(R.layout.device_scan);
         final FragmentManager manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         shouldDisplayHomeUp();
 
         listFragment = (DeviceListFragment) manager.findFragmentByTag(TAG_DEVICE_LIST_FRAGMENT);
@@ -134,6 +134,6 @@ public final class ScanActivity extends AppCompatActivity implements FragmentMan
 
     private void shouldDisplayHomeUp() {
         final boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
-        getActionBar().setDisplayHomeAsUpEnabled(canback);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
     }
 }
