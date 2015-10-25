@@ -32,6 +32,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -41,6 +42,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
+    private final ImageView devicePhoto;
     private final Context context;
 
     public DeviceViewHolder(View itemView) {
@@ -50,6 +52,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
         tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
+        devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
     }
 
     public void bind(Announce announce) {
@@ -68,6 +71,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleType.setTextColor(color);
         tvModuleId.setText(displayName);
         tvModuleId.setTextColor(color);
+        devicePhoto.setImageResource(R.drawable.mx840b);
     }
 
     private String getModuleType(final Device device) {

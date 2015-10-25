@@ -64,7 +64,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View itemView = layoutInflater.inflate(R.layout.device_item, parent, false);
+        final View itemView = layoutInflater.inflate(R.layout.dev_item, parent, false);
         return new DeviceViewHolder(itemView);
     }
 
