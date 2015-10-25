@@ -100,14 +100,14 @@ public final class DevicesFragment extends Fragment {
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
-                //searchView.clearFocus();
-                //adapter.setFilterString(query);
+                searchView.clearFocus();
+                adapter.setFilterString(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                //adapter.setFilterString(newText);
+                adapter.setFilterString(newText);
                 return false;
             }
         });
