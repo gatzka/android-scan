@@ -29,10 +29,13 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -43,6 +46,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final TextView tvModuleId;
     private final TextView tvModuleType;
     private final ImageView devicePhoto;
+    private final CardView cardView;
     private final Context context;
 
     public DeviceViewHolder(View itemView) {
@@ -53,6 +57,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
         tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
+        cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
     }
 
     public void bind(Announce announce) {
@@ -60,17 +65,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String displayName = getDisplayName(device);
         final String moduleType = getModuleType(device);
 
-        int color;
         if (announce.getCookie() == null) {
-            color = ContextCompat.getColor(context, R.color.color_not_connectable);
-        } else {
-            color = ContextCompat.getColor(context, R.color.color_connectable);
+            int color = ContextCompat.getColor(context, R.color.color_not_connectable);
+            cardView.setCardBackgroundColor(color);
         }
 
         tvModuleType.setText(moduleType);
-        tvModuleType.setTextColor(color);
         tvModuleId.setText(displayName);
-        tvModuleId.setTextColor(color);
         devicePhoto.setImageResource(R.drawable.mx840b);
     }
 
