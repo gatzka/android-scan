@@ -44,8 +44,8 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     @Override
     public void run() {
-        announceAtSameTime(100);
-        //announceOneEverySecond();
+        //announceAtSameTime(100);
+        announceOneEverySecond();
     }
 
     private void announceAtSameTime(int numberOfModules) {
