@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-	android:clickable="true"
-	>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:baselineAligned="false"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+	android:orientation="horizontal" >
 
 	<!--android:background="?attr/selectableItemBackground"-->
     <TextView
@@ -32,7 +32,7 @@
         android:ellipsize="start"
         android:singleLine="true"
 	/>
-	
+
     <!-- ImageView
         android:id="@+id/right"
 		android:contentDescription="@string/device_info"
@@ -44,4 +44,4 @@
         android:clickable="true"
 	/-->
 
-</FrameLayout>
+</LinearLayout>
