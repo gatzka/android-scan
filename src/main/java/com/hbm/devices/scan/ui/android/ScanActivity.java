@@ -31,16 +31,16 @@ package com.hbm.devices.scan.ui.android;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
  * Main activity for the scan app.
  */
-public final class ScanActivity extends FragmentActivity implements FragmentManager.OnBackStackChangedListener {
+public final class ScanActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     public static final String LOG_TAG = "Scanner";
     
     private static final int TOAST_TIMEOUT = 2000;
