@@ -4,6 +4,6 @@
     <string name="toast_exit">Please click BACK again to exit</string>
 	<string name="menu_pause_option">Pause/Resume</string>
 	<string name="menu_search">Search</string>
-	<string name="device_info">detailed device information</string>
 	<string name="search_hint">Search for devices</string>
+	<string name="device_photo">Image of device</string>
 </resources>
