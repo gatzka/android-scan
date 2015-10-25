@@ -28,6 +28,8 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -39,9 +41,12 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
+    private final Context context;
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
+
+        context = itemView.getContext();
 
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
         tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
@@ -52,8 +57,17 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String displayName = getDisplayName(device);
         final String moduleType = getModuleType(device);
 
+        int color;
+        if (announce.getCookie() == null) {
+            color = ContextCompat.getColor(context, R.color.color_not_connectable);
+        } else {
+            color = ContextCompat.getColor(context, R.color.color_connectable);
+        }
+
         tvModuleType.setText(moduleType);
+        tvModuleType.setTextColor(color);
         tvModuleId.setText(displayName);
+        tvModuleId.setTextColor(color);
     }
 
     private String getModuleType(final Device device) {
