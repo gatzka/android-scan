@@ -28,7 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -37,11 +37,11 @@ import java.net.InetSocketAddress;
 
 public final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, Integer> {
 
-    private final Activity activity;
+    private final Context context;
 
-    public BrowserStartTask(Activity activity) {
+    public BrowserStartTask(Context context) {
         super();
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -53,7 +53,7 @@ public final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, I
         uriBuilder.encodedAuthority(hostName + ':' + address.getPort());
 
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build().normalizeScheme());
-        activity.startActivity(browserIntent);
+        context.startActivity(browserIntent);
         return 0;
     }
 }

@@ -38,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.net.InetSocketAddress;
+
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 
@@ -48,6 +50,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final ImageView devicePhoto;
     private final CardView cardView;
     private final Context context;
+    private Announce announce;
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
@@ -60,7 +63,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
     }
 
-    public void bind(Announce announce) {
+    public void bind(Announce a) {
+	this.announce = a;
         final Device device = announce.getParams().getDevice();
         final String displayName = getDisplayName(device);
         final String moduleType = getModuleType(device);
@@ -73,6 +77,18 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleType.setText(moduleType);
         tvModuleId.setText(displayName);
         devicePhoto.setImageResource(R.drawable.mx840b);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final InetSocketAddress address  = (InetSocketAddress) announce.getCookie();
+                if (address == null) {
+                //TODO: showConfigure(announce);
+                } else {
+                    openBrowser(address);
+                }
+            }
+        });
     }
 
     private String getModuleType(final Device device) {
@@ -89,5 +105,10 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             displayName = device.getUuid();
         }
         return displayName;
+    }
+
+    private void openBrowser(InetSocketAddress address) {
+        final BrowserStartTask browserTask = new BrowserStartTask(context);
+        browserTask.execute(address);
     }
 }
