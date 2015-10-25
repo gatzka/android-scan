@@ -28,19 +28,19 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
  * Main activity for the scan app.
  */
-public final class ScanActivity extends Activity implements FragmentManager.OnBackStackChangedListener {
+public final class ScanActivity extends FragmentActivity implements FragmentManager.OnBackStackChangedListener {
     public static final String LOG_TAG = "Scanner";
     
     private static final int TOAST_TIMEOUT = 2000;
@@ -55,7 +55,7 @@ public final class ScanActivity extends Activity implements FragmentManager.OnBa
         doubleBackToExitPressedOnce = false;
 
         setContentView(R.layout.device_scan);
-        final FragmentManager manager = getFragmentManager();
+        final FragmentManager manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
         getActionBar().setDisplayShowTitleEnabled(true);
         shouldDisplayHomeUp();
@@ -94,7 +94,7 @@ public final class ScanActivity extends Activity implements FragmentManager.OnBa
     
     @Override
     public void onBackPressed() {
-        final FragmentManager manager = getFragmentManager();
+        final FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
             manager.popBackStack();
         } else {
@@ -124,7 +124,7 @@ public final class ScanActivity extends Activity implements FragmentManager.OnBa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            final FragmentManager manager = getFragmentManager();
+            final FragmentManager manager = getSupportFragmentManager();
             manager.popBackStack();
             return true;
         } else {
@@ -133,7 +133,7 @@ public final class ScanActivity extends Activity implements FragmentManager.OnBa
     }
 
     private void shouldDisplayHomeUp() {
-        final boolean canback = getFragmentManager().getBackStackEntryCount() > 0;
+        final boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
         getActionBar().setDisplayHomeAsUpEnabled(canback);
     }
 }

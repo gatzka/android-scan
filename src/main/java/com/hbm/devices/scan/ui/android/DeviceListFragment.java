@@ -28,13 +28,13 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Filter;
 

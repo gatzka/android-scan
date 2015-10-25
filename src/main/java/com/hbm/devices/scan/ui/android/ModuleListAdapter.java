@@ -28,33 +28,27 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.Device;
 
-final class ModuleListAdapter extends BaseAdapter {
+final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     private List<Announce> filteredAnnounces;
     private final LayoutInflater layoutInflater;
     private final DeviceListFragment listFragment;
     private final DevicesFragment fragment;
-    private final Activity activity;
+    private final FragmentActivity activity;
 
     public ModuleListAdapter(DevicesFragment fragment) {
         super();
@@ -63,95 +57,31 @@ final class ModuleListAdapter extends BaseAdapter {
         filteredAnnounces = new ArrayList<Announce>();
         layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final FragmentManager manager = activity.getFragmentManager();
+        final FragmentManager manager = activity.getSupportFragmentManager();
         listFragment = (DeviceListFragment) manager.findFragmentByTag("deviceListFragment");
         listFragment.setAdapter(this);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        
+    public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View itemView = layoutInflater.inflate(R.layout.device_item, parent, false);
+        return new DeviceViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(DeviceViewHolder holder, int position) {
         final Announce announce = filteredAnnounces.get(position);
-        View displayView = convertView;
-        if (announce != null) {
-            int color;
-            if (announce.getCookie() == null) {
-                color = ContextCompat.getColor(activity, R.color.color_not_connectable);
-            } else {
-                color = ContextCompat.getColor(activity, R.color.color_connectable);
-            }
-
-            ViewHolderItem viewHolder;
-            if (displayView == null) {
-                displayView = layoutInflater.inflate(R.layout.device_item, parent, false);
-                viewHolder = new ViewHolderItem();
-                viewHolder.moduleType = (TextView) displayView.findViewById(R.id.moduleType);
-                viewHolder.moduleID = (TextView) displayView.findViewById(R.id.moduleID);
-                viewHolder.info = (ImageView) displayView.findViewById(R.id.right);
-                viewHolder.info.setTag(position);
-                viewHolder.info.setOnClickListener(fragment);
-                displayView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolderItem) displayView.getTag();
-            }
-
-            final Device device = announce.getParams().getDevice();
-            final String displayName = getDisplayName(device);
-
-            final String moduleType = getModuleType(device);
-            viewHolder.moduleType.setText(moduleType);
-            viewHolder.moduleType.setTextColor(color);
-            viewHolder.moduleID.setText(displayName);
-            viewHolder.moduleID.setTextColor(color);
-        }
-
-        return displayView;
+        holder.bind(announce);
     }
 
     @Override
-    public long getItemId(int position) {
-        return getItem(position).getJSONString().hashCode();
-    }
-
-    @Override
-    public Announce getItem(int position) {
-        return filteredAnnounces.get(position);
-    }
-
-    @Override
-    public int getCount() {
+    public int getItemCount() {
         return filteredAnnounces.size();
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return true;
-    }
-    
-    @Override
-    public boolean hasStableIds() {
-        return true;
     }
 
     void notifyList(List<Announce> filteredAnnounces) {
         this.filteredAnnounces = filteredAnnounces;
         notifyDataSetChanged();
-    }
-
-    private String getModuleType(final Device device) {
-        String moduleType = device.getType();
-        if (moduleType == null || moduleType.length() == 0) {
-            moduleType = "Unknown";
-        }
-        return moduleType;
-    }
-
-    private String getDisplayName(Device device) {
-        String displayName = device.getName();
-        if (displayName == null || displayName.length() == 0) {
-            displayName = device.getUuid();
-        }
-        return displayName;
     }
 
     void setFilterString(String filterString) {
@@ -172,11 +102,5 @@ final class ModuleListAdapter extends BaseAdapter {
 
     void pauseDeviceUpdates() {
         listFragment.setPaused(true);
-    }
-
-    private static final class ViewHolderItem {
-        private TextView moduleType;
-        private TextView moduleID;
-        private ImageView info;
     }
 }

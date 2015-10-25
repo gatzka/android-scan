@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:baselineAligned="false"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-	android:orientation="horizontal" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:clickable="true"
+	>
 
+	<!--android:background="?attr/selectableItemBackground"-->
     <TextView
         android:id="@+id/moduleType"
 		android:textIsSelectable="false"
@@ -32,7 +33,7 @@
         android:singleLine="true"
 	/>
 	
-    <ImageView
+    <!-- ImageView
         android:id="@+id/right"
 		android:contentDescription="@string/device_info"
         android:layout_width="80dp"
@@ -41,6 +42,6 @@
         android:src="@drawable/ic_info_outline_grey600_36dp"
         android:scaleType="center"
         android:clickable="true"
-	/>
+	/-->
 
-</LinearLayout>
+</FrameLayout>

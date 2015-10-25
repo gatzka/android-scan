@@ -29,12 +29,16 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -44,38 +48,43 @@ import java.net.InetSocketAddress;
 
 import com.hbm.devices.scan.announce.Announce;
 
-public final class DevicesFragment extends ListFragment implements View.OnClickListener {
+public final class DevicesFragment extends Fragment {
 
     static final String DETAILS = "Details";
 
     private ModuleListAdapter adapter;
+    private RecyclerView devicesView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        adapter = new ModuleListAdapter(this);
-        setListAdapter(adapter);
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.device_view, container, false);
+        devicesView = (RecyclerView) view.findViewById(R.id.devicesView);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().getActionBar().setTitle(R.string.app_name);
+
+        devicesView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        adapter = new ModuleListAdapter(this);
+        devicesView.setAdapter(adapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().setTitle(R.string.app_name);
-    }
-
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long identifier) {
-        final Announce announce = adapter.getItem(position);
-        final InetSocketAddress address  = (InetSocketAddress) announce.getCookie();
-        if (address == null) {
-            //TODO: showConfigure(announce);
-        } else {
-			openBrowser(address);
-        }
     }
 
     @Override
@@ -88,15 +97,15 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
-                searchView.clearFocus();
-                adapter.setFilterString(query);
-                return true;
+                //searchView.clearFocus();
+                //adapter.setFilterString(query);
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                adapter.setFilterString(newText);
-                return true;
+                //adapter.setFilterString(newText);
+                return false;
             }
         });
 
@@ -118,23 +127,6 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.right) {
-            final int position = ((Integer) view.getTag());
-            final Announce announce = adapter.getItem(position);
-            ParceledAnnounce pa = new ParceledAnnounce(announce);
-            Bundle args = new Bundle();
-            args.putParcelable(DETAILS, pa);
-            final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
-            detailsFragment.setArguments(args);
-            final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, detailsFragment, "detail");
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-    } 
-
     private void handlePause(MenuItem item) {
         if (adapter.isPaused()) {
             item.setIcon(R.drawable.ic_action_pause);
@@ -143,11 +135,6 @@ public final class DevicesFragment extends ListFragment implements View.OnClickL
             item.setIcon(R.drawable.ic_action_play);
             adapter.pauseDeviceUpdates();
         }
-    }
-
-    private void openBrowser(InetSocketAddress address) {
-        final BrowserStartTask browserTask = new BrowserStartTask(getActivity());
-        browserTask.execute(address);
     }
 }
 
