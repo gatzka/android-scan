@@ -33,7 +33,7 @@
         android:singleLine="true"
 	/>
 
-    <!-- ImageView
+    <ImageView
         android:id="@+id/right"
 		android:contentDescription="@string/device_info"
         android:layout_width="80dp"
@@ -42,6 +42,6 @@
         android:src="@drawable/ic_info_outline_grey600_36dp"
         android:scaleType="center"
         android:clickable="true"
-	/-->
+	/>
 
 </LinearLayout>
