@@ -96,7 +96,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         device.addProperty("isRouter", Boolean.FALSE);
     }
 
-    private static void composeNetSettings(JsonObject params) {
+    private static void composeNetSettings(JsonObject params, int counter) {
         final JsonObject netSettings = new JsonObject();
         params.add("netSettings", netSettings);
         final JsonObject defaultGW = new JsonObject();
@@ -113,9 +113,14 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
         final JsonObject ipv4Entry = new JsonObject();
         ipv4Addresses.add(ipv4Entry);
-        ipv4Entry.addProperty(ADDRESS_KEY, "192.168.23.100");
+        if ((counter / 10) % 2 == 0) {
+            ipv4Entry.addProperty(ADDRESS_KEY, "192.168.23.100");
+        } else {
+            ipv4Entry.addProperty(ADDRESS_KEY, "172.19.3.4");
+        }
         ipv4Entry.addProperty("netmask", "255.255.255.0");
 
+/*
         final JsonArray ipv6Addresses = new JsonArray();
         iface.add("ipv6", ipv6Addresses);
 
@@ -128,6 +133,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         ipv6Addresses.add(ipv6Entry2);
         ipv6Entry2.addProperty(ADDRESS_KEY, "fe80::222:4dff:feaa:4c1e");
         ipv6Entry2.addProperty("prefix", 64);
+*/
     }
 
     private static void composeServices(JsonObject params) {
@@ -164,7 +170,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         params.addProperty("apiVersion", "1.0");
 
         composeDeviceSettings(params, deviceName, uuid);
-        composeNetSettings(params);
+        composeNetSettings(params, idPostfix);
         composeServices(params);
         return gson.toJson(root);
     }
