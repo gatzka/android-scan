@@ -55,6 +55,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     public DeviceViewHolder(View itemView) {
         super(itemView);
 
+        setIsRecyclable(false);
         context = itemView.getContext();
 
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
@@ -64,7 +65,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Announce a) {
-	this.announce = a;
+        this.announce = a;
         final Device device = announce.getParams().getDevice();
         final String displayName = getDisplayName(device);
         final String moduleType = getModuleType(device);
@@ -72,6 +73,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (announce.getCookie() == null) {
             int color = ContextCompat.getColor(context, R.color.color_not_connectable);
             cardView.setCardBackgroundColor(color);
+            tvModuleType.setTextColor(Color.WHITE);
+            tvModuleId.setTextColor(Color.WHITE);
         }
 
         tvModuleType.setText(moduleType);
