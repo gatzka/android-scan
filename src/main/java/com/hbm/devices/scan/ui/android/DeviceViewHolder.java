@@ -55,7 +55,6 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     public DeviceViewHolder(View itemView) {
         super(itemView);
 
-        setIsRecyclable(false);
         context = itemView.getContext();
 
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
@@ -75,6 +74,10 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             cardView.setCardBackgroundColor(color);
             tvModuleType.setTextColor(Color.WHITE);
             tvModuleId.setTextColor(Color.WHITE);
+        } else {
+            cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
+            tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
+            tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
         }
 
         tvModuleType.setText(moduleType);
