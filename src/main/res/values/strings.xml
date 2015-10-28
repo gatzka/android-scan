@@ -6,5 +6,6 @@
 	<string name="menu_search">Search</string>
 	<string name="search_hint">Search for devices</string>
 	<string name="device_photo">Image of device</string>
+	<string name="info_button">Click form more information</string>
 	<string name="unknown">Unknown</string>
 </resources>
