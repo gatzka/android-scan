@@ -47,6 +47,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
+    private final TextView tvModuleName;
     private final ImageView devicePhoto;
     private final CardView cardView;
     private final Context context;
@@ -59,6 +60,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
         tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
+        tvModuleName = (TextView) itemView.findViewById(R.id.moduleName);
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
         cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
     }
@@ -68,20 +70,24 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final Device device = announce.getParams().getDevice();
         final String displayName = getDisplayName(device);
         final String moduleType = getModuleType(device);
+        final String uuid = device.getUuid();
 
         if (announce.getCookie() == null) {
             int color = ContextCompat.getColor(context, R.color.color_not_connectable);
             cardView.setCardBackgroundColor(color);
             tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_dark));
             tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
+            tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
             tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
             tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
+            tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
         }
 
         tvModuleType.setText(moduleType);
-        tvModuleId.setText(displayName);
+        tvModuleName.setText(displayName);
+        tvModuleId.setText(uuid);
         devicePhoto.setImageResource(R.drawable.mx840b);
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -100,15 +106,15 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getModuleType(final Device device) {
         String moduleType = device.getType();
         if (moduleType == null || moduleType.length() == 0) {
-            moduleType = "Unknown";
+            moduleType = context.getString(R.string.unknown);
         }
         return moduleType;
     }
 
-    private String getDisplayName(Device device) {
+    private String getDisplayName(final Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
-            displayName = device.getUuid();
+            displayName = context.getString(R.string.unknown);
         }
         return displayName;
     }
