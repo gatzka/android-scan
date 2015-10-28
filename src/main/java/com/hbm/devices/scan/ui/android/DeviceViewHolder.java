@@ -34,6 +34,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final TextView tvModuleType;
     private final TextView tvModuleName;
     private final ImageView devicePhoto;
+    private final ImageButton infoButton;
     private final CardView cardView;
     private final Context context;
     private Announce announce;
@@ -62,6 +64,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
         tvModuleName = (TextView) itemView.findViewById(R.id.moduleName);
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
+        infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
         cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
     }
 
@@ -101,6 +104,14 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("click on " + announce.getParams().getDevice().getUuid());
+            }
+        });
+
     }
 
     private String getModuleType(final Device device) {
