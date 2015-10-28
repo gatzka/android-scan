@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/device_photo"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/device_photo"
                 />
@@ -58,6 +58,14 @@
                 android:layout_below="@+id/moduleName"
                 android:textSize="14sp"
                 android:textIsSelectable="false"
+                />
+            <ImageButton
+                android:id="@+id/infoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info_outline_grey600_36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 />
  
         </RelativeLayout>
