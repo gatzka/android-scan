@@ -115,8 +115,10 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         ipv4Addresses.add(ipv4Entry);
         if ((counter / 10) % 2 == 0) {
             ipv4Entry.addProperty(ADDRESS_KEY, "192.168.23.100");
+            ipv4Entry.addProperty("netmask", "255.255.255.0");
         } else {
-            ipv4Entry.addProperty(ADDRESS_KEY, "172.19.3.4");
+            ipv4Entry.addProperty(ADDRESS_KEY, "172.19.1.1");
+            ipv4Entry.addProperty("netmask", "255.255.0.0");
         }
         ipv4Entry.addProperty("netmask", "255.255.255.0");
 
