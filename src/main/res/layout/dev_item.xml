@@ -69,7 +69,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/info_button"
-                android:background="@null"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 />
  
         </RelativeLayout>
