@@ -30,6 +30,7 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +54,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton infoButton;
     private final CardView cardView;
     private final Context context;
+    private final Drawable blackInfo;
+    private final Drawable whiteInfo;
     private Announce announce;
 
     public DeviceViewHolder(View itemView) {
@@ -66,6 +69,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
         cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
+        blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
+        whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
     }
 
     public void bind(Announce a) {
@@ -81,11 +86,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_dark));
             tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
             tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
+            infoButton.setImageDrawable(whiteInfo);
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
             tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
             tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
             tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
+            infoButton.setImageDrawable(blackInfo);
         }
 
         tvModuleType.setText(moduleType);
