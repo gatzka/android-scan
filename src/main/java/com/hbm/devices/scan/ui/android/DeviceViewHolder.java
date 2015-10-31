@@ -82,8 +82,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String uuid = device.getUuid();
 
         if (announce.getCookie() == null) {
-            int color = ContextCompat.getColor(context, R.color.color_not_connectable);
-            cardView.setCardBackgroundColor(color);
+            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color_not_connectable));
             tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_dark));
             tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
             tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
