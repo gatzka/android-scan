@@ -89,9 +89,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             infoButton.setImageDrawable(whiteInfo);
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
-            tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
-            tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
-            tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_light));
+            tvModuleType.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.primary_text_light), 87));
+            tvModuleName.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
+            tvModuleId.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
             infoButton.setImageDrawable(blackInfo);
         }
 
@@ -119,6 +119,14 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+    }
+
+    private static int addAlpha(int color, int alphaPercent) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        int alpha = alphaPercent * 255 / 100;
+        return Color.argb(alpha, red, green, blue);
     }
 
     private String getModuleType(final Device device) {
