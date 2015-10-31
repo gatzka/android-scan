@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ScannerTheme" parent="Theme.AppCompat.Light">
-        <!-- Set AppCompat’s actionBarStyle -->
-        <!--item name="actionBarStyle">@style/MyActionBarStyle</item-->
-    
-        <!-- Set AppCompat’s color theming attrs -->
-        <!-- item name="colorPrimary">@color/my_awesome_red</item-->
-        <!-- item name="colorPrimaryDark">@color/my_awesome_darker_red</item-->
-        
-        <!-- The rest of your attributes -->
+    <style name="ScannerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/hbm_blue</item>
     </style>
 </resources>
