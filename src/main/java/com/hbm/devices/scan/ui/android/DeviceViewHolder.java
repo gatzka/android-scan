@@ -70,6 +70,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
         cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
+        setImageAlpha(blackInfo, 87);
         whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
     }
 
@@ -89,9 +90,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             infoButton.setImageDrawable(whiteInfo);
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
-            tvModuleType.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.primary_text_light), 87));
-            tvModuleName.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
-            tvModuleId.setTextColor(addAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
+            tvModuleType.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.primary_text_light), 87));
+            tvModuleName.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
+            tvModuleId.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
             infoButton.setImageDrawable(blackInfo);
         }
 
@@ -121,7 +122,12 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private static int addAlpha(int color, int alphaPercent) {
+    private static void setImageAlpha(Drawable draw, int alphaPercent) {
+        int alpha = alphaPercent * 255 / 100;
+        draw.setAlpha(alpha);
+    }
+
+    private static int setTextAlpha(int color, int alphaPercent) {
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
