@@ -120,7 +120,6 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
             ipv4Entry.addProperty(ADDRESS_KEY, "172.19.1.1");
             ipv4Entry.addProperty("netmask", "255.255.0.0");
         }
-        ipv4Entry.addProperty("netmask", "255.255.255.0");
 
 /*
         final JsonArray ipv6Addresses = new JsonArray();
