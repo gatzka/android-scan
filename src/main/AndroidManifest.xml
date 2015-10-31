@@ -9,12 +9,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:supportsRtl="true"
         android:icon="@drawable/ic_launcher_scan"
         android:label="@string/app_name"
         android:theme="@style/ScannerTheme" >
-        <!--android:theme="@android:style/Theme.Material.Light" -->
         <activity
             android:name="ScanActivity"
             android:label="@string/app_name"
