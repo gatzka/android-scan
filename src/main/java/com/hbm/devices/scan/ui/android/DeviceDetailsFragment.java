@@ -28,10 +28,10 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +56,7 @@ public final class DeviceDetailsFragment extends Fragment {
 
     private ScrollView scroller;
     private LinearLayout layout;
-    private Activity activity;
+    private AppCompatActivity activity;
     private int paddingTop;
     private int paddingStartLevel1;
     private int paddingStartLevel2;
@@ -68,10 +68,10 @@ public final class DeviceDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.activity = getActivity();
+        this.activity = (AppCompatActivity)getActivity();
 
         announce = getArguments().getParcelable(DevicesFragment.DETAILS);
-        activity.getActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
+        activity.getSupportActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
         HorizontalScrollView hscroller = new HorizontalScrollView(activity);

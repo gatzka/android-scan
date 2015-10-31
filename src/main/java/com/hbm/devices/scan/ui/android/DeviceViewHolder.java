@@ -31,7 +31,11 @@ package com.hbm.devices.scan.ui.android;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -113,9 +117,19 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         });
 
         infoButton.setOnClickListener(new View.OnClickListener() {
+			static final String DETAILS = "Details";
+
             @Override
             public void onClick(View v) {
-                System.out.println("click on " + announce.getParams().getDevice().getUuid());
+                ParceledAnnounce pa = new ParceledAnnounce(announce);
+                Bundle args = new Bundle();
+                args.putParcelable(DETAILS, pa);
+                final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
+                detailsFragment.setArguments(args);
+                final FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, detailsFragment, "detail");
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
