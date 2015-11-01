@@ -9,4 +9,5 @@
 	<string name="device_photo">Image of device</string>
 	<string name="info_button">Click form more information</string>
 	<string name="unknown">Unknown</string>
+	<string name="share_devices">Share devices&#8230;</string>
 </resources>

@@ -138,6 +138,10 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         return listFragment.getFilterString();
     }
 
+    List<Announce> getFilteredAnnounces() {
+        return filteredAnnounces;
+    }
+
     boolean isPaused() {
         return listFragment.isPaused();
     }

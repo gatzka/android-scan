@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -47,6 +48,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 
 import java.net.InetSocketAddress;
+import java.util.Iterator;
+import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
 
@@ -56,13 +59,6 @@ public final class DevicesFragment extends Fragment {
 
     private ModuleListAdapter adapter;
     private RecyclerView devicesView;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +125,8 @@ public final class DevicesFragment extends Fragment {
                 return true;
 
             case R.id.action_share:
-                handleShare();
+                List<Announce> announces = adapter.getFilteredAnnounces();
+                handleShare(announces);
                 return true;
 
             default:
@@ -147,8 +144,22 @@ public final class DevicesFragment extends Fragment {
         }
     }
 
-    private void handleShare() {
-
+    private void handleShare(List<Announce> announces) {
+        StringBuilder listBuilder = new StringBuilder("{devices:[");
+        Iterator<Announce> iterator = announces.iterator();
+        while (iterator.hasNext()) {
+            final Announce announce = iterator.next();
+            listBuilder.append(announce.getJSONString());
+            if (iterator.hasNext()) {
+                listBuilder.append(",\n");
+            }
+        }
+        listBuilder.append("]}");
+        Intent devices = new Intent();
+        devices.setAction(Intent.ACTION_SEND);
+        devices.putExtra(Intent.EXTRA_TEXT, listBuilder.toString());
+        devices.setTypeAndNormalize("application/json");
+        startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
     }
 }
 
