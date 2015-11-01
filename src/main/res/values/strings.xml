@@ -10,4 +10,5 @@
 	<string name="info_button">Click form more information</string>
 	<string name="unknown">Unknown</string>
 	<string name="share_devices">Share devices&#8230;</string>
+	<string name="create_devices_file_error">Can\'t create devices file!</string>
 </resources>

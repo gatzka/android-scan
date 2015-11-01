@@ -29,9 +29,12 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,10 +49,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import com.hbm.devices.scan.announce.Announce;
 
@@ -145,21 +161,52 @@ public final class DevicesFragment extends Fragment {
     }
 
     private void handleShare(List<Announce> announces) {
-        StringBuilder listBuilder = new StringBuilder("{devices:[");
-        Iterator<Announce> iterator = announces.iterator();
-        while (iterator.hasNext()) {
-            final Announce announce = iterator.next();
-            listBuilder.append(announce.getJSONString());
-            if (iterator.hasNext()) {
-                listBuilder.append(",\n");
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.US);
+        df.setTimeZone(tz);
+        String isoDate = df.format(new Date());
+        Charset charSet = Charset.forName("UTF-8");
+
+        try {
+            File cacheDir = getActivity().getCacheDir();
+            File subDir = new File(cacheDir, "devices");
+            if ( !subDir.exists() ) {
+                subDir.mkdirs();
             }
+            File file = new File(subDir, "devices.zip");
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+            ZipEntry entry = new ZipEntry("devices.json");
+            zos.putNextEntry(entry);
+            zos.write(("{\"date\":\"" + isoDate + "\"").getBytes(charSet)); 
+            zos.write("devices:[".getBytes(charSet));
+
+            Iterator<Announce> iterator = announces.iterator();
+            while (iterator.hasNext()) {
+                final Announce announce = iterator.next();
+                zos.write(announce.getJSONString().getBytes(charSet));
+                if (iterator.hasNext()) {
+                    zos.write(",\n".getBytes(charSet));
+                }
+            }
+
+            zos.write("]}".getBytes(charSet));
+            zos.closeEntry();
+            zos.close();
+            fos.close();
+            final Uri uri = FileProvider.getUriForFile(getActivity(), "com.hbm.devices.scan.ui.android.fileprovider", file);
+
+        } catch (IOException e) {
+           final Toast exitToast = Toast.makeText(getActivity(), R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+           exitToast.show();
         }
-        listBuilder.append("]}");
-        Intent devices = new Intent();
-        devices.setAction(Intent.ACTION_SEND);
-        devices.putExtra(Intent.EXTRA_TEXT, listBuilder.toString());
-        devices.setTypeAndNormalize("application/json");
-        startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
+
+        // Intent devices = new Intent();
+        // devices.setAction(Intent.ACTION_SEND);
+        // devices.putExtra(Intent.EXTRA_TEXT, listBuilder.toString());
+        // devices.setTypeAndNormalize("application/json");
+        // startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
     }
 }
 
