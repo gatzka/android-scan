@@ -122,11 +122,18 @@ public final class DevicesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_pause_control) {
-            handlePause(item);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.action_pause_control:
+                handlePause(item);
+                return true;
+
+            case R.id.action_share:
+                handleShare();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -138,6 +145,10 @@ public final class DevicesFragment extends Fragment {
             item.setIcon(R.drawable.ic_action_play);
             adapter.pauseDeviceUpdates();
         }
+    }
+
+    private void handleShare() {
+
     }
 }
 
