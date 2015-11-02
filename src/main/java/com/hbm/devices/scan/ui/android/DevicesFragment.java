@@ -168,7 +168,8 @@ public final class DevicesFragment extends Fragment {
         Charset charSet = Charset.forName("UTF-8");
 
         try {
-            File cacheDir = getActivity().getCacheDir();
+            AppCompatActivity activity = (AppCompatActivity)getActivity();
+            File cacheDir = activity.getCacheDir();
             File subDir = new File(cacheDir, "devices");
             if ( !subDir.exists() ) {
                 subDir.mkdirs();
@@ -179,8 +180,8 @@ public final class DevicesFragment extends Fragment {
             ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
             ZipEntry entry = new ZipEntry("devices.json");
             zos.putNextEntry(entry);
-            zos.write(("{\"date\":\"" + isoDate + "\"").getBytes(charSet)); 
-            zos.write("devices:[".getBytes(charSet));
+            zos.write(("{\"date\":\"" + isoDate + "\",").getBytes(charSet)); 
+            zos.write("\"devices\":[".getBytes(charSet));
 
             Iterator<Announce> iterator = announces.iterator();
             while (iterator.hasNext()) {
@@ -195,18 +196,19 @@ public final class DevicesFragment extends Fragment {
             zos.closeEntry();
             zos.close();
             fos.close();
-            final Uri uri = FileProvider.getUriForFile(getActivity(), "com.hbm.devices.scan.ui.android.fileprovider", file);
+            final Uri uri = FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
+
+            Intent devices = new Intent();
+            devices.setAction(Intent.ACTION_SEND);
+            devices.putExtra(Intent.EXTRA_STREAM, uri);
+            devices.setTypeAndNormalize("application/zip");
+            startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
 
         } catch (IOException e) {
            final Toast exitToast = Toast.makeText(getActivity(), R.string.create_devices_file_error, Toast.LENGTH_SHORT);
            exitToast.show();
         }
 
-        // Intent devices = new Intent();
-        // devices.setAction(Intent.ACTION_SEND);
-        // devices.putExtra(Intent.EXTRA_TEXT, listBuilder.toString());
-        // devices.setTypeAndNormalize("application/json");
-        // startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
     }
 }
 
