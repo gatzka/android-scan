@@ -34,6 +34,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -103,6 +105,7 @@ public final class DeviceDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         if (container == null) {
             // We have different layouts, and in one of them this
             // fragment's containing frame doesn't exist.  The fragment
@@ -119,6 +122,12 @@ public final class DeviceDetailsFragment extends Fragment {
         addServices(layout);
 
         return scroller;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.device_details_actions, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void addDeviceInformation(LinearLayout layout) {
