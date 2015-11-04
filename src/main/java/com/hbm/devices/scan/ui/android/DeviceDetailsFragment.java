@@ -36,6 +36,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -126,8 +127,18 @@ public final class DeviceDetailsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.device_details_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.device_details_actions, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_share) {
+            System.out.println("----------------------- share");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addDeviceInformation(LinearLayout layout) {
