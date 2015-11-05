@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +51,12 @@ import java.util.zip.ZipOutputStream;
 import com.hbm.devices.scan.announce.Announce;
 
 public final class DeviceZipper {
+
+    static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
+        List<Announce> list = new ArrayList<Announce>();
+        list.add(announce);
+        return saveAnnounces(list, activity);
+    }
 
     static Uri saveAnnounces(List<Announce> announces, AppCompatActivity activity) {
         TimeZone tz = TimeZone.getTimeZone("UTC");

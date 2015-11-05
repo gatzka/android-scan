@@ -28,7 +28,9 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -55,7 +58,7 @@ import com.hbm.devices.scan.announce.ServiceEntry;
 
 public final class DeviceDetailsFragment extends Fragment {
 
-    private ParceledAnnounce announce;
+    private Announce announce;
 
     private ScrollView scroller;
     private LinearLayout layout;
@@ -73,7 +76,7 @@ public final class DeviceDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.activity = (AppCompatActivity)getActivity();
 
-        announce = getArguments().getParcelable(DevicesFragment.DETAILS);
+        announce = (Announce) getArguments().getSerializable(DeviceViewHolder.DETAILS);
         activity.getSupportActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
         scroller = new ScrollView(activity);
@@ -95,7 +98,7 @@ public final class DeviceDetailsFragment extends Fragment {
         textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
     }
 
-   	private String getDisplayName(ParceledDevice device) {
+   	private String getDisplayName(Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
@@ -135,14 +138,29 @@ public final class DeviceDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_share) {
-            System.out.println("----------------------- share");
+            handleShare(announce);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void handleShare(Announce announce) {
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        final Uri uri = DeviceZipper.saveAnnounce(announce, activity);
+        if (uri != null) {
+            Intent devices = new Intent();
+            devices.setAction(Intent.ACTION_SEND);
+            devices.putExtra(Intent.EXTRA_STREAM, uri);
+            devices.setTypeAndNormalize("application/zip");
+            startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
+        } else {
+            final Toast exitToast = Toast.makeText(getActivity(), R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+            exitToast.show();
+        }
+    }
+
     private void addDeviceInformation(LinearLayout layout) {
-        final ParceledDevice device = announce.getParams().getDevice();
+        final Device device = announce.getParams().getDevice();
 
         final TextView deviceText = new TextView(activity);
         deviceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
@@ -167,7 +185,7 @@ public final class DeviceDetailsFragment extends Fragment {
     }
 
     private void addNetSettings(LinearLayout layout) {
-        final ParceledInterface iface = announce.getParams().getNetSettings().getInterface();
+        final Interface iface = announce.getParams().getNetSettings().getInterface();
 
         final TextView settings = new TextView(activity);
         settings.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
@@ -179,7 +197,7 @@ public final class DeviceDetailsFragment extends Fragment {
         addSecondLevelText(layout, iface.getType(), "Interface Type: ");
         addSecondLevelText(layout, iface.getDescription(), "Interface Description: ");
 
-        final List<ParceledIPv4Entry> ipv4 = iface.getIPv4();
+        final List<IPv4Entry> ipv4 = iface.getIPv4();
         if (ipv4 != null && !ipv4.isEmpty()) {
             final TextView ipv4Text = new TextView(activity);
             ipv4Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
@@ -187,14 +205,14 @@ public final class DeviceDetailsFragment extends Fragment {
             ipv4Text.setText("IPv4 addresses");
             layout.addView(ipv4Text);
 
-            for (final ParceledIPv4Entry entry : ipv4) {
+            for (final IPv4Entry entry : ipv4) {
                 final StringBuilder builder = new StringBuilder(entry.getAddress()).append("/")
                     .append(entry.getNetmask());
                 addThirdLevelText(layout, builder.toString(), "∙ ");
             }
         }
 
-        final List<ParceledIPv6Entry> ipv6 = iface.getIPv6();
+        final List<IPv6Entry> ipv6 = iface.getIPv6();
         if (ipv6 != null && !ipv6.isEmpty()) {
             final TextView ipv6Text = new TextView(activity);
             ipv6Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
@@ -202,7 +220,7 @@ public final class DeviceDetailsFragment extends Fragment {
             ipv6Text.setText("IPv6 addresses");
             layout.addView(ipv6Text);
 
-            for (final ParceledIPv6Entry entry : ipv6) {
+            for (final IPv6Entry entry : ipv6) {
                 final StringBuilder builder = new StringBuilder(entry.getAddress())
                     .append("/").append(entry.getPrefix());
                 addThirdLevelText(layout, builder.toString(), "∙ ");
@@ -211,7 +229,7 @@ public final class DeviceDetailsFragment extends Fragment {
     }
 
     private void addServices(LinearLayout layout) {
-        final List<ParceledServiceEntry> services = announce.getParams().getServices();
+        final List<ServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
             final TextView servicesText = new TextView(activity);
             servicesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
@@ -219,7 +237,7 @@ public final class DeviceDetailsFragment extends Fragment {
             servicesText.setText("Services");
             layout.addView(servicesText);
 
-            for (final ParceledServiceEntry entry : services) {
+            for (final ServiceEntry entry : services) {
                 final StringBuilder builder = new StringBuilder(entry.getType())
                     .append(": ").append(entry.getPort());
                 addThirdLevelText(layout, builder.toString(), "∙ ");

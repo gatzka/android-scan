@@ -51,6 +51,8 @@ import com.hbm.devices.scan.announce.Device;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
+	static final String DETAILS = "Details";
+
     private final TextView tvModuleId;
     private final TextView tvModuleType;
     private final TextView tvModuleName;
@@ -117,13 +119,11 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         });
 
         infoButton.setOnClickListener(new View.OnClickListener() {
-			static final String DETAILS = "Details";
 
             @Override
             public void onClick(View v) {
-                ParceledAnnounce pa = new ParceledAnnounce(announce);
                 Bundle args = new Bundle();
-                args.putParcelable(DETAILS, pa);
+                args.putSerializable(DETAILS, announce);
                 final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
                 detailsFragment.setArguments(args);
                 final FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();

@@ -28,7 +28,6 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -56,8 +55,6 @@ import java.util.List;
 import com.hbm.devices.scan.announce.Announce;
 
 public final class DevicesFragment extends Fragment {
-
-    static final String DETAILS = "Details";
 
     private ModuleListAdapter adapter;
     private RecyclerView devicesView;
