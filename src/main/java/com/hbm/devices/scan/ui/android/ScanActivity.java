@@ -29,24 +29,29 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 /**
  * Main activity for the scan app.
  */
-public final class ScanActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
+public final class ScanActivity extends AppCompatActivity {
     public static final String LOG_TAG = "Scanner";
     
     private static final int TOAST_TIMEOUT = 2000;
     private boolean doubleBackToExitPressedOnce;
     private DeviceListFragment listFragment;
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
+    private RecyclerView devicesView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -55,11 +60,8 @@ public final class ScanActivity extends AppCompatActivity implements FragmentMan
         doubleBackToExitPressedOnce = false;
 
         setContentView(R.layout.device_scan);
-        final FragmentManager manager = getSupportFragmentManager();
-        manager.addOnBackStackChangedListener(this);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        shouldDisplayHomeUp();
 
+        final FragmentManager manager = getSupportFragmentManager();
         listFragment = (DeviceListFragment) manager.findFragmentByTag(TAG_DEVICE_LIST_FRAGMENT);
         if (listFragment == null) {
             final FragmentTransaction transaction = manager.beginTransaction();
@@ -68,22 +70,9 @@ public final class ScanActivity extends AppCompatActivity implements FragmentMan
             transaction.commit();
         }
 
-        if (savedInstanceState == null) {
-            /*
-             * Activity was created for the first time. So we need to
-             * instantiate all fragments. If the activity was restarted
-             * due to a reconfiguration, savedInstanceState != null.
-             */
-            if (findViewById(R.id.fragment_container) != null) {
-                final DevicesFragment devicesFragment = new DevicesFragment();
-                manager.beginTransaction().replace(R.id.fragment_container, devicesFragment).commit();
-            }
-        }
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        shouldDisplayHomeUp();
+        initDevicesView();
+    	initToolbar();
+        setDeviceListAdapter();
     }
 
     @Override
@@ -94,46 +83,50 @@ public final class ScanActivity extends AppCompatActivity implements FragmentMan
     
     @Override
     public void onBackPressed() {
-        final FragmentManager manager = getSupportFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            manager.popBackStack();
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                if (listFragment != null) {
-                    final FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.remove(listFragment);
-                    transaction.commit();
-                }
-                super.onBackPressed();
-                return;
+        if (doubleBackToExitPressedOnce) {
+            if (listFragment != null) {
+                final FragmentManager manager = getSupportFragmentManager();
+                final FragmentTransaction transaction = manager.beginTransaction();
+                transaction.remove(listFragment);
+                transaction.commit();
             }
-
-            doubleBackToExitPressedOnce = true;
-            final Toast exitToast = Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT);
-            exitToast.show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;                       
-                }
-            }, TOAST_TIMEOUT);
+            super.onBackPressed();
+            return;
         }
+
+        doubleBackToExitPressedOnce = true;
+        final Toast exitToast = Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT);
+        exitToast.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;                       
+            }
+        }, TOAST_TIMEOUT);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            final FragmentManager manager = getSupportFragmentManager();
-            manager.popBackStack();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+    private void initDevicesView() {
+        devicesView = (RecyclerView) findViewById(R.id.devicesView);
+        devicesView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void shouldDisplayHomeUp() {
-        final boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+    private void setDeviceListAdapter() {
+        ModuleListAdapter adapter = new ModuleListAdapter();
+        //adapter.setOnItemClickListener(this);
+        devicesView.setAdapter(adapter);
+        listFragment.setAdapter(adapter);
+    }
+
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+		setTitle("blabla");
+
+        // if (actionBar != null) {
+        //     actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        //     actionBar.setDisplayHomeAsUpEnabled(true);
+        // }
     }
 }

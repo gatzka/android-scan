@@ -52,7 +52,7 @@ public final class DeviceListFragment extends Fragment {
     private AtomicReference<ModuleListAdapter> adapter = new AtomicReference<ModuleListAdapter>();
     private AtomicReference<List<Announce>> collectedAnnounces;
     private List<Announce> filteredAnnounces;
-    private boolean paused;
+    private boolean paused = false;
     private String filterString;
     private ScanThread scanThread;
     private DeviceFilter deviceFilter;
@@ -97,6 +97,9 @@ public final class DeviceListFragment extends Fragment {
                 mcLock = wifi.createMulticastLock("multicast lock");
                 mcLock.acquire();
             }
+        }
+        if (adapter.get() != null) {
+            updateList();
         }
     }
 
@@ -153,7 +156,9 @@ public final class DeviceListFragment extends Fragment {
     }
 
     private void updateList() {
-        deviceFilter.filter(filterString);
+        if (deviceFilter != null) {
+            deviceFilter.filter(filterString);
+        }
     }
 
     private class DeviceFilter extends Filter {

@@ -45,26 +45,20 @@ import com.hbm.devices.scan.announce.Announce;
 final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     private List<Announce> filteredAnnounces;
-    private final LayoutInflater layoutInflater;
-    private final DeviceListFragment listFragment;
-    private final DevicesFragment fragment;
-    private final FragmentActivity activity;
+    //private final DeviceListFragment listFragment;
 
-    public ModuleListAdapter(DevicesFragment fragment) {
+    public ModuleListAdapter() {
         super();
-        this.fragment = fragment;
-        this.activity = fragment.getActivity();
         filteredAnnounces = new ArrayList<Announce>();
-        layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final FragmentManager manager = activity.getSupportFragmentManager();
-        listFragment = (DeviceListFragment) manager.findFragmentByTag("deviceListFragment");
-        listFragment.setAdapter(this);
+        //final FragmentManager manager = activity.getSupportFragmentManager();
+        //listFragment = (DeviceListFragment) manager.findFragmentByTag("deviceListFragment");
+        //listFragment.setAdapter(this);
     }
 
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View itemView = layoutInflater.inflate(R.layout.dev_item, parent, false);
+        final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dev_item, parent, false);
         return new DeviceViewHolder(itemView);
     }
 
@@ -131,11 +125,12 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     }
 
     void setFilterString(String filterString) {
-        listFragment.setFilterString(filterString);
+        //listFragment.setFilterString(filterString);
     }
 
     String getFilterString() {
-        return listFragment.getFilterString();
+       // return listFragment.getFilterString();
+       return "bla";
     }
 
     List<Announce> getFilteredAnnounces() {
@@ -143,14 +138,15 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     }
 
     boolean isPaused() {
-        return listFragment.isPaused();
+        //return listFragment.isPaused();
+        return false;
     }
 
     void resumeDeviceUpdates() {
-        listFragment.setPaused(false);
+        //listFragment.setPaused(false);
     }
 
     void pauseDeviceUpdates() {
-        listFragment.setPaused(true);
+        //listFragment.setPaused(true);
     }
 }

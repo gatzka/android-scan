@@ -74,7 +74,7 @@ public final class DevicesFragment extends Fragment {
 
         devicesView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new ModuleListAdapter(this);
+        adapter = new ModuleListAdapter();
         devicesView.setAdapter(adapter);
     }
 

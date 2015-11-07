@@ -127,7 +127,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
                 final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
                 detailsFragment.setArguments(args);
                 final FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, detailsFragment, "detail");
+                //transaction.replace(R.id.fragment_container, detailsFragment, "detail");
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
