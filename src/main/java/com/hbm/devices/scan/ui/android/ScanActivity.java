@@ -122,7 +122,7 @@ public final class ScanActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-		setTitle("blabla");
+        setTitle(getString(R.string.app_name));
 
         // if (actionBar != null) {
         //     actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
