@@ -28,9 +28,9 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,9 +42,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
+
+import java.util.List;
+
+import com.hbm.devices.scan.announce.Announce;
 
 /**
  * Main activity for the scan app.
@@ -115,6 +121,24 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.action_pause_control:
+                handlePause(item);
+                return true;
+
+            case R.id.action_share:
+                List<Announce> announces = adapter.getFilteredAnnounces();
+                handleShare(announces);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         listFragment = null;
         super.onDestroy();
@@ -152,7 +176,6 @@ public final class ScanActivity extends AppCompatActivity {
 
     private void setDeviceListAdapter() {
         adapter = new ModuleListAdapter(listFragment);
-        //adapter.setOnItemClickListener(this);
         devicesView.setAdapter(adapter);
         listFragment.setAdapter(adapter);
     }
@@ -167,5 +190,29 @@ public final class ScanActivity extends AppCompatActivity {
         //     actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         //     actionBar.setDisplayHomeAsUpEnabled(true);
         // }
+    }
+
+    private void handlePause(MenuItem item) {
+        if (adapter.isPaused()) {
+            item.setIcon(R.drawable.ic_action_pause);
+            adapter.resumeDeviceUpdates();
+        } else {
+            item.setIcon(R.drawable.ic_action_play);
+            adapter.pauseDeviceUpdates();
+        }
+    }
+
+    private void handleShare(List<Announce> announces) {
+        final Uri uri = DeviceZipper.saveAnnounces(announces, this);
+        if (uri != null) {
+            Intent devices = new Intent();
+            devices.setAction(Intent.ACTION_SEND);
+            devices.putExtra(Intent.EXTRA_STREAM, uri);
+            devices.setTypeAndNormalize("application/zip");
+            startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
+        } else {
+            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+            exitToast.show();
+        }
     }
 }
