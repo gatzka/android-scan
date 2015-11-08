@@ -29,14 +29,20 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 /**
@@ -71,6 +77,38 @@ public final class ScanActivity extends AppCompatActivity {
         initDevicesView();
     	initToolbar();
         setDeviceListAdapter();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.device_fragment_actions, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        // searchView.setOnQueryTextListener(new OnQueryTextListener() {
+        //     @Override
+        //     public boolean onQueryTextSubmit(final String query) {
+        //         searchView.clearFocus();
+        //         adapter.setFilterString(query);
+        //         return false;
+        //     }
+
+        //     @Override
+        //     public boolean onQueryTextChange(final String newText) {
+        //         adapter.setFilterString(newText);
+        //         return false;
+        //     }
+        // });
+
+        final MenuItem pauseItem = menu.findItem(R.id.action_pause_control);
+        //if (adapter.isPaused()) {
+        //    pauseItem.setIcon(R.drawable.ic_action_play);
+        //} else {
+        //    pauseItem.setIcon(R.drawable.ic_action_pause);
+        //}
+		return true;
     }
 
     @Override
