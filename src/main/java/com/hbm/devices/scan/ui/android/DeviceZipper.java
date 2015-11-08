@@ -53,7 +53,7 @@ import com.hbm.devices.scan.announce.Announce;
 public final class DeviceZipper {
 
     static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
-        List<Announce> list = new ArrayList<Announce>();
+        List<Announce> list = new ArrayList<>();
         list.add(announce);
         return saveAnnounces(list, activity);
     }
@@ -93,8 +93,7 @@ public final class DeviceZipper {
             zos.closeEntry();
             zos.close();
             fos.close();
-            final Uri uri = FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
-            return uri;
+            return FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
 
         } catch (IOException e) {
             return null;

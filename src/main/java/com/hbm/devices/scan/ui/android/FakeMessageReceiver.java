@@ -28,9 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import java.util.Observable;
-
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray; 
 import com.google.gson.JsonObject; 
 
@@ -159,7 +157,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private String createAnnounceString(int idPostfix) {
 
-        final String deviceName = "MX0014aaaaaaaaa55410_" + idPostfix;
+        final String deviceName = "MX0014aaaaaaaaaaaaaaaaaaaaaaaaaaa55410_" + idPostfix;
         final String uuid = "0009e50027" + Integer.toString(idPostfix);
 
         final JsonObject root = new JsonObject();

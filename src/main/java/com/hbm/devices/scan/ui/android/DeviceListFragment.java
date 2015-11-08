@@ -34,7 +34,6 @@ import android.net.wifi.WifiManager.WifiLock;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Filter;
 
@@ -49,9 +48,8 @@ import com.hbm.devices.scan.announce.Device;
 
 public final class DeviceListFragment extends Fragment {
 
-    private AtomicReference<ModuleListAdapter> adapter = new AtomicReference<ModuleListAdapter>();
+    private AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
     private AtomicReference<List<Announce>> collectedAnnounces;
-    private List<Announce> filteredAnnounces;
     private boolean paused = false;
     private String filterString;
     private ScanThread scanThread;
@@ -170,7 +168,7 @@ public final class DeviceListFragment extends Fragment {
                 filterConstraint = constraint;
             }
             final String upperCaseConstraint = filterConstraint.toString().toUpperCase(Locale.US);
-            final List<Announce> filt = new ArrayList<Announce>();
+            final List<Announce> filt = new ArrayList<>();
             final List<Announce> announceList = collectedAnnounces.get();
             for (final Announce announce : announceList) {
                 if (displayNameMatches(announce, upperCaseConstraint)
@@ -186,7 +184,7 @@ public final class DeviceListFragment extends Fragment {
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredAnnounces = (ArrayList<Announce>) results.values;
+            List<Announce> filteredAnnounces = (ArrayList<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
             if (a != null) {
                 a.notifyList(filteredAnnounces);

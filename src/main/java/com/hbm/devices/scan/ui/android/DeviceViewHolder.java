@@ -29,13 +29,11 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -64,6 +62,15 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final Drawable whiteInfo;
     private Announce announce;
 
+    private int cardBackgroundNotConntectable;
+    private int cardBackgroundConntectable;
+    private int moduleTypeTextColorNotConnectable;
+    private int moduleTypeTextColorConnectable;
+    private int moduleNameTextColorNotConnectable;
+    private int moduleNameTextColorConnectable;
+    private int moduleIdTextColorNotConnectable;
+    private int moduleIdTextColorConnectable;
+
     public DeviceViewHolder(View itemView) {
         super(itemView);
 
@@ -78,6 +85,15 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
         setImageAlpha(blackInfo, 87);
         whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
+
+        cardBackgroundNotConntectable = ContextCompat.getColor(context, R.color.color_not_connectable);
+        cardBackgroundConntectable = ContextCompat.getColor(context, android.R.color.background_light);
+        moduleTypeTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.primary_text_dark);
+        moduleTypeTextColorConnectable = ContextCompat.getColor(context, android.R.color.primary_text_light);
+        moduleNameTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
+        moduleNameTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
+        moduleIdTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
+        moduleIdTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
     }
 
     public void bind(Announce a) {
@@ -88,16 +104,16 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String uuid = device.getUuid();
 
         if (announce.getCookie() == null) {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color_not_connectable));
-            tvModuleType.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_dark));
-            tvModuleId.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
-            tvModuleName.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
+            cardView.setCardBackgroundColor(cardBackgroundNotConntectable);
+            tvModuleType.setTextColor(moduleTypeTextColorNotConnectable);
+            tvModuleName.setTextColor(moduleNameTextColorNotConnectable);
+            tvModuleId.setTextColor(moduleIdTextColorNotConnectable);
             infoButton.setImageDrawable(whiteInfo);
         } else {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.background_light));
-            tvModuleType.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.primary_text_light), 87));
-            tvModuleName.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
-            tvModuleId.setTextColor(setTextAlpha(ContextCompat.getColor(context, android.R.color.secondary_text_light), 87));
+            cardView.setCardBackgroundColor(cardBackgroundConntectable);
+            tvModuleType.setTextColor(setTextAlpha(moduleTypeTextColorConnectable, 87));
+            tvModuleName.setTextColor(setTextAlpha(moduleNameTextColorConnectable, 87));
+            tvModuleId.setTextColor(setTextAlpha(moduleIdTextColorConnectable, 87));
             infoButton.setImageDrawable(blackInfo);
         }
 
@@ -122,17 +138,12 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putSerializable(DETAILS, announce);
-                final DeviceDetailsFragment detailsFragment = new DeviceDetailsFragment();
-                detailsFragment.setArguments(args);
-                final FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                //transaction.replace(R.id.fragment_container, detailsFragment, "detail");
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DeviceDetailsActivity.class);
+                intent.putExtra(DETAILS, announce);
+                ActivityCompat.startActivity((ScanActivity) context, intent, null);
             }
         });
-
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {

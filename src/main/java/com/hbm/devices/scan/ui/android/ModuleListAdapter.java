@@ -28,10 +28,6 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +45,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     public ModuleListAdapter() {
         super();
-        filteredAnnounces = new ArrayList<Announce>();
+        filteredAnnounces = new ArrayList<>();
 
         //final FragmentManager manager = activity.getSupportFragmentManager();
         //listFragment = (DeviceListFragment) manager.findFragmentByTag("deviceListFragment");

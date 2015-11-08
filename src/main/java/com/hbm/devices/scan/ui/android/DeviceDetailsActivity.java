@@ -32,18 +32,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,13 +48,10 @@ import com.hbm.devices.scan.announce.IPv4Entry;
 import com.hbm.devices.scan.announce.IPv6Entry;
 import com.hbm.devices.scan.announce.ServiceEntry;
 
-public final class DeviceDetailsFragment extends Fragment {
+public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private Announce announce;
 
-    private ScrollView scroller;
-    private LinearLayout layout;
-    private AppCompatActivity activity;
     private int paddingTop;
     private int paddingStartLevel1;
     private int paddingStartLevel2;
@@ -74,17 +63,12 @@ public final class DeviceDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.activity = (AppCompatActivity)getActivity();
+        setContentView(R.layout.device_details);
 
-        announce = (Announce) getArguments().getSerializable(DeviceViewHolder.DETAILS);
-        activity.getSupportActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
+        announce = (Announce) getIntent().getSerializableExtra(DeviceViewHolder.DETAILS);
+//        getSupportActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
 
-        scroller = new ScrollView(activity);
-        HorizontalScrollView hscroller = new HorizontalScrollView(activity);
-        scroller.addView(hscroller);
-        layout = new LinearLayout(activity);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        hscroller.addView(layout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.details_container);
 
         final Resources resources = this.getResources();
         paddingTop = (int) resources.getDimension(R.dimen.level2_top_bottom_padding);
@@ -96,6 +80,10 @@ public final class DeviceDetailsFragment extends Fragment {
         textSizeLarge = (int) resources.getDimension(R.dimen.text_size_large);
         textSizeMedium = (int) resources.getDimension(R.dimen.text_size_medium);
         textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
+
+        addDeviceInformation(layout);
+        addNetSettings(layout);
+        addServices(layout);
     }
 
    	private String getDisplayName(Device device) {
@@ -104,34 +92,6 @@ public final class DeviceDetailsFragment extends Fragment {
             displayName = device.getUuid();
         }
         return displayName;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        if (container == null) {
-            // We have different layouts, and in one of them this
-            // fragment's containing frame doesn't exist.  The fragment
-            // may still be created from its saved state, but there is
-            // no reason to try to create its view hierarchy because it
-            // won't be displayed.  Note this is not needed -- we could
-            // just run the code below, where we would create and return
-            // the view hierarchy; it would just never be used.
-            return null;
-        }
-
-        addDeviceInformation(layout);
-        addNetSettings(layout);
-        addServices(layout);
-
-        return scroller;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.device_details_actions, menu);
     }
 
     @Override
@@ -145,8 +105,7 @@ public final class DeviceDetailsFragment extends Fragment {
     }
 
     private void handleShare(Announce announce) {
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
-        final Uri uri = DeviceZipper.saveAnnounce(announce, activity);
+        final Uri uri = DeviceZipper.saveAnnounce(announce, this);
         if (uri != null) {
             Intent devices = new Intent();
             devices.setAction(Intent.ACTION_SEND);
@@ -154,7 +113,7 @@ public final class DeviceDetailsFragment extends Fragment {
             devices.setTypeAndNormalize("application/zip");
             startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
         } else {
-            final Toast exitToast = Toast.makeText(getActivity(), R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
             exitToast.show();
         }
     }
@@ -162,7 +121,7 @@ public final class DeviceDetailsFragment extends Fragment {
     private void addDeviceInformation(LinearLayout layout) {
         final Device device = announce.getParams().getDevice();
 
-        final TextView deviceText = new TextView(activity);
+        final TextView deviceText = new TextView(this);
         deviceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
         deviceText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
         deviceText.setText("Device Information");
@@ -187,7 +146,7 @@ public final class DeviceDetailsFragment extends Fragment {
     private void addNetSettings(LinearLayout layout) {
         final Interface iface = announce.getParams().getNetSettings().getInterface();
 
-        final TextView settings = new TextView(activity);
+        final TextView settings = new TextView(this);
         settings.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
         settings.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
         settings.setText("Network Settings");
@@ -199,7 +158,7 @@ public final class DeviceDetailsFragment extends Fragment {
 
         final List<IPv4Entry> ipv4 = iface.getIPv4();
         if (ipv4 != null && !ipv4.isEmpty()) {
-            final TextView ipv4Text = new TextView(activity);
+            final TextView ipv4Text = new TextView(this);
             ipv4Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
             ipv4Text.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             ipv4Text.setText("IPv4 addresses");
@@ -212,7 +171,7 @@ public final class DeviceDetailsFragment extends Fragment {
 
         final List<IPv6Entry> ipv6 = iface.getIPv6();
         if (ipv6 != null && !ipv6.isEmpty()) {
-            final TextView ipv6Text = new TextView(activity);
+            final TextView ipv6Text = new TextView(this);
             ipv6Text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
             ipv6Text.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             ipv6Text.setText("IPv6 addresses");
@@ -227,7 +186,7 @@ public final class DeviceDetailsFragment extends Fragment {
     private void addServices(LinearLayout layout) {
         final List<ServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
-            final TextView servicesText = new TextView(activity);
+            final TextView servicesText = new TextView(this);
             servicesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
             servicesText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
             servicesText.setText("Services");
@@ -241,7 +200,7 @@ public final class DeviceDetailsFragment extends Fragment {
 
     private void addSecondLevelText(LinearLayout layout, String text, String label) {
         if (text != null && text.length() > 0) {
-            final TextView view = new TextView(activity);
+            final TextView view = new TextView(this);
             view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
             view.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
             view.setText(label + text);
@@ -251,7 +210,7 @@ public final class DeviceDetailsFragment extends Fragment {
 
     private void addThirdLevelText(LinearLayout layout, String text, String label) {
         if (text != null && text.length() > 0) {
-            final TextView view = new TextView(activity);
+            final TextView view = new TextView(this);
             view.setSingleLine(true);
             view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall);
             view.setPadding(paddingStartLevel3, paddingTop, 0, paddingTop);

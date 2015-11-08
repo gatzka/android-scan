@@ -28,12 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.MulticastLock;
-import android.net.wifi.WifiManager.WifiLock;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -54,7 +49,6 @@ import com.hbm.devices.scan.AbstractMessageReceiver;
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
-import com.hbm.devices.scan.announce.AnnounceReceiver;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.DeviceMonitor;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
@@ -76,7 +70,7 @@ final class ScanThread extends Thread implements Observer {
     ScanThread(DeviceListFragment listFragment) throws IOException {
         super("device scan thread");
 
-        collectedAnnounces = new ArrayList<Announce>(INITIAL_ANNOUNCE_CAPACITY);
+        collectedAnnounces = new ArrayList<>(INITIAL_ANNOUNCE_CAPACITY);
         addressComparator = new BestConnectableAddressComparator();
         this.listFragment = listFragment;
 
@@ -125,7 +119,7 @@ final class ScanThread extends Thread implements Observer {
             collectedAnnounces.remove(announce);
             collectedAnnounces.add(announce);
         }
-        final List<Announce> copiedList = new ArrayList<Announce>(collectedAnnounces);
+        final List<Announce> copiedList = new ArrayList<>(collectedAnnounces);
         listFragment.notify(copiedList);
     }
 

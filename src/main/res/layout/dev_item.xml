@@ -37,6 +37,8 @@
                 android:layout_toEndOf="@+id/device_photo"
                 android:layout_alignParentTop="true"
                 android:layout_toStartOf="@+id/infoButton"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textSize="24sp"
                 android:textIsSelectable="false"
                 />
@@ -47,6 +49,9 @@
                 android:id="@+id/moduleName"
                 android:layout_toEndOf="@+id/device_photo"
                 android:layout_below="@+id/moduleType"
+                android:layout_toStartOf="@+id/infoButton"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textSize="14sp"
                 android:textIsSelectable="false"
                 />
@@ -57,6 +62,9 @@
                 android:id="@+id/moduleID"
                 android:layout_toEndOf="@+id/device_photo"
                 android:layout_below="@+id/moduleName"
+                android:layout_toStartOf="@+id/infoButton"
+                android:maxLines="1"
+                android:ellipsize="start"
                 android:textSize="14sp"
                 android:textIsSelectable="false"
                 />

@@ -28,8 +28,6 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
