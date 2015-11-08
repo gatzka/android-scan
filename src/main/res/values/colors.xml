@@ -2,4 +2,5 @@
 <resources>
     <color name="color_not_connectable">#ff0000</color>
     <color name="hbm_blue">#28295d</color>
+    <color name="hbm_blue_dark">#181939</color>
 </resources>
