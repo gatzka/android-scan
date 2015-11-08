@@ -123,10 +123,6 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         listFragment.setFilterString(filterString);
     }
 
-    String getFilterString() {
-       return listFragment.getFilterString();
-    }
-
     List<Announce> getFilteredAnnounces() {
         return filteredAnnounces;
     }
