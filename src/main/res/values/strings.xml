@@ -11,4 +11,9 @@
 	<string name="unknown">Unknown</string>
 	<string name="share_devices">Share devices&#8230;</string>
 	<string name="create_devices_file_error">Can\'t create devices file!</string>
+    <string name="home">Home</string>
+    <string name="favourite">Favourite</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="more">More</string>
+    <string name="settings">Settings</string>
 </resources>

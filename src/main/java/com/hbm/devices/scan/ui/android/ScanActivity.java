@@ -32,9 +32,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +49,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
@@ -64,6 +69,8 @@ public final class ScanActivity extends AppCompatActivity {
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
     private ModuleListAdapter adapter;
+	private DrawerLayout drawerLayout;
+	private View content;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -85,6 +92,9 @@ public final class ScanActivity extends AppCompatActivity {
         initDevicesView();
     	initToolbar();
         setDeviceListAdapter();
+		setupDrawerLayout();
+
+		content = findViewById(R.id.content);
     }
 
     @Override
@@ -133,6 +143,10 @@ public final class ScanActivity extends AppCompatActivity {
                 handleShare(announces);
                 return true;
 
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -146,6 +160,10 @@ public final class ScanActivity extends AppCompatActivity {
     
     @Override
     public void onBackPressed() {
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
         if (doubleBackToExitPressedOnce) {
             if (listFragment != null) {
                 final FragmentManager manager = getSupportFragmentManager();
@@ -186,10 +204,10 @@ public final class ScanActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         setTitle(getString(R.string.app_name));
 
-        // if (actionBar != null) {
-        //     actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-        //     actionBar.setDisplayHomeAsUpEnabled(true);
-        // }
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void handlePause(MenuItem item) {
@@ -214,5 +232,19 @@ public final class ScanActivity extends AppCompatActivity {
             final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
             exitToast.show();
         }
+    }
+
+    private void setupDrawerLayout() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
+        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
     }
 }
