@@ -69,7 +69,9 @@ public final class DeviceZipper {
             File cacheDir = activity.getCacheDir();
             File subDir = new File(cacheDir, "devices");
             if ( !subDir.exists() ) {
-                subDir.mkdirs();
+                if (!subDir.mkdirs()) {
+                    return null;
+                }
             }
             File file = new File(subDir, "devices.zip");
             file.createNewFile();
