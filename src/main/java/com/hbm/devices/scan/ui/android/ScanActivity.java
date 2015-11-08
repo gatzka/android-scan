@@ -103,6 +103,7 @@ public final class ScanActivity extends AppCompatActivity {
                 return true;
             }
         });
+        adapter.setFilterString(null);
 
         final MenuItem pauseItem = menu.findItem(R.id.action_pause_control);
         if (adapter.isPaused()) {
