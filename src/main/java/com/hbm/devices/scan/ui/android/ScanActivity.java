@@ -31,7 +31,6 @@ package com.hbm.devices.scan.ui.android;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,8 +39,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public final class ScanActivity extends AppCompatActivity {
     private DeviceListFragment listFragment;
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
+    private ModuleListAdapter adapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -87,27 +89,27 @@ public final class ScanActivity extends AppCompatActivity {
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        // searchView.setOnQueryTextListener(new OnQueryTextListener() {
-        //     @Override
-        //     public boolean onQueryTextSubmit(final String query) {
-        //         searchView.clearFocus();
-        //         adapter.setFilterString(query);
-        //         return false;
-        //     }
+        searchView.setOnQueryTextListener(new OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+                searchView.clearFocus();
+                adapter.setFilterString(query);
+                return true;
+            }
 
-        //     @Override
-        //     public boolean onQueryTextChange(final String newText) {
-        //         adapter.setFilterString(newText);
-        //         return false;
-        //     }
-        // });
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                adapter.setFilterString(newText);
+                return true;
+            }
+        });
 
         final MenuItem pauseItem = menu.findItem(R.id.action_pause_control);
-        //if (adapter.isPaused()) {
-        //    pauseItem.setIcon(R.drawable.ic_action_play);
-        //} else {
-        //    pauseItem.setIcon(R.drawable.ic_action_pause);
-        //}
+        if (adapter.isPaused()) {
+            pauseItem.setIcon(R.drawable.ic_action_play);
+        } else {
+            pauseItem.setIcon(R.drawable.ic_action_pause);
+        }
 		return true;
     }
 
@@ -148,7 +150,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     private void setDeviceListAdapter() {
-        ModuleListAdapter adapter = new ModuleListAdapter();
+        adapter = new ModuleListAdapter(listFragment);
         //adapter.setOnItemClickListener(this);
         devicesView.setAdapter(adapter);
         listFragment.setAdapter(adapter);

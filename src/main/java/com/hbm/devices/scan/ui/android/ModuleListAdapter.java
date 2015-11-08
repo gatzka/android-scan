@@ -41,15 +41,14 @@ import com.hbm.devices.scan.announce.Announce;
 final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     private List<Announce> filteredAnnounces;
-    //private final DeviceListFragment listFragment;
+    private final DeviceListFragment listFragment;
 
-    public ModuleListAdapter() {
+    public ModuleListAdapter(DeviceListFragment fragment) {
         super();
         filteredAnnounces = new ArrayList<>();
+        listFragment = fragment;
 
-        //final FragmentManager manager = activity.getSupportFragmentManager();
-        //listFragment = (DeviceListFragment) manager.findFragmentByTag("deviceListFragment");
-        //listFragment.setAdapter(this);
+        listFragment.setAdapter(this);
     }
 
     @Override
@@ -121,12 +120,11 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     }
 
     void setFilterString(String filterString) {
-        //listFragment.setFilterString(filterString);
+        listFragment.setFilterString(filterString);
     }
 
     String getFilterString() {
-       // return listFragment.getFilterString();
-       return "bla";
+       return listFragment.getFilterString();
     }
 
     List<Announce> getFilteredAnnounces() {
@@ -134,15 +132,14 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     }
 
     boolean isPaused() {
-        //return listFragment.isPaused();
-        return false;
+        return listFragment.isPaused();
     }
 
     void resumeDeviceUpdates() {
-        //listFragment.setPaused(false);
+        listFragment.setPaused(false);
     }
 
     void pauseDeviceUpdates() {
-        //listFragment.setPaused(true);
+        listFragment.setPaused(true);
     }
 }
