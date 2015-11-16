@@ -81,9 +81,9 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         textSizeMedium = (int) resources.getDimension(R.dimen.text_size_medium);
         textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
 
-        addDeviceInformation(layout);
-        addNetSettings(layout);
-        addServices(layout);
+        // addDeviceInformation(layout);
+        // addNetSettings(layout);
+        // addServices(layout);
     }
 
    	private String getDisplayName(Device device) {
