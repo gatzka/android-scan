@@ -37,10 +37,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -86,6 +89,13 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         // addDeviceInformation(layout);
         // addNetSettings(layout);
         // addServices(layout);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.device_details_actions, menu);
+		return true;
     }
 
    	private String getDisplayName(Device device) {
