@@ -29,16 +29,18 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
+
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -66,7 +68,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.device_details);
 
         announce = (Announce) getIntent().getSerializableExtra(DeviceViewHolder.DETAILS);
-//        getSupportActionBar().setTitle(getDisplayName(announce.getParams().getDevice()));
+    	initToolbar(announce);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.details_container);
 
@@ -217,5 +219,16 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             view.setText(label + text);
             layout.addView(view);
         }
+    }
+
+    private void initToolbar(Announce announce) {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle(getDisplayName(announce.getParams().getDevice()));
     }
 }
