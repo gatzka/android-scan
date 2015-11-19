@@ -57,14 +57,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private Announce announce;
 
-    private int paddingTop;
-    private int paddingStartLevel1;
-    private int paddingStartLevel2;
-    private int paddingStartLevel3;
-    private int textSizeLarge;
-    private int textSizeMedium;
-    private int textSizeSmall;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,16 +67,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.details_container);
 
-        final Resources resources = this.getResources();
-        paddingTop = (int) resources.getDimension(R.dimen.level2_top_bottom_padding);
-
-        paddingStartLevel1 = (int) resources.getDimension(R.dimen.level1_start_padding);
-        paddingStartLevel2 = (int) resources.getDimension(R.dimen.level2_start_padding);
-        paddingStartLevel3 = (int) resources.getDimension(R.dimen.level3_start_padding);
-
-        textSizeLarge = (int) resources.getDimension(R.dimen.text_size_large);
-        textSizeMedium = (int) resources.getDimension(R.dimen.text_size_medium);
-        textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
 
         addDeviceInformation();
         // addNetSettings(layout);
@@ -171,6 +153,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void addNetSettings(LinearLayout layout) {
+    /*
         final Interface iface = announce.getParams().getNetSettings().getInterface();
 
         final TextView settings = new TextView(this);
@@ -208,9 +191,11 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
                 addThirdLevelText(layout, entry.getAddress() + "/" + entry.getPrefix(), "∙ ");
             }
         }
+*/
     }
 
     private void addServices(LinearLayout layout) {
+        /*
         final List<ServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
             final TextView servicesText = new TextView(this);
@@ -223,27 +208,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
                 addThirdLevelText(layout, entry.getType() + ": " + entry.getPort(), "∙ ");
             }
         }
-    }
-
-    private void addSecondLevelText(LinearLayout layout, String text, String label) {
-        if (text != null && text.length() > 0) {
-            final TextView view = new TextView(this);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeMedium);
-            view.setPadding(paddingStartLevel2, paddingTop, 0, paddingTop);
-            view.setText(label + text);
-            layout.addView(view);
-        }
-    }
-
-    private void addThirdLevelText(LinearLayout layout, String text, String label) {
-        if (text != null && text.length() > 0) {
-            final TextView view = new TextView(this);
-            view.setSingleLine(true);
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall);
-            view.setPadding(paddingStartLevel3, paddingTop, 0, paddingTop);
-            view.setText(label + text);
-            layout.addView(view);
-        }
+        */
     }
 
     private void initToolbar(Announce announce) {
