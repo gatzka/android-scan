@@ -34,19 +34,83 @@
     	    	card_view:cardUseCompatPadding="false"
     	    	card_view:cardCornerRadius="2dp"
                 >
+
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                	android:orientation="vertical"
+                    >
     
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/device_info"
-                    android:layout_centerVertical="true"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textIsSelectable="false"
-                    android:padding="16dp"
-                    android:textAppearance="@style/DetailsHeading"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/device_info"
+                        android:layout_centerVertical="true"
+                        android:textIsSelectable="false"
+                        android:padding="16dp"
+                        android:textAppearance="@style/DetailsHeading"
+                        />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0"/>
+
+                    <TextView
+                	    android:id="@+id/device_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="24dp"
+                        android:paddingTop="6dp"
+                        android:textIsSelectable="false"
+                        android:textAppearance="@style/DetailsText"
+                        />
+                    <TextView
+                	    android:id="@+id/device_name_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="24dp"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:textIsSelectable="false"
+                        android:textAppearance="@style/DetailsLabel"
+                        android:text="@string/device_name"
+                        />
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_marginStart="24dp"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0"/>
+
+                    <TextView
+                	    android:id="@+id/device_uuid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="24dp"
+                        android:paddingTop="6dp"
+                        android:textIsSelectable="false"
+                        android:textAppearance="@style/DetailsText"
+                        />
+                    <TextView
+                	    android:id="@+id/device_uuid_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="24dp"
+                        android:paddingTop="6dp"
+                        android:textIsSelectable="false"
+                        android:textAppearance="@style/DetailsLabel"
+                        android:text="@string/device_uuid"
+                        />
+
+                </LinearLayout>
     
             </android.support.v7.widget.CardView>
 

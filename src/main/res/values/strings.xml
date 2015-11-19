@@ -3,7 +3,9 @@
     <string name="app_name">HBM Scan</string>
     <string name="create_devices_file_error">Can\'t create devices file!</string>
     <string name="device_info">Device Information</string>
+    <string name="device_name">Device Name</string>
     <string name="device_photo">Image of device</string>
+    <string name="device_uuid">UUID</string>
     <string name="downloaded">Downloaded</string>
     <string name="favourite">Favourite</string>
     <string name="home">Home</string>
@@ -19,4 +21,5 @@
     <string name="share_devices">Share devices&#8230;</string>
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
+    <string name="no_name_announced">no name announced</string>
 </resources>

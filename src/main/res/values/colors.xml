@@ -3,4 +3,6 @@
     <color name="color_not_connectable">#ff0000</color>
     <color name="hbm_blue">#28295d</color>
     <color name="hbm_blue_dark">#181939</color>
+    <color name="details_text_color">#000000</color>
+    <color name="details_label_color">#80000000</color>
 </resources>

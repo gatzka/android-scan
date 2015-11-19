@@ -29,8 +29,8 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
-
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -86,7 +86,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         textSizeMedium = (int) resources.getDimension(R.dimen.text_size_medium);
         textSizeSmall = (int) resources.getDimension(R.dimen.text_size_small);
 
-        // addDeviceInformation(layout);
+        addDeviceInformation();
         // addNetSettings(layout);
         // addServices(layout);
     }
@@ -130,9 +130,14 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void addDeviceInformation(LinearLayout layout) {
+    private void addDeviceInformation() {
         final Device device = announce.getParams().getDevice();
 
+        TextView view = (TextView) findViewById(R.id.device_name);
+        setText(view, device.getName(), getString(R.string.no_name_announced));
+        view = (TextView) findViewById(R.id.device_uuid);
+        view.setText(device.getUuid());
+/*
         final TextView deviceText = new TextView(this);
         deviceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
         deviceText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
@@ -153,6 +158,16 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             routerText.append("no");
         }
         addSecondLevelText(layout, routerText.toString(), "Is Router: ");
+*/
+    }
+
+    private void setText(TextView view, String text, String alternativeText) {
+        if (text != null) {
+            view.setText(text);
+        } else {
+            view.setTypeface(null, Typeface.ITALIC);
+            view.setText(alternativeText);
+        }
     }
 
     private void addNetSettings(LinearLayout layout) {
