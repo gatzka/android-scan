@@ -64,7 +64,6 @@
                         android:textAppearance="@style/DetailsText"
                         />
                     <TextView
-                	    android:id="@+id/device_name_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/device_info_margin_start"
@@ -90,7 +89,6 @@
                         android:textAppearance="@style/DetailsText"
                         />
                     <TextView
-                	    android:id="@+id/device_uuid_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/device_info_margin_start"
@@ -165,7 +163,6 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
