@@ -10,13 +10,19 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="DetailsText" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/details_text_color</item>
+    <style name="DetailsText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">24dp</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="DetailsLabel" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/details_label_color</item>
-        <item name="android:textSize">16sp</item>
+    <style name="DetailsTextView" parent="DetailsText">
+        <item name="android:textColor">@color/details_text_color</item>
     </style>
+
+    <style name="DetailsLabel" parent="DetailsText">
+        <item name="android:textColor">@color/details_label_color</item>
+    </style>
+
 </resources>

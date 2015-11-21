@@ -6,18 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-	>
+    >
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
         <LinearLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-        	android:id="@+id/details_container"
-        	android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/details_container"
+            android:orientation="vertical"
             >
     
             <android.support.v7.widget.CardView
@@ -37,7 +38,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent" android:layout_height="wrap_content"
-                	android:orientation="vertical"
+                    android:orientation="vertical"
                     >
     
                     <TextView
@@ -55,22 +56,15 @@
                         android:background="#c0c0c0"/>
 
                     <TextView
-                	    android:id="@+id/device_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/device_info_margin_start"
+                        android:id="@+id/device_name"
+                        style="@style/DetailsTextView"
                         android:paddingTop="6dp"
                         android:textIsSelectable="false"
-                        android:textAppearance="@style/DetailsText"
                         />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/device_info_margin_start"
+                        style="@style/DetailsLabel"
                         android:paddingBottom="6dp"
                         android:paddingTop="6dp"
-                        android:textIsSelectable="false"
-                        android:textAppearance="@style/DetailsLabel"
                         android:text="@string/device_name"
                         />
                     <View
@@ -80,21 +74,14 @@
                         android:background="#c0c0c0"/>
 
                     <TextView
-                	    android:id="@+id/device_uuid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/device_info_margin_start"
+                        android:id="@+id/device_uuid"
+                        style="@style/DetailsTextView"
                         android:paddingTop="6dp"
                         android:textIsSelectable="false"
-                        android:textAppearance="@style/DetailsText"
                         />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/device_info_margin_start"
+                        style="@style/DetailsLabel"
                         android:paddingTop="6dp"
-                        android:textIsSelectable="false"
-                        android:textAppearance="@style/DetailsLabel"
                         android:text="@string/device_uuid"
                         />
 
