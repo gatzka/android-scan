@@ -56,34 +56,36 @@
                         android:background="#c0c0c0"/>
 
                     <TextView
-                        android:id="@+id/device_name"
+                        android:id="@+id/device_uuid"
                         style="@style/DetailsTextView"
-                        android:paddingTop="6dp"
+                        android:layout_marginTop="6dp"
                         android:textIsSelectable="false"
                         />
                     <TextView
                         style="@style/DetailsLabel"
-                        android:paddingBottom="6dp"
-                        android:paddingTop="6dp"
-                        android:text="@string/device_name"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/device_uuid"
                         />
+
                     <View
                         android:layout_width="fill_parent"
                         android:layout_marginStart="@dimen/device_info_margin_start"
                         android:layout_height="1dp"
+                        android:layout_marginTop="6dp"
                         android:background="#c0c0c0"/>
 
                     <TextView
-                        android:id="@+id/device_uuid"
+                        android:id="@+id/device_name"
                         style="@style/DetailsTextView"
-                        android:paddingTop="6dp"
+                        android:layout_marginTop="6dp"
                         android:textIsSelectable="false"
                         />
                     <TextView
                         style="@style/DetailsLabel"
-                        android:paddingTop="6dp"
-                        android:text="@string/device_uuid"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/device_name"
                         />
+
 
                 </LinearLayout>
     
