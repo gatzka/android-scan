@@ -156,7 +156,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private String createAnnounceString(int idPostfix) {
 
-        final String deviceName = "MX0014aaaaaaaaaaaaaaaaaaaaaaaaaaa55410_" + idPostfix;
+        final String deviceName = "MX001455410_" + idPostfix;
         final String uuid = "0009e50027" + Integer.toString(idPostfix);
 
         final JsonObject root = new JsonObject();
