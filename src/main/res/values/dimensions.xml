@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="device_info_margin_start">24dp</dimen>
+    <dimen name="device_info_padding_left">24dp</dimen>
+    <dimen name="device_info_padding_top">6dp</dimen>
+    <dimen name="rule_height">1dp</dimen>
 </resources>

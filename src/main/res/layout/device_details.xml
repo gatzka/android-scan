@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/details_container"
             android:orientation="vertical"
             >
     
@@ -39,6 +38,7 @@
                 <LinearLayout
                     android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:id="@+id/device_container"
                     >
     
                     <TextView
@@ -54,38 +54,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#c0c0c0"/>
-
-                    <TextView
-                        android:id="@+id/device_uuid"
-                        style="@style/DetailsTextView"
-                        android:layout_marginTop="6dp"
-                        android:textIsSelectable="false"
-                        />
-                    <TextView
-                        style="@style/DetailsLabel"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/device_uuid"
-                        />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_marginStart="@dimen/device_info_margin_start"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="6dp"
-                        android:background="#c0c0c0"/>
-
-                    <TextView
-                        android:id="@+id/device_name"
-                        style="@style/DetailsTextView"
-                        android:layout_marginTop="6dp"
-                        android:textIsSelectable="false"
-                        />
-                    <TextView
-                        style="@style/DetailsLabel"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/device_name"
-                        />
-
 
                 </LinearLayout>
     

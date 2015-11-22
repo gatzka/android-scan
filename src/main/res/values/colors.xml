@@ -5,4 +5,5 @@
     <color name="hbm_blue_dark">#181939</color>
     <color name="details_text_color">#000000</color>
     <color name="details_label_color">#80000000</color>
+    <color name="details_horizontal_rule">#c0c0c0</color>
 </resources>

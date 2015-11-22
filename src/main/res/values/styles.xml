@@ -11,9 +11,6 @@
     </style>
 
     <style name="DetailsText">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/device_info_margin_start</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -21,7 +18,7 @@
         <item name="android:textColor">@color/details_text_color</item>
     </style>
 
-    <style name="DetailsLabel" parent="DetailsText">
+    <style name="DetailsLabelView" parent="DetailsText">
         <item name="android:textColor">@color/details_label_color</item>
     </style>
 
