@@ -32,14 +32,19 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +70,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         announce = (Announce) getIntent().getSerializableExtra(DeviceViewHolder.DETAILS);
     	initToolbar(announce);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.details_container);
 
 
         addDeviceInformation();
@@ -113,43 +117,104 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void addDeviceInformation() {
+        final LinearLayout layout = (LinearLayout) findViewById(R.id.device_container);
+
         final Device device = announce.getParams().getDevice();
+        addDeviceTextFirst(layout, device.getUuid(), getString(R.string.device_uuid));
 
-        TextView view = (TextView) findViewById(R.id.device_name);
-        setText(view, device.getName(), getString(R.string.no_name_announced));
-        view = (TextView) findViewById(R.id.device_uuid);
-        view.setText(device.getUuid());
-/*
-        final TextView deviceText = new TextView(this);
-        deviceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
-        deviceText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
-        deviceText.setText("Device Information");
-        layout.addView(deviceText);
+        final String deviceName = device.getName();
+        if (deviceName != null && deviceName.length() > 0) {
+            addDeviceText(layout, deviceName, getString(R.string.device_name));
+        }
 
-        addSecondLevelText(layout, device.getUuid(), "UUID: ");
-        addSecondLevelText(layout, device.getName(), "Name: ");
-        addSecondLevelText(layout, device.getType(), "Type: ");
-        addSecondLevelText(layout, device.getFamilyType(), "Family Type: ");
-        addSecondLevelText(layout, device.getFirmwareVersion(), "Firmware Version: ");
+        final String type = device.getType();
+        if (type != null && type.length() > 0) {
+            addDeviceText(layout, type, getString(R.string.device_type));
+        }
+
+        final String familyType = device.getFamilyType();
+        if (familyType != null && familyType.length() > 0) {
+            addDeviceText(layout, familyType, getString(R.string.device_family_type));
+        }
+
+        final String hardwareID = device.getHardwareId();
+        if (hardwareID != null && hardwareID.length() > 0) {
+            addDeviceText(layout, hardwareID, getString(R.string.device_hardware_id));
+        }
+
+        final String firmwareVersion = device.getFirmwareVersion();
+        if (firmwareVersion != null && firmwareVersion.length() > 0) {
+            addDeviceText(layout, firmwareVersion, getString(R.string.device_firmware_version));
+        }
 
         final boolean isRouter = device.isRouter();
-        final StringBuilder routerText = new StringBuilder();
         if (isRouter) {
-            routerText.append("yes");
+            addDeviceText(layout, getString(R.string.device_is_router), getString(R.string.device_router_info));
         } else {
-            routerText.append("no");
+            addDeviceText(layout, getString(R.string.device_is_no_router), getString(R.string.device_router_info));
         }
-        addSecondLevelText(layout, routerText.toString(), "Is Router: ");
-*/
+
+        addDeviceTextLast(layout);
     }
 
-    private void setText(TextView view, String text, String alternativeText) {
-        if (text != null) {
-            view.setText(text);
-        } else {
-            view.setTypeface(null, Typeface.ITALIC);
-            view.setText(alternativeText);
+    private void addDeviceTextFirst(LinearLayout layout, String text, String label) {
+        addDeviceText(layout, text, label, true);
+    }
+
+    private void addDeviceText(LinearLayout layout, String text, String label) {
+        addDeviceText(layout, text, label, false);
+    }
+
+    private void addDeviceTextLast(LinearLayout layout) {
+        View rule = new View(this);
+        LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
+        viewLp.setMargins(
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
+            0, 0);
+        rule.setLayoutParams(viewLp);
+        layout.addView(rule);
+    }
+
+    private void addDeviceText(LinearLayout layout, String text, String label, boolean isFirst) {
+        if (!isFirst) {
+            View rule = new View(this);
+            LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
+            viewLp.setMargins(
+                getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+                getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
+                0, 0);
+            rule.setLayoutParams(viewLp);
+            rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule));
+            layout.addView(rule);
         }
+
+        AppCompatTextView textView = new AppCompatTextView(this);
+        textView.setPadding(
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
+            0, 0);
+        if (Build.VERSION.SDK_INT < 23) {
+            textView.setTextAppearance(this, R.style.DetailsTextView);
+        } else {
+            textView.setTextAppearance(R.style.DetailsTextView);
+        }
+        textView.setText(text);
+        layout.addView(textView);
+
+        AppCompatTextView labelView = new AppCompatTextView(this);
+        labelView.setPadding(
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
+            0, 0);
+        if (Build.VERSION.SDK_INT < 23) {
+            labelView.setTextAppearance(this, R.style.DetailsLabelView);
+        } else {
+            labelView.setTextAppearance(R.style.DetailsTextView);
+        }
+
+        labelView.setText(label);
+        layout.addView(labelView);
     }
 
     private void addNetSettings(LinearLayout layout) {

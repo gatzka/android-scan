@@ -4,6 +4,13 @@
     <string name="create_devices_file_error">Can\'t create devices file!</string>
     <string name="device_info">Device Information</string>
     <string name="device_name">Device Name</string>
+    <string name="device_type">Device Type</string>
+    <string name="device_family_type">Family Type</string>
+    <string name="device_firmware_version">Firmware Version</string>
+    <string name="device_hardware_id">Hardware ID</string>
+    <string name="device_router_info">Router Information</string>
+    <string name="device_is_router">Device is a router</string>
+    <string name="device_is_no_router">Device is not a router</string>
     <string name="device_photo">Image of device</string>
     <string name="device_uuid">UUID</string>
     <string name="downloaded">Downloaded</string>
