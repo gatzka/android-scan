@@ -29,8 +29,6 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,14 +39,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils.TruncateAt;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -264,10 +260,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private void addTextWithLabelNoSeparator(LinearLayout layout, String text, String label) {
         addText(layout, text, label, false);
-    }
-
-    private void addTextTopSeparator(LinearLayout layout, String text) {
-        addText(layout, text, null, true);
     }
 
     private void addTextNoSeparator(LinearLayout layout, String text) {
