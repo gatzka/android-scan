@@ -69,6 +69,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private int moduleNameTextColorConnectable;
     private int moduleIdTextColorNotConnectable;
     private int moduleIdTextColorConnectable;
+    private int alpha;
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
@@ -82,7 +83,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
         cardView = (CardView) itemView;
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
-        setImageAlpha(blackInfo, 87);
+        alpha = context.getResources().getInteger(R.integer.text_alpha);
+        setImageAlpha(blackInfo, alpha);
         whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
 
         cardBackgroundNotConntectable = ContextCompat.getColor(context, R.color.color_not_connectable);
@@ -110,9 +112,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             infoButton.setImageDrawable(whiteInfo);
         } else {
             cardView.setCardBackgroundColor(cardBackgroundConntectable);
-            tvModuleType.setTextColor(setTextAlpha(moduleTypeTextColorConnectable, 87));
-            tvModuleName.setTextColor(setTextAlpha(moduleNameTextColorConnectable, 87));
-            tvModuleId.setTextColor(setTextAlpha(moduleIdTextColorConnectable, 87));
+            tvModuleType.setTextColor(setTextAlpha(moduleTypeTextColorConnectable, alpha));
+            tvModuleName.setTextColor(setTextAlpha(moduleNameTextColorConnectable, alpha));
+            tvModuleId.setTextColor(setTextAlpha(moduleIdTextColorConnectable, alpha));
             infoButton.setImageDrawable(blackInfo);
         }
 
