@@ -17,6 +17,11 @@
     <string name="favourite">Favourite</string>
     <string name="home">Home</string>
     <string name="info_button">Click form more information</string>
+    <string name="interface_description">Interface Description</string>
+    <string name="interface_name">Interface Name</string>
+    <string name="interface_type">Interface Type</string>
+    <string name="ipv4_addresses">IPv4 Addresses</string>
+    <string name="ipv6_addresses">IPv6 Addresses</string>
     <string name="menu_pause_option">Pause/Resume</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
