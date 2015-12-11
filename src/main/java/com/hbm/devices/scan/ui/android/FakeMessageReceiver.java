@@ -119,6 +119,11 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
             ipv4Entry.addProperty("netmask", "255.255.0.0");
         }
 
+        final JsonObject apipa = new JsonObject();
+        ipv4Addresses.add(apipa);
+        apipa.addProperty(ADDRESS_KEY, "169.254.3.223");
+        apipa.addProperty("netmask", "255.255.0.0");
+
 
         final JsonArray ipv6Addresses = new JsonArray();
         iface.add("ipv6", ipv6Addresses);
@@ -130,7 +135,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
         final JsonObject ipv6Entry2 = new JsonObject();
         ipv6Addresses.add(ipv6Entry2);
-        ipv6Entry2.addProperty(ADDRESS_KEY, "fe80::222:4dff:feaa:4c1e");
+        ipv6Entry2.addProperty(ADDRESS_KEY, "fe80:0:0:0:222:4dff:feaa:4c1e");
         ipv6Entry2.addProperty("prefix", 64);
     }
 
