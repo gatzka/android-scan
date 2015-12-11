@@ -81,7 +81,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleName = (TextView) itemView.findViewById(R.id.moduleName);
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
-        cardView = (CardView) ((LinearLayout) itemView).getChildAt(0);
+        cardView = (CardView) itemView;
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
         setImageAlpha(blackInfo, 87);
         whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
