@@ -197,7 +197,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 	private void addServices() {
 		final List<ServiceEntry> services = announce.getParams().getServices();
 		if (services != null && !services.isEmpty()) {
-			final LinearLayout layout = (LinearLayout) findViewById(R.id.card_container);
+			final LinearLayout cardContainer = (LinearLayout) findViewById(R.id.card_container);
 			
 			CardView card = new CardView(this);
 
@@ -211,7 +211,12 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 				getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
 				getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
 			card.setLayoutParams(params);
-			layout.addView(card);
+			cardContainer.addView(card);
+
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            card.addView(layout);
 
 			AppCompatTextView textView = new AppCompatTextView(this);
 			textView.setPadding(
@@ -228,23 +233,18 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 			textView.setMaxLines(1);
 			textView.setEllipsize(TruncateAt.END);
             textView.setText(getString(R.string.services));
-            card.addView(textView);
+            layout.addView(textView);
 
-        }
-        /*
-        final List<ServiceEntry> services = announce.getParams().getServices();
-        if (!services.isEmpty()) {
-            final TextView servicesText = new TextView(this);
-            servicesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge);
-            servicesText.setPadding(paddingStartLevel1, paddingStartLevel1, 0, 0);
-            servicesText.setText("Services");
-            layout.addView(servicesText);
+            View rule = new View(this);
+            rule.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.ruler_height)));
+            rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule_color));
+            layout.addView(rule);
 
             for (final ServiceEntry entry : services) {
-                addThirdLevelText(layout, entry.getType() + ": " + entry.getPort(), "∙ ");
+                addTextNoSeparator(layout, entry.getType() + ": " + entry.getPort());
             }
+            addBottomMargin(layout);
         }
-        */
     }
 
     private void initToolbar(Announce announce) {
@@ -316,7 +316,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
             0, 0);
         rule.setLayoutParams(viewLp);
-        rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule));
+        rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule_color));
         layout.addView(rule);
     }
 

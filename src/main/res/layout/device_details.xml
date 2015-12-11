@@ -9,8 +9,8 @@
     >
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
@@ -52,9 +52,9 @@
                         />
 
                     <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="#c0c0c0"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/ruler_height"
+                        android:background="@color/details_horizontal_rule_color"/>
 
                 </LinearLayout>
     
@@ -91,9 +91,9 @@
                         />
 
                     <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="#c0c0c0"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/ruler_height"
+                        android:background="@color/details_horizontal_rule_color"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
