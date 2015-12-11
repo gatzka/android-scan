@@ -132,10 +132,6 @@ public final class DeviceListFragment extends Fragment {
         }
     }
 
-    String getFilterString() {
-        return filterString;
-    }
-
     void setFilterString(String filterString) {
         this.filterString = filterString;
         updateList();
