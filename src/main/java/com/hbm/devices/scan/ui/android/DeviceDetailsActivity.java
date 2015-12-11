@@ -38,7 +38,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils.TruncateAt;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,7 +74,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
         addDeviceInformation();
         addNetSettings();
-        // addServices(layout);
+        addServices();
     }
 
     @Override
@@ -192,7 +194,43 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         addBottomMargin(layout);
     }
 
-    private void addServices(LinearLayout layout) {
+	private void addServices() {
+		final List<ServiceEntry> services = announce.getParams().getServices();
+		if (services != null && !services.isEmpty()) {
+			final LinearLayout layout = (LinearLayout) findViewById(R.id.card_container);
+			
+			CardView card = new CardView(this);
+
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+					);
+			params.setMargins(
+				getResources().getDimensionPixelSize(R.dimen.details_card_margin_start),
+				getResources().getDimensionPixelSize(R.dimen.details_card_margin_top),
+				getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
+				getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
+			card.setLayoutParams(params);
+			layout.addView(card);
+
+			AppCompatTextView textView = new AppCompatTextView(this);
+			textView.setPadding(
+					getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
+					getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
+					getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
+					getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
+			if (Build.VERSION.SDK_INT < 23) {
+				textView.setTextAppearance(this, R.style.DetailsHeading);
+			} else {
+				textView.setTextAppearance(R.style.DetailsHeading);
+            }
+			textView.setTextIsSelectable(false);
+			textView.setMaxLines(1);
+			textView.setEllipsize(TruncateAt.END);
+            textView.setText(getString(R.string.services));
+            card.addView(textView);
+
+        }
         /*
         final List<ServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
