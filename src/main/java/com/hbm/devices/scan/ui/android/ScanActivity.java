@@ -240,10 +240,17 @@ public final class ScanActivity extends AppCompatActivity {
         NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-                return true;
+                switch (menuItem.getItemId()) {
+                case R.id.drawer_settings:
+                    startActivity(new Intent(getApplicationContext(),
+                        SettingsActivity.class));
+                    return true;
+                default:
+                    Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+                    menuItem.setChecked(true);
+                    drawerLayout.closeDrawers();
+                    return true;
+                }
             }
         });
     }

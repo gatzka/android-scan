@@ -327,5 +327,4 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         labelView.setText(label);
         layout.addView(labelView);
     }
-
 }

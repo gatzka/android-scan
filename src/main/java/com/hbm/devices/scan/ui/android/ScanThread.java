@@ -49,6 +49,7 @@ import com.hbm.devices.scan.AbstractMessageReceiver;
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
+import com.hbm.devices.scan.announce.AnnounceReceiver;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.DeviceMonitor;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
