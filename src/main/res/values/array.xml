@@ -1,0 +1,10 @@
+<resources>
+	<string-array name="fake_message_entries">
+		<item>@string/constant_num_of_devices</item>
+		<item>@string/new_dev_every_second</item>
+	</string-array>
+	<string-array name="listValues">
+	    <item>@string/default_fake_type</item>
+	    <item>new_devs_every_second</item>
+	</string-array>
+</resources>

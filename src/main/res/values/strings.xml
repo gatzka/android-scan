@@ -34,11 +34,12 @@
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
 
-    <string name="prefs_debug">Debugging</string>
-    <string name="pref_summary_auto_delete">Summary</string>
-    <string name="pref_title_auto_delete">Title</string>
-    <string name="pref_summary_delete_limit">Summary limit</string>
-    <string name="pref_title_sms_delete">Title SMS delete</string>
-    <string name="pref_title_mms_delete">Title MMS delete</string>
+    <string name="pref_debug">Debugging</string>
+    <string name="pref_use_fake_messages">Use Fake Messages</string>
+    <string name="pref_fake_message_type">Type of Fake Messages</string>
+    <string name="pref_fake_message_type_summary">Select the kind of fake messages you would like to see</string>
     <string name="pref_activity_title">Settings</string>
+    <string name="constant_num_of_devices">100 devices</string>
+    <string name="new_dev_every_second">New devices every second</string>
+    <string name="default_fake_type">const_devices</string>
 </resources>
