@@ -39,11 +39,19 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
     private boolean shallRun = true;
     private final Gson gson = new Gson();
     private static final String ADDRESS_KEY = "address";
+    private final FakeMessageType messageType;
+
+    FakeMessageReceiver(FakeMessageType messageType) {
+        this.messageType = messageType;
+    }
 
     @Override
     public void run() {
-        announceAtSameTime(100);
-        //announceOneEverySecond();
+        if (messageType == FakeMessageType.NEW_DEVICE_EVERY_SECOND) {
+            announceOneEverySecond();
+        } else {
+            announceAtSameTime(100);
+        }
     }
 
     private void announceAtSameTime(int numberOfModules) {

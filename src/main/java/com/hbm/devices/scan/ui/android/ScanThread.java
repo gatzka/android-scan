@@ -68,7 +68,7 @@ final class ScanThread extends Thread implements Observer {
     private final List<Announce> collectedAnnounces;
     private final DeviceListFragment listFragment;
 
-    ScanThread(DeviceListFragment listFragment) throws IOException {
+    ScanThread(DeviceListFragment listFragment, boolean useFakeMessages, FakeMessageType fakeMessageType) throws IOException {
         super("device scan thread");
 
         collectedAnnounces = new ArrayList<>(INITIAL_ANNOUNCE_CAPACITY);
@@ -79,8 +79,11 @@ final class ScanThread extends Thread implements Observer {
         deviceMonitor.addObserver(this);
         final AnnounceDeserializer announceParser = new AnnounceDeserializer();
         announceParser.addObserver(deviceMonitor);
-        messageReceiver = new FakeMessageReceiver();
-        //messageReceiver = new AnnounceReceiver();
+        if (useFakeMessages) {
+            messageReceiver = new FakeMessageReceiver(fakeMessageType);
+        } else {
+            messageReceiver = new AnnounceReceiver();
+        }
         messageReceiver.addObserver(announceParser);
     }
     
@@ -187,5 +190,9 @@ final class ScanThread extends Thread implements Observer {
             }
         }
     }
+}
 
+enum FakeMessageType {
+    CONSTANT_NUMBER_OF_DEVICES,
+    NEW_DEVICE_EVERY_SECOND
 }

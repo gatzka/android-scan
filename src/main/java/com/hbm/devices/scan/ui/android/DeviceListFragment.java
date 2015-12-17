@@ -29,10 +29,12 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Filter;
@@ -62,10 +64,21 @@ public final class DeviceListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean useFakeMessages = sharedPref.getBoolean(getString(R.string.pref_use_fake_messages), false);
+        String fakeMessageType = sharedPref.getString(getString(R.string.pref_fake_message_type), getString(R.string.default_fake_type));
+
+        FakeMessageType messageType;
+        if (fakeMessageType.equals(getString(R.string.new_dev_every_second))) {
+            messageType = FakeMessageType.NEW_DEVICE_EVERY_SECOND;
+        } else {
+            messageType = FakeMessageType.CONSTANT_NUMBER_OF_DEVICES;
+        }
+
         collectedAnnounces = new AtomicReference<List<Announce>>(new ArrayList<Announce>());
         deviceFilter = new DeviceFilter();
         try {
-            scanThread = new ScanThread(this);
+            scanThread = new ScanThread(this, useFakeMessages, messageType);
             scanThread.start();
         } catch (IOException e) {
             Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
@@ -208,3 +221,4 @@ public final class DeviceListFragment extends Fragment {
         }
     }
 }
+

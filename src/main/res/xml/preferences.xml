@@ -3,19 +3,18 @@
         android:title="@string/pref_debug"
         android:key="pref_key_debug_settings">
         <CheckBoxPreference
-            android:key="pref_use_fake_messages"
+            android:key="@string/pref_use_fake_messages"
             android:title="@string/pref_use_fake_messages"
             android:defaultValue="false"/>
   		<ListPreference
-    	    android:key="pref_fake_message_type"
-    	    android:dependency="pref_use_fake_messages"
+    	    android:key="@string/pref_fake_message_type"
+    	    android:dependency="@string/pref_use_fake_messages"
     		android:title="@string/pref_fake_message_type"
     	    android:summary="@string/pref_fake_message_type_summary"
     	    android:defaultValue="@string/default_fake_type"
     	    android:entries="@array/fake_message_entries"
     	    android:entryValues="@array/listValues"
 		/>
-
     </PreferenceCategory>
 </PreferenceScreen>
 

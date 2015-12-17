@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -77,6 +78,7 @@ public final class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         doubleBackToExitPressedOnce = false;
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         setContentView(R.layout.device_scan);
 
