@@ -12,6 +12,8 @@ plugins {
 	id "org.sonarqube" version "1.0"
 }
 
+description 'Web application launcher for HBM devices.'
+
 repositories {
 	mavenCentral()
 }
