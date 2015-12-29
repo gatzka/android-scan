@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
@@ -48,7 +49,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 
-public final class DeviceListFragment extends Fragment {
+public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
     private AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
     private AtomicReference<List<Announce>> collectedAnnounces;
@@ -64,25 +65,12 @@ public final class DeviceListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean useFakeMessages = sharedPref.getBoolean(getString(R.string.pref_use_fake_messages), false);
-        String fakeMessageType = sharedPref.getString(getString(R.string.pref_fake_message_type), getString(R.string.default_fake_type));
-
-        FakeMessageType messageType;
-        if (fakeMessageType.equals(getString(R.string.new_dev_every_second))) {
-            messageType = FakeMessageType.NEW_DEVICE_EVERY_SECOND;
-        } else {
-            messageType = FakeMessageType.CONSTANT_NUMBER_OF_DEVICES;
-        }
-
-        collectedAnnounces = new AtomicReference<List<Announce>>(new ArrayList<Announce>());
+        collectedAnnounces = new AtomicReference<List<Announce>>();
         deviceFilter = new DeviceFilter();
-        try {
-            scanThread = new ScanThread(this, useFakeMessages, messageType);
-            scanThread.start();
-        } catch (IOException e) {
-            Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
-        }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        startScanThread(sharedPreferences);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -117,12 +105,7 @@ public final class DeviceListFragment extends Fragment {
     @Override
     public void onDestroy() {
         adapter.set(null);
-        scanThread.finish();
-        try {
-            scanThread.join();
-        } catch (InterruptedException e) {
-            Log.d(ScanActivity.LOG_TAG, "Interrupt while joining thread", e);
-        }
+        stopScanThread();
         mcLock.release();
         wifiLock.release();
         super.onDestroy();
@@ -132,6 +115,16 @@ public final class DeviceListFragment extends Fragment {
     public void onDetach() {
         adapter.set(null);
         super.onDetach();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        final String prefUseFakeMessages = getString(R.string.pref_use_fake_messages);
+        final String prefFakeMessageType = getString(R.string.pref_fake_message_type);
+        if (key.equals(prefUseFakeMessages) || key.equals(prefFakeMessageType)) {
+            stopScanThread();
+            startScanThread(sharedPreferences);
+        }
     }
 
     boolean isPaused() {
@@ -165,6 +158,35 @@ public final class DeviceListFragment extends Fragment {
     private void updateList() {
         if (deviceFilter != null) {
             deviceFilter.filter(filterString);
+        }
+    }
+
+    private void startScanThread(SharedPreferences sharedPreferences) {
+        final boolean useFakeMessages = sharedPreferences.getBoolean(getString(R.string.pref_use_fake_messages), false);
+        final String fakeMessageType = sharedPreferences.getString(getString(R.string.pref_fake_message_type), getString(R.string.default_fake_type));
+
+        FakeMessageType messageType;
+        if (fakeMessageType.equals(getString(R.string.new_dev_every_second))) {
+            messageType = FakeMessageType.NEW_DEVICE_EVERY_SECOND;
+        } else {
+            messageType = FakeMessageType.CONSTANT_NUMBER_OF_DEVICES;
+        }
+
+        notify(new ArrayList<Announce>());
+        try {
+            scanThread = new ScanThread(this, useFakeMessages, messageType);
+            scanThread.start();
+        } catch (IOException e) {
+            Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
+        }
+    }
+    
+    private void stopScanThread() {
+        scanThread.finish();
+        try {
+            scanThread.join();
+        } catch (InterruptedException e) {
+            Log.d(ScanActivity.LOG_TAG, "Interrupt while joining thread", e);
         }
     }
 
