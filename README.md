@@ -1,4 +1,6 @@
 # HBM device scanner for Android
+[![Build Status](https://travis-ci.org/gatzka/android-scan.svg?branch=master)](https://travis-ci.org/gatzka/android-scan)
+
 ## How to build
 * ./gradlew clean
 * ./gradlew build
