@@ -46,6 +46,8 @@ import java.net.InetSocketAddress;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 
+import com.squareup.picasso.Picasso;
+
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
 	static final String DETAILS = "Details";
@@ -121,7 +123,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleType.setText(moduleType);
         tvModuleName.setText(displayName);
         tvModuleId.setText(uuid);
-        devicePhoto.setImageResource(R.drawable.mx840b);
+        devicePhoto.setImageDrawable(null);
+        Picasso picasso = Picasso.with(context);
+        picasso.load(getImageResourceId(a)).into(devicePhoto);
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +149,11 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
                 ActivityCompat.startActivity((ScanActivity) context, intent, null);
             }
         });
+    }
+
+    private static int getImageResourceId(Announce announce) {
+
+        return R.drawable.mx840b;
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {

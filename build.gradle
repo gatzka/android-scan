@@ -35,6 +35,7 @@ dependencies {
 	compile group: 'com.android.support', name: 'cardview-v7', version: '[23.1.1,)'
 	compile group: 'com.android.support', name: 'design', version: '[23.1.1,)'
 	compile group: 'com.android.support', name: 'recyclerview-v7', version: '[23.1.1,)'
+	compile group: 'com.squareup.picasso', name: 'picasso', version: '2.5.2'
 }
 
 android {
