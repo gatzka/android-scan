@@ -10,3 +10,4 @@
 * adb logcat "Scan:V *:S"
 * adb logcat "System.out:V *:S"
 
+Device images must have 56 dp.
