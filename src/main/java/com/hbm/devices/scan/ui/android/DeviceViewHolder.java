@@ -153,7 +153,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private static int getImageResourceId(Announce announce) {
 
-        return R.drawable.mx840b;
+        return R.drawable.ic_no_device;
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {
