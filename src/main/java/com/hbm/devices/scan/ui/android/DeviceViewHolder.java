@@ -152,7 +152,16 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static int getImageResourceId(Announce announce) {
-
+        String key = announce.getParams().getDevice().getLabel();
+        if (key == null || key.isEmpty()) {
+            key = announce.getParams().getDevice().getType();
+        }
+        if (key == null || key.isEmpty()) {
+            return R.drawable.ic_no_device;
+        }
+        if (key.equals("MX840") || key.equals("MX840A")) {
+            return R.drawable.mx840b;
+        }
         return R.drawable.ic_no_device;
     }
 
