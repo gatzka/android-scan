@@ -34,12 +34,42 @@ import com.google.gson.JsonObject;
 
 import com.hbm.devices.scan.AbstractMessageReceiver;
 
+import java.util.Vector;
+
 public final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private boolean shallRun = true;
     private final Gson gson = new Gson();
     private static final String ADDRESS_KEY = "address";
     private final FakeMessageType messageType;
+	private static int deviceCounter;
+
+    private static final String[] devices = {
+        "CX23R",
+        "MX1601BR",
+        "MX1609KBR",
+        "MX1615BR",
+        "MX411BR",
+        "MX471BR",
+        "MX840BR",
+        "MX879B",
+        "MX878B",
+        "MX840B",
+        "MX471B",
+        "MX460B",
+        "MX440B",
+        "MX411P",
+        "MX410B",
+        "MX403B",
+        "MX1615B",
+        "MX1609TB",
+        "MX1609T",
+        "MX1609KB",
+        "MX1601B",
+        "CX27B",
+        "CX22B",
+        "CX22W"
+    };
 
     FakeMessageReceiver(FakeMessageType messageType) {
         this.messageType = messageType;
@@ -55,10 +85,14 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
     }
 
     private void announceAtSameTime(int numberOfModules) {
+        Vector<String> deviceList = new Vector<String>();
+        for (int i = 0; i < numberOfModules; i++) {
+            deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
+        }
         while (shallRun) {
             try {
-                for (int idCounter = 0; idCounter < numberOfModules; idCounter++) {
-                    final String message = createAnnounceString(idCounter);
+                for (int i = 0; i < numberOfModules; i++) {
+                    final String message = deviceList.get(i);
                     setChanged();
                     notifyObservers(message);
                 }
@@ -73,7 +107,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         int idCounter = 0;
         while (shallRun) {
             try {
-                final String message = createAnnounceString(idCounter);
+                final String message = createAnnounceString(devices[getDeviceIndex()], idCounter);
                 setChanged();
                 notifyObservers(message);
                 Thread.sleep(1000);
@@ -90,14 +124,22 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         shallRun = false;
     }
 
-    private static void composeDeviceSettings(JsonObject params, String name, String uuid) {
+    private int getDeviceIndex() {
+        deviceCounter++;
+        if (deviceCounter >= devices.length) {
+            deviceCounter = 0;
+        }	
+        return deviceCounter;
+    }
+
+    private static void composeDeviceSettings(JsonObject params, String name, String type, String uuid) {
         final JsonObject device = new JsonObject();
         params.add("device", device);
         device.addProperty("familyType", "QuantumX");
         device.addProperty("firmwareVersion", "1.234");
-        device.addProperty("hardwareId", "MX410_R0");
+        device.addProperty("hardwareId", type + "_R0");
         device.addProperty("name", name);
-        device.addProperty("type", "MX410");
+        device.addProperty("type", type);
         device.addProperty("uuid", uuid);
         device.addProperty("isRouter", Boolean.FALSE);
     }
@@ -167,9 +209,9 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         daq.addProperty("port", 7411);
     }
 
-    private String createAnnounceString(int idPostfix) {
+    private String createAnnounceString(String type, int idPostfix) {
 
-        final String deviceName = "MX001455410_" + idPostfix;
+        final String deviceName = type + '_' + idPostfix;
         final String uuid = "0009e50027" + Integer.toString(idPostfix);
 
         final JsonObject root = new JsonObject();
@@ -180,7 +222,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         params.addProperty("expiration", 15);
         params.addProperty("apiVersion", "1.0");
 
-        composeDeviceSettings(params, deviceName, uuid);
+        composeDeviceSettings(params, deviceName, type, uuid);
         composeNetSettings(params, idPostfix);
         composeServices(params);
         return gson.toJson(root);
