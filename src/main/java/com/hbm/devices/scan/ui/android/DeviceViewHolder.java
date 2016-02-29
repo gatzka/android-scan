@@ -174,6 +174,16 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static int resolveResourceId(String key) {
+        if (key.equals("CX23R")) {
+            return R.drawable.cx23;
+        }
+        if (key.equals("MX1601") || key.equals("MX1601B")) {
+            return R.drawable.mx1601b;
+        }
+        if (key.equals("MX1601BR")) {
+            return R.drawable.mx1601br;
+        }
+
         if (key.equals("MX840") || key.equals("MX840A") || key.equals("MX840B")) {
             return R.drawable.mx840b;
         }
@@ -181,12 +191,6 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             return R.drawable.mx840br;
         }
 
-        if (key.equals("MX1601") || key.equals("MX1601B")) {
-            return R.drawable.mx1601b;
-        }
-        if (key.equals("MX1601BR")) {
-            return R.drawable.mx1601br;
-        }
         return R.drawable.ic_no_device;
     }
 
