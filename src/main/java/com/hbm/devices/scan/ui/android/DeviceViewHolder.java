@@ -42,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
@@ -72,6 +73,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private int moduleIdTextColorNotConnectable;
     private int moduleIdTextColorConnectable;
     private int alpha;
+
+    private static HashMap<String, Integer> resourceCache = new HashMap<String, Integer>();
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
@@ -159,8 +162,30 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (key == null || key.isEmpty()) {
             return R.drawable.ic_no_device;
         }
-        if (key.equals("MX840") || key.equals("MX840A")) {
+        return getResourceFromCache(key);
+    }
+
+    private static int getResourceFromCache(String key) {
+        Integer resourceId = resourceCache.get(key);
+        if (resourceId == null) {
+            resourceId = resolveResourceId(key);
+        }
+        return resourceId;
+    }
+
+    private static int resolveResourceId(String key) {
+        if (key.equals("MX840") || key.equals("MX840A") || key.equals("MX840B")) {
             return R.drawable.mx840b;
+        }
+        if (key.equals("MX840BR")) {
+            return R.drawable.mx840br;
+        }
+
+        if (key.equals("MX1601") || key.equals("MX1601B")) {
+            return R.drawable.mx1601b;
+        }
+        if (key.equals("MX1601BR")) {
+            return R.drawable.mx1601br;
         }
         return R.drawable.ic_no_device;
     }
