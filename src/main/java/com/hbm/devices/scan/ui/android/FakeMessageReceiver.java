@@ -68,7 +68,8 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         "MX1601B",
         "CX27B",
         "CX22B",
-        "CX22W"
+        "CX22W",
+        "PMX"
     };
 
     FakeMessageReceiver(FakeMessageType messageType) {

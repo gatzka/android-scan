@@ -42,9 +42,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
+
+import com.squareup.picasso.Picasso;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
@@ -70,6 +73,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private int moduleIdTextColorNotConnectable;
     private int moduleIdTextColorConnectable;
     private int alpha;
+
+    private static HashMap<String, Integer> resourceCache = new HashMap<String, Integer>();
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
@@ -121,7 +126,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleType.setText(moduleType);
         tvModuleName.setText(displayName);
         tvModuleId.setText(uuid);
-        devicePhoto.setImageResource(R.drawable.mx840b);
+        devicePhoto.setImageDrawable(null);
+        Picasso picasso = Picasso.with(context);
+        picasso.load(getImageResourceId(a)).into(devicePhoto);
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +152,124 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
                 ActivityCompat.startActivity((ScanActivity) context, intent, null);
             }
         });
+    }
+
+    private static int getImageResourceId(Announce announce) {
+        String key = announce.getParams().getDevice().getLabel();
+        if (key == null || key.isEmpty()) {
+            key = announce.getParams().getDevice().getType();
+        }
+        if (key == null || key.isEmpty()) {
+            return R.drawable.ic_no_device;
+        }
+        return getResourceFromCache(key);
+    }
+
+    private static int getResourceFromCache(String key) {
+        Integer resourceId = resourceCache.get(key);
+        if (resourceId == null) {
+            resourceId = resolveResourceId(key);
+        }
+        return resourceId;
+    }
+
+    private static int resolveResourceId(String key) {
+        if (key.equals("CX23R")) {
+            return R.drawable.cx23;
+        }
+
+        if (key.equals("MX1601") || key.equals("MX1601B")) {
+            return R.drawable.mx1601b;
+        }
+        if (key.equals("MX1601BR")) {
+            return R.drawable.mx1601br;
+        }
+
+        if (key.equals("MX1609KBR")) {
+            return R.drawable.mx1609kbr;
+        }
+        if (key.equals("MX1609") || key.equals("MX1609KB")) {
+            return R.drawable.mx1609kb;
+        }
+
+        if (key.equals("MX1609TB")) {
+            return R.drawable.mx1609tb;
+        }
+        if (key.equals("MX1609T")) {
+            return R.drawable.mx1609t;
+        }
+
+        if (key.equals("MX1615BR")) {
+            return R.drawable.mx1615br;
+        }
+
+        if (key.equals("MX1615B") || key.equals("MX1615")) {
+            return R.drawable.mx1615b;
+        }
+
+        if (key.equals("MX411BR")) {
+            return R.drawable.mx411br;
+        }
+
+        if (key.equals("MX411P")) {
+            return R.drawable.mx411p;
+        }
+
+        if (key.equals("MX410") || key.equals("MX410B")) {
+            return R.drawable.mx410b;
+        }
+
+        if (key.equals("MX471BR")) {
+            return R.drawable.mx471br;
+        }
+
+        if (key.equals("MX471") || key.equals("MX471B")) {
+            return R.drawable.mx471b;
+        }
+
+        if (key.equals("MX879") || key.equals("MX879B")) {
+            return R.drawable.mx879b;
+        }
+
+        if (key.equals("MX878") || key.equals("MX878B")) {
+            return R.drawable.mx878b;
+        }
+
+        if (key.equals("MX460") || key.equals("MX460B")) {
+            return R.drawable.mx460b;
+        }
+
+        if (key.equals("MX440") || key.equals("MX440B")) {
+            return R.drawable.mx440b;
+        }
+
+        if (key.equals("MX403") || key.equals("MX403B")) {
+            return R.drawable.mx403b;
+        }
+
+        if (key.equals("CX27") || key.equals("CX27B")) {
+            return R.drawable.cx27b;
+        }
+
+        if (key.equals("CX22B")) {
+            return R.drawable.cx22b;
+        }
+
+        if (key.equals("CX22W")) {
+            return R.drawable.cx22w;
+        }
+
+        if (key.equals("MX840") || key.equals("MX840A") || key.equals("MX840B")) {
+            return R.drawable.mx840b;
+        }
+        if (key.equals("MX840BR")) {
+            return R.drawable.mx840br;
+        }
+        if (key.equals("PMX")) {
+            return R.drawable.pmx;
+        }
+
+        return R.drawable.ic_no_device;
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {
