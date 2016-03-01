@@ -207,6 +207,10 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             return R.drawable.mx1615b;
         }
 
+        if (key.equals("MX411BR")) {
+            return R.drawable.mx411br;
+        }
+
         if (key.equals("MX840") || key.equals("MX840A") || key.equals("MX840B")) {
             return R.drawable.mx840b;
         }
