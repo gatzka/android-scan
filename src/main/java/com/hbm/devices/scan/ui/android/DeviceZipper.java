@@ -68,38 +68,34 @@ public final class DeviceZipper {
         try {
             File cacheDir = activity.getCacheDir();
             File subDir = new File(cacheDir, "devices");
-            if ( !subDir.exists() ) {
+            if (!subDir.exists() ) {
                 if (!subDir.mkdirs()) {
                     return null;
                 }
             }
             File file = new File(subDir, "devices.zip");
-            if (file.createNewFile()) {
-                FileOutputStream fos = new FileOutputStream(file);
-                ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
-                ZipEntry entry = new ZipEntry("devices.json");
-                zos.putNextEntry(entry);
-                zos.write(("{\"date\":\"" + isoDate + "\",").getBytes(charSet));
-                zos.write("\"devices\":[".getBytes(charSet));
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file, false);
+            ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+            ZipEntry entry = new ZipEntry("devices.json");
+            zos.putNextEntry(entry);
+            zos.write(("{\"date\":\"" + isoDate + "\",").getBytes(charSet));
+            zos.write("\"devices\":[".getBytes(charSet));
 
-                Iterator<Announce> iterator = announces.iterator();
-                while (iterator.hasNext()) {
-                    final Announce announce = iterator.next();
-                    zos.write(announce.getJSONString().getBytes(charSet));
-                    if (iterator.hasNext()) {
-                        zos.write(",\n".getBytes(charSet));
-                    }
+            Iterator<Announce> iterator = announces.iterator();
+            while (iterator.hasNext()) {
+                final Announce announce = iterator.next();
+                zos.write(announce.getJSONString().getBytes(charSet));
+                if (iterator.hasNext()) {
+                    zos.write(",\n".getBytes(charSet));
                 }
-
-                zos.write("]}".getBytes(charSet));
-                zos.closeEntry();
-                zos.close();
-                fos.close();
-                return FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
-            } else {
-                return null;
             }
 
+            zos.write("]}".getBytes(charSet));
+            zos.closeEntry();
+            zos.close();
+            fos.close();
+            return FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
         } catch (IOException e) {
             return null;
         }
