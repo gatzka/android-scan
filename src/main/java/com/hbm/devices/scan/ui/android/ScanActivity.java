@@ -52,6 +52,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -255,5 +256,17 @@ public final class ScanActivity extends AppCompatActivity {
                 }
             }
         });
+
+		ImageView avatar = (ImageView) view.getHeaderView(0).findViewById(R.id.avatar);
+        avatar.setPadding(0, getStatusBarHeight(), 0, 0);
     }
+
+	private int getStatusBarHeight() { 
+		int result = 0;
+		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = getResources().getDimensionPixelSize(resourceId);
+		} 
+		return result;
+	} 
 }
