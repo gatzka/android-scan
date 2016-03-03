@@ -35,6 +35,13 @@
                 android:value=".ScanActivity"/>
         </activity>
         <activity
+            android:name=".ConfigureActivity"
+            android:parentActivityName=".DeviceDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DeviceDetailsActivity"/>
+        </activity>
+        <activity
             android:name="SettingsActivity"
             android:label="@string/pref_activity_title" >
             <meta-data

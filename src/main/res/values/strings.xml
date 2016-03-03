@@ -2,19 +2,31 @@
 <resources>
     <string name="app_name">HBM Scan</string>
     <string name="create_devices_file_error">Can\'t create devices file!</string>
-    <string name="device_info">Device Information</string>
-    <string name="device_name">Device Name</string>
-    <string name="device_type">Device Type</string>
+    <string name="configure">Configure</string>
+    <string name="configure_label">Configure:</string>
+    <string name="configure_interface_name_label">Interface name:</string>
+    <string name="configure_method_label">Configuration method:</string>
+    <string name="configure_method_dhcp_label">Dhcp</string>
+    <string name="configure_method_manual">Manual</string>
+    <string name="configure_ip_address_label">IP-address:</string>
+    <string name="configure_subnet_label">Subnetmask:</string>
+    <string name="configure_gateway_label">Default gateway:</string>
+    <string name="configure_gateway_ip_label">IP-address</string>
+    <string name="configure_ready_button">Send configuration</string>
     <string name="device_family_type">Family Type</string>
     <string name="device_firmware_version">Firmware Version</string>
     <string name="device_hardware_id">Hardware ID</string>
-    <string name="device_router_info">Router Information</string>
-    <string name="device_is_router">Device is a router</string>
+    <string name="device_info">Device Information</string>
     <string name="device_is_no_router">Device is not a router</string>
+    <string name="device_is_router">Device is a router</string>
+    <string name="device_name">Device Name</string>
     <string name="device_photo">Image of device</string>
+    <string name="device_router_info">Router Information</string>
+    <string name="device_type">Device Type</string>
     <string name="device_uuid">UUID</string>
     <string name="downloaded">Downloaded</string>
     <string name="favourite">Favourite</string>
+    <string name="hbm_logo">HBM Logo</string>
     <string name="home">Home</string>
     <string name="info_button">Click form more information</string>
     <string name="interface_description">Interface Description</string>
@@ -22,6 +34,7 @@
     <string name="interface_type">Interface Type</string>
     <string name="ipv4_addresses">IPv4 Addresses</string>
     <string name="ipv6_addresses">IPv6 Addresses</string>
+    <string name="menu_device_settings">Device Settings</string>
     <string name="menu_pause_option">Pause/Resume</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
@@ -33,7 +46,6 @@
     <string name="share_devices">Share devices&#8230;</string>
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
-    <string name="hbm_logo">HBM Logo</string>
 
     <string name="pref_debug">Debugging</string>
     <string name="pref_use_fake_messages">Use Fake Messages</string>

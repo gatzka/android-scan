@@ -8,4 +8,11 @@
         android:title="@string/menu_share"
 	/>
 
+    <item
+        android:id="@+id/action_setup"
+        android:icon="@drawable/ic_action_settings"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/menu_device_settings"
+	/>
+
 </menu>
