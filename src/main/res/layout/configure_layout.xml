@@ -19,35 +19,25 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/configure_method_label"
+                android:id="@+id/use_dhcp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-	    		android:layout_alignParentStart="true"
-                android:text="@string/configure_method_label"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_alignParentTop="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:textIsSelectable="false"
+                android:text="@string/use_dhcp"
+                />
 
-            <RadioGroup
-                android:id="@+id/configure_method_radiogroup"
+            <Switch
+                android:id="@+id/dhcp_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-	    		android:layout_alignParentStart="true"
-                android:layout_below="@+id/configure_method_label" >
-
-                <RadioButton
-                    android:id="@+id/configure_method_dhcp_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/configure_method_dhcp_label" />
-
-                <RadioButton
-                    android:id="@+id/configure_method_manual_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configure_method_manual" />
-            </RadioGroup>
+                android:layout_alignParentRight="true"
+                android:layout_toEndOf="@+id/use_dhcp"
+                />
 
             <TextView
                 android:id="@+id/configure_ip_address_label"
@@ -55,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
 	    		android:layout_alignParentStart="true"
-                android:layout_below="@+id/configure_method_radiogroup"
+                android:layout_below="@+id/dhcp_switch"
                 android:text="@string/configure_ip_address_label" />
 
             <EditText
