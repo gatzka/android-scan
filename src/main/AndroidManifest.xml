@@ -36,10 +36,10 @@
         </activity>
         <activity
             android:name=".ConfigureActivity"
-            android:parentActivityName=".DeviceDetailsActivity">
+            android:parentActivityName=".ScanActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DeviceDetailsActivity"/>
+                android:value=".ScanActivity"/>
         </activity>
         <activity
             android:name="SettingsActivity"
