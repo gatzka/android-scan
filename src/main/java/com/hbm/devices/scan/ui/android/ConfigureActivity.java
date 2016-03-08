@@ -28,35 +28,18 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils.TruncateAt;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import java.util.List;
+import android.widget.TextView;
 
 import com.hbm.devices.scan.announce.Announce;
+import com.hbm.devices.scan.announce.DefaultGateway;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.Interface;
 import com.hbm.devices.scan.announce.IPv4Entry;
-import com.hbm.devices.scan.announce.IPv6Entry;
-import com.hbm.devices.scan.announce.ServiceEntry;
+
+import java.util.List;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
@@ -69,6 +52,31 @@ public final class ConfigureActivity extends AppCompatActivity {
 
         announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
     	initToolbar(announce);
+
+        setCurrentIp(announce);
+        setCurrentGateway(announce);
+    }
+
+    private void setCurrentIp(Announce announce) {
+        List<IPv4Entry> ipv4Addresses = announce.getParams().getNetSettings().getInterface().getIPv4();
+        if (!ipv4Addresses.isEmpty()) {
+            IPv4Entry entry = ipv4Addresses.get(0);
+            TextView currentIp = (TextView) findViewById(R.id.configure_current_ip);
+            currentIp.setText(entry.getAddress());
+            TextView currentNetMask = (TextView) findViewById(R.id.configure_current_subnetmask);
+            currentNetMask.setText(entry.getNetmask());
+        }
+    }
+
+    private void setCurrentGateway(Announce announce) {
+        DefaultGateway gateway = announce.getParams().getNetSettings().getDefaultGateway();
+        if (gateway != null) {
+            String ipv4Gateway = gateway.getIpv4Address();
+            if (ipv4Gateway != null) {
+                TextView currentGateway = (TextView) findViewById(R.id.configure_current_gateway);
+                currentGateway.setText(ipv4Gateway);
+            }
+        }
     }
 
     private void initToolbar(Announce announce) {
