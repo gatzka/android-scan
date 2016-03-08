@@ -28,10 +28,16 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -55,6 +61,33 @@ public final class ConfigureActivity extends AppCompatActivity {
 
         setCurrentIp(announce);
         setCurrentGateway(announce);
+        setEdit(false);
+
+        Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
+        dhcpSwitch.setChecked(true);
+        dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setEdit(false);
+                } else {
+                    setEdit(true);
+                }
+            }
+        });
+    }
+
+    private void setEdit(boolean edit) {
+        EditText ipv4 = (EditText) findViewById(R.id.configure_ip_address_edit);
+        ipv4.setEnabled(edit);
+        if (edit) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
+        }
+        EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+        ipv4Mask.setEnabled(edit);
+        EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+        gateway.setEnabled(edit);
     }
 
     private void setCurrentIp(Announce announce) {
