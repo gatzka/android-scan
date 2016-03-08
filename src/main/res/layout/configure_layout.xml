@@ -21,7 +21,12 @@
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:orientation="horizontal"
-            tools:context=".GridXMLActivity" >
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/configure_margins"
+            tools:context=".GridXMLActivity"
+
+            >
 
             <TextView
                 android:id="@+id/use_dhcp"
@@ -52,6 +57,7 @@
                 android:layout_column="0"
                 android:textAppearance="@style/DetailsTextView"
                 android:text="@string/configure_ip_address_label"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
             <TextView
                 android:id="@+id/configure_current_ip"
@@ -83,6 +89,7 @@
                 android:layout_column="0"
                 android:text="@string/configure_subnet_label"
                 android:textAppearance="@style/DetailsTextView"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
 
             <TextView
@@ -116,6 +123,7 @@
                 android:layout_column="0"
                 android:text="@string/configure_gateway_label"
                 android:textAppearance="@style/DetailsTextView"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
             <TextView
                 android:id="@+id/configure_current_gateway"

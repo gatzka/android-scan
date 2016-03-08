@@ -21,7 +21,11 @@
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:orientation="horizontal"
-            tools:context=".GridXMLActivity" >
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/configure_margins"
+            tools:context=".GridXMLActivity"
+            >
 
             <TextView
                 android:id="@+id/use_dhcp"
@@ -35,7 +39,6 @@
                 android:textIsSelectable="false"
                 android:text="@string/use_dhcp"
                 />
-
             <Switch
                 android:id="@+id/dhcp_switch"
                 android:layout_width="wrap_content"
@@ -52,6 +55,7 @@
                 android:layout_column="0"
                 android:textAppearance="@style/DetailsTextView"
                 android:text="@string/configure_ip_address_label"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
             <TextView
                 android:id="@+id/configure_current_ip"
@@ -83,8 +87,8 @@
                 android:layout_column="0"
                 android:text="@string/configure_subnet_label"
                 android:textAppearance="@style/DetailsTextView"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
-
             <TextView
                 android:id="@+id/configure_current_subnetmask"
                 android:layout_width="wrap_content"
@@ -94,7 +98,6 @@
                 android:textAppearance="@style/DetailsLabelView"
                 android:text="@string/not_set"
                 />
-
             <EditText
                 android:id="@+id/configure_subnet_edit"
                 android:layout_width="wrap_content"
@@ -116,8 +119,8 @@
                 android:layout_column="0"
                 android:text="@string/configure_gateway_label"
                 android:textAppearance="@style/DetailsTextView"
+                android:layout_marginTop="@dimen/configure_margins"
                 />
-
             <TextView
                 android:id="@+id/configure_current_gateway"
                 android:layout_width="wrap_content"
@@ -127,8 +130,6 @@
                 android:textAppearance="@style/DetailsLabelView"
                 android:text="@string/not_set"
                 />
-
-
             <EditText
                 android:id="@+id/configure_gateway_ip_edit"
                 android:layout_width="wrap_content"
