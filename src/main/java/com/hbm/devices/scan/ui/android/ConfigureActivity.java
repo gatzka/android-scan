@@ -33,8 +33,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.WindowManager;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -44,6 +45,12 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.DefaultGateway;
 import com.hbm.devices.scan.announce.Device;
 import com.hbm.devices.scan.announce.IPv4Entry;
+import com.hbm.devices.scan.configure.ConfigurationDevice;
+import com.hbm.devices.scan.configure.ConfigurationInterface;
+import com.hbm.devices.scan.configure.ConfigurationNetSettings;
+import com.hbm.devices.scan.configure.ConfigurationDefaultGateway;
+import com.hbm.devices.scan.configure.ConfigurationParams;
+import com.hbm.devices.scan.configure.IPv4EntryManual;
 
 import java.util.List;
 
@@ -63,7 +70,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         setCurrentGateway(announce);
         setEdit(false);
 
-        Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
+        final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
         dhcpSwitch.setChecked(true);
         dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -75,6 +82,59 @@ public final class ConfigureActivity extends AppCompatActivity {
                 }
             }
         });
+        Button submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConfigurationInterface interfaceSettings;
+                String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
+                if (dhcpSwitch.isChecked()) {
+                    interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
+                } else {
+                    IPv4EntryManual ipv4Manual = getManualConfiguration();
+                    interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
+                }
+                ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
+
+                ConfigurationDefaultGateway gateway = getDefaultGateway();
+                ConfigurationNetSettings netSettings;
+                if (gateway != null) {
+                    netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
+                } else {
+                    netSettings = new ConfigurationNetSettings(interfaceSettings);
+                }
+
+                ConfigurationParams params = new ConfigurationParams(device, netSettings);
+            }
+        });
+    }
+
+    private ConfigurationDefaultGateway getDefaultGateway() {
+        EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+        if (gateway.getText() != null && gateway.getText().length() > 0) {
+            return new ConfigurationDefaultGateway(gateway.getText().toString());
+        } else{
+            return null;
+        }
+    }
+
+    private IPv4EntryManual getManualConfiguration() {
+        EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
+        String ip;
+        if ((ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
+            ip = ipv4Address.getText().toString();
+        } else {
+            ip = "";
+        }
+        EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+
+        String mask;
+        if ((ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
+            mask = ipv4Mask.getText().toString();
+        } else {
+            mask = "";
+        }
+        return new IPv4EntryManual(ip, mask);
     }
 
     private void setEdit(boolean edit) {
