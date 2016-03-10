@@ -28,10 +28,12 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,8 @@ import com.hbm.devices.scan.announce.IPv6Entry;
 import com.hbm.devices.scan.announce.ServiceEntry;
 
 public final class DeviceDetailsActivity extends AppCompatActivity {
+
+	static final String DETAILS = "Details";
 
     private Announce announce;
 
@@ -93,6 +97,12 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.action_share) {
             handleShare(announce);
+            return true;
+        }
+        if (itemId == R.id.action_setup) {
+            Intent intent = new Intent(this, ConfigureActivity.class);
+            intent.putExtra(DETAILS, announce);
+            ActivityCompat.startActivity(this, intent, null);
             return true;
         }
         return super.onOptionsItemSelected(item);
