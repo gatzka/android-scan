@@ -40,73 +40,118 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.DefaultGateway;
 import com.hbm.devices.scan.announce.Device;
 import com.hbm.devices.scan.announce.IPv4Entry;
+import com.hbm.devices.scan.configure.ConfigurationCallback;
 import com.hbm.devices.scan.configure.ConfigurationDevice;
 import com.hbm.devices.scan.configure.ConfigurationInterface;
 import com.hbm.devices.scan.configure.ConfigurationNetSettings;
 import com.hbm.devices.scan.configure.ConfigurationDefaultGateway;
 import com.hbm.devices.scan.configure.ConfigurationParams;
 import com.hbm.devices.scan.configure.IPv4EntryManual;
+import com.hbm.devices.scan.configure.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
     private Announce announce;
+    private ConfigServiceThread configThread;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_layout);
+        try {
+            this.configThread = new ConfigServiceThread();
+            configThread.start();
 
-        announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
-    	initToolbar(announce);
+            announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
+            initToolbar(announce);
 
-        setCurrentIp(announce);
-        setCurrentGateway(announce);
-        setEdit(false);
+            setCurrentIp(announce);
+            setCurrentGateway(announce);
+            setEdit(false);
 
-        final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
-        dhcpSwitch.setChecked(true);
-        dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
+            dhcpSwitch.setChecked(true);
+            dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        setEdit(false);
+                    } else {
+                        setEdit(true);
+                    }
+                }
+            });
+            Button submit = (Button) findViewById(R.id.submit);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConfigurationInterface interfaceSettings;
+                    String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
+                    if (dhcpSwitch.isChecked()) {
+                        interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
+                    } else {
+                        IPv4EntryManual ipv4Manual = getManualConfiguration();
+                        interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
+                    }
+                    ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
+
+                    ConfigurationDefaultGateway gateway = getDefaultGateway();
+                    ConfigurationNetSettings netSettings;
+                    if (gateway != null) {
+                        netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
+                    } else {
+                        netSettings = new ConfigurationNetSettings(interfaceSettings);
+                    }
+                    ConfigurationParams params = new ConfigurationParams(device, netSettings);
+                    sendConfiguration(v.getContext(), params);
+                }
+            });
+
+        } catch (IOException e) {
+            final Toast failureToast = Toast.makeText(this,
+                    "Could not start configuration service!", Toast.LENGTH_SHORT);
+            failureToast.show();
+        }
+    }
+
+    private void sendConfiguration(final Context context, ConfigurationParams params) {
+        ConfigurationCallback callback = new ConfigurationCallback() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    setEdit(false);
-                } else {
-                    setEdit(true);
-                }
+            public void onSuccess(final Response response) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, "Configuration successful", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-        });
-        Button submit = (Button) findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ConfigurationInterface interfaceSettings;
-                String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
-                if (dhcpSwitch.isChecked()) {
-                    interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
-                } else {
-                    IPv4EntryManual ipv4Manual = getManualConfiguration();
-                    interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
-                }
-                ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
-
-                ConfigurationDefaultGateway gateway = getDefaultGateway();
-                ConfigurationNetSettings netSettings;
-                if (gateway != null) {
-                    netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
-                } else {
-                    netSettings = new ConfigurationNetSettings(interfaceSettings);
-                }
-
-                ConfigurationParams params = new ConfigurationParams(device, netSettings);
+            public void onTimeout(long t) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, "Configuration timeout", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-        });
+
+            @Override
+            public void onError(final Response response) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context, "Error: " + response.getError().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        };
+        configThread.sendConfiguration(params, callback, 5000);
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
