@@ -68,10 +68,20 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         return filteredAnnounces.size();
     }
 
+    private static boolean isInAnnounceList(List<Announce> list, Announce announce) {
+        for (Announce a : list) {
+            if (a.sameCommunicationPath(announce)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void applyAndAnimateRemovals(List<Announce> newAnnounces) {
-        for (int i = filteredAnnounces.size() - 1; i >= 0; i--) {
+        int count = filteredAnnounces.size();
+        for (int i = count - 1; i >= 0; i--) {
             final Announce model = filteredAnnounces.get(i);
-            if (!newAnnounces.contains(model)) {
+            if (!isInAnnounceList(newAnnounces, model)) {
                 removeItem(i);
             }
         }
@@ -80,18 +90,22 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     private void applyAndAnimateAdditions(List<Announce> newAnnounces) {
         for (int i = 0, count = newAnnounces.size(); i < count; i++) {
             final Announce model = newAnnounces.get(i);
-            if (!filteredAnnounces.contains(model)) {
-                addItem(i, model);
+            if (!isInAnnounceList(filteredAnnounces, model)) {
+                addItem(model);
             }
         }
     }
 
-    private void applyAndAnimateMovedItems(List<Announce> newAnnounces) {
-        for (int toPosition = newAnnounces.size() - 1; toPosition >= 0; toPosition--) {
-            final Announce model = newAnnounces.get(toPosition);
-            final int fromPosition = filteredAnnounces.indexOf(model);
-            if (fromPosition >= 0 && fromPosition != toPosition) {
-                moveItem(fromPosition, toPosition);
+    private void applyAndAnimateChangedItems(List<Announce> newAnnounces) {
+        int filteredCount = filteredAnnounces.size();
+        for (int i = 0; i < filteredCount; i++) {
+            for (Announce element : newAnnounces) {
+                Announce filteredAnnounce = filteredAnnounces.get(i);
+                if (filteredAnnounce.sameCommunicationPath(element) &&
+                        !filteredAnnounce.equals(element)) {
+                    filteredAnnounces.set(i, element);
+                    notifyItemChanged(i);
+                }
             }
         }
     }
@@ -102,9 +116,9 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         return announce;
     }
 
-    private void addItem(int position, Announce announce) {
-        filteredAnnounces.add(position, announce);
-        notifyItemInserted(position);
+    private void addItem(Announce announce) {
+        filteredAnnounces.add( announce);
+        notifyItemInserted(filteredAnnounces.size() - 1);
     }
 
     private void moveItem(int fromPosition, int toPosition) {
@@ -113,10 +127,10 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    void notifyList(List<Announce> filteredAnnounces) {
-        applyAndAnimateRemovals(filteredAnnounces);
-        applyAndAnimateAdditions(filteredAnnounces);
-        applyAndAnimateMovedItems(filteredAnnounces);
+    void notifyList(List<Announce> newFilteredAnnounces) {
+        applyAndAnimateRemovals(newFilteredAnnounces);
+        applyAndAnimateAdditions(newFilteredAnnounces);
+        applyAndAnimateChangedItems(newFilteredAnnounces);
     }
 
     void setFilterString(String filterString) {
