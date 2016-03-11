@@ -115,16 +115,26 @@ final class ScanThread extends Thread implements Observer {
             collectedAnnounces.add(announce);
         } else if (arg instanceof LostDeviceEvent) {
             final LostDeviceEvent event = (LostDeviceEvent) arg;
-            collectedAnnounces.remove(event.getAnnounce());
+            remove(event.getAnnounce());
         } else if (arg instanceof UpdateDeviceEvent) {
             final UpdateDeviceEvent event = (UpdateDeviceEvent) arg;
             final Announce announce = event.getNewAnnounce();
             findConnectableAddress(announce);
-            collectedAnnounces.remove(announce);
+            remove(announce);
             collectedAnnounces.add(announce);
         }
         final List<Announce> copiedList = new ArrayList<>(collectedAnnounces);
         listFragment.notify(copiedList);
+    }
+
+    private void remove(Announce announce) {
+        int count = collectedAnnounces.size();
+        for (int i = count - 1; i >= 0; i--) {
+            Announce element = collectedAnnounces.get(i);
+            if (element.sameCommunicationPath(announce)) {
+                collectedAnnounces.remove(i);
+            }
+        }
     }
 
     private void findConnectableAddress(Announce announce) {
