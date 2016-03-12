@@ -110,14 +110,13 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         }
     }
 
-    private Announce removeItem(int position) {
-        final Announce announce = filteredAnnounces.remove(position);
+    private void removeItem(int position) {
+        filteredAnnounces.remove(position);
         notifyItemRemoved(position);
-        return announce;
     }
 
     private void addItem(Announce announce) {
-        filteredAnnounces.add( announce);
+        filteredAnnounces.add(announce);
         notifyItemInserted(filteredAnnounces.size() - 1);
     }
 
