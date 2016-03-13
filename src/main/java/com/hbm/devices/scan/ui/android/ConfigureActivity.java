@@ -33,6 +33,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -63,6 +65,8 @@ public final class ConfigureActivity extends AppCompatActivity {
     private Announce announce;
     private ConfigServiceThread configThread;
 
+    private static InputFilter[] ipAddressFilter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +81,13 @@ public final class ConfigureActivity extends AppCompatActivity {
             setCurrentIp(announce);
             setCurrentGateway(announce);
             setEdit(false);
+
+            EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
+            ipv4Address.setFilters(ipAddressFilter);
+            EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+            ipv4Mask.setFilters(ipAddressFilter);
+            EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+            gateway.setFilters(ipAddressFilter);
 
             final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
             dhcpSwitch.setChecked(true);
@@ -237,5 +248,29 @@ public final class ConfigureActivity extends AppCompatActivity {
         title.append(" ");
         title.append(displayName);
         return title.toString();
+    }
+
+    static {
+        ipAddressFilter = new InputFilter[1];
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (end > start) {
+                    String destTxt = dest.toString();
+                    String resultingTxt = destTxt.substring(0, dstart) + source.subSequence(start, end) + destTxt.substring(dend);
+                    if (!resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
+                        return "";
+                    } else {
+                        String[] splits = resultingTxt.split("\\.");
+                        for (int i=0; i<splits.length; i++) {
+                            if (Integer.valueOf(splits[i]) > 255) {
+                                return "";
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        };
+        ipAddressFilter[0] = filter;
     }
 }
