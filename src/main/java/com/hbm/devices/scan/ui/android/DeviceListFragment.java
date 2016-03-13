@@ -202,8 +202,9 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             final List<Announce> filt = new ArrayList<>();
             final List<Announce> announceList = collectedAnnounces.get();
             for (final Announce announce : announceList) {
-                if (displayNameMatches(announce, upperCaseConstraint)
-                    || moduleTypeMatches(announce, upperCaseConstraint)) {
+                if (displayNameMatches(announce, upperCaseConstraint) ||
+                    moduleTypeMatches(announce, upperCaseConstraint) ||
+                    uuidMatches(announce, upperCaseConstraint)) {
                     filt.add(announce);
                 }
             }
@@ -232,6 +233,12 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             final Device device = announce.getParams().getDevice();
             final String type = device.getType().toUpperCase(Locale.US);
             return type.contains(constraint);
+        }
+
+        private boolean uuidMatches(final Announce announce, final CharSequence constraint) {
+            final Device device = announce.getParams().getDevice();
+            final String uuid = device.getUuid().toUpperCase(Locale.US);
+            return uuid.contains(constraint);
         }
 
         private String getDisplayName(Device device) {
