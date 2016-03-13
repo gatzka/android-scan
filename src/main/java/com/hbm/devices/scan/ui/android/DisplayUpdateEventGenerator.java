@@ -47,9 +47,9 @@ public class DisplayUpdateEventGenerator {
 
     private void updateRemovals(final List<Announce> oldList, final List<Announce> newList) {
         int count = oldList.size();
-        for (int i = count; i >= 0; i--) {
+        for (int i = count - 1; i >= 0; i--) {
             final Announce announce = oldList.get(i);
-            if (isInList(newList, announce)) {
+            if (!isInList(newList, announce)) {
                 oldList.remove(i);
                 notifier.notifyRemoveAt(i);
             }
