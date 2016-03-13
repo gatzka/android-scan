@@ -31,6 +31,7 @@ package com.hbm.devices.scan.ui.android;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
 import com.hbm.devices.scan.ui.android.DisplayNotifier;
+import com.hbm.devices.scan.ui.android.DisplayUpdateEventGenerator;
 
 
 import java.io.IOException;
@@ -49,6 +50,10 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
     private List<Announce> oldList = new ArrayList<Announce>();
     private List<Announce> newList = new ArrayList<Announce>();
+    private List<Announce> oldListClone;
+
+    private List<DisplayEventAt> events = new ArrayList<DisplayEventAt>();
+
     private boolean fillNewList = false;
 
     private static final String DEVICE1;
@@ -78,26 +83,34 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
         assertEquals(oldList.size(), 5);
         assertEquals(newList.size(), 5);
+        oldListClone = new ArrayList<Announce>(oldList.size());
+        for (Announce item: oldList) {
+            oldListClone.add(item);
+        }
+        assertEquals("Cloned old list not equals to oldList", oldList, oldListClone);
+        DisplayUpdateEventGenerator eventGenerator = new DisplayUpdateEventGenerator(this);
+        eventGenerator.compareLists(oldList, newList);
+        assertEquals("oldList not the same as newList after compareList", oldList, newList);
     }
 
     @Override
     public void notifyRemoveAt(int position) {
-
+        events.add(new DisplayEventAt(DisplayEvents.REMOVE, position));
     }
 
     @Override
     public void notifyMoved(int fromPosition, int toPosition) {
-
+        events.add(new DisplayEventAt(DisplayEvents.MOVE, fromPosition, toPosition));
     }
 
     @Override
     public void notifyChangeAt(int position) {
-
+        events.add(new DisplayEventAt(DisplayEvents.UPDATE, position));
     }
 
     @Override
     public void notifyAddAt(int position) {
-
+        events.add(new DisplayEventAt(DisplayEvents.ADD, position));
     }
 
     @Override
@@ -123,6 +136,28 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
             DEVICE6 = props.getProperty("scan.announce.device6");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    enum DisplayEvents {
+        REMOVE, ADD, MOVE, UPDATE
+    }
+
+    class DisplayEventAt {
+        DisplayEvents event;
+        int position;
+        int fromPosition;
+        int toPosition;
+
+        DisplayEventAt(DisplayEvents ev, int pos) {
+            this.event = ev;
+            this.position = pos;
+        }
+
+        DisplayEventAt(DisplayEvents ev, int from, int to) {
+            this.event = ev;
+            this.fromPosition = from;
+            this.toPosition = to;
         }
     }
 }
