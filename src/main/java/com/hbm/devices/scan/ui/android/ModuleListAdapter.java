@@ -38,13 +38,15 @@ import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
 
-final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
+final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> implements DisplayNotifier {
 
     private List<Announce> filteredAnnounces;
     private final DeviceListFragment listFragment;
+    private final DisplayUpdateEventGenerator eventGenerator;
 
     public ModuleListAdapter(DeviceListFragment fragment) {
         super();
+        eventGenerator = new DisplayUpdateEventGenerator(this);
         filteredAnnounces = new ArrayList<>();
         listFragment = fragment;
 
@@ -68,68 +70,28 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
         return filteredAnnounces.size();
     }
 
-    private static boolean isInAnnounceList(List<Announce> list, Announce announce) {
-        for (Announce a : list) {
-            if (a.sameCommunicationPath(announce)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void applyAndAnimateRemovals(List<Announce> newAnnounces) {
-        int count = filteredAnnounces.size();
-        for (int i = count - 1; i >= 0; i--) {
-            final Announce model = filteredAnnounces.get(i);
-            if (!isInAnnounceList(newAnnounces, model)) {
-                removeItem(i);
-            }
-        }
-    }
-
-    private void applyAndAnimateAdditions(List<Announce> newAnnounces) {
-        for (int i = 0, count = newAnnounces.size(); i < count; i++) {
-            final Announce model = newAnnounces.get(i);
-            if (!isInAnnounceList(filteredAnnounces, model)) {
-                addItem(model);
-            }
-        }
-    }
-
-    private void applyAndAnimateChangedItems(List<Announce> newAnnounces) {
-        int filteredCount = filteredAnnounces.size();
-        for (int i = 0; i < filteredCount; i++) {
-            for (Announce element : newAnnounces) {
-                Announce filteredAnnounce = filteredAnnounces.get(i);
-                if (filteredAnnounce.sameCommunicationPath(element) &&
-                        !filteredAnnounce.equals(element)) {
-                    filteredAnnounces.set(i, element);
-                    notifyItemChanged(i);
-                }
-            }
-        }
-    }
-
-    private void removeItem(int position) {
-        filteredAnnounces.remove(position);
+    @Override
+    public void notifyRemoveAt(int position) {
         notifyItemRemoved(position);
     }
 
-    private void addItem(Announce announce) {
-        filteredAnnounces.add(announce);
-        notifyItemInserted(filteredAnnounces.size() - 1);
+    @Override
+    public void notifyAddAt(int position) {
+        notifyItemInserted(position);
     }
 
-    private void moveItem(int fromPosition, int toPosition) {
-        final Announce announce = filteredAnnounces.remove(fromPosition);
-        filteredAnnounces.add(toPosition, announce);
+    @Override
+    public void notifyChangeAt(int position) {
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void notifyMoved(int fromPosition, int toPosition) {
         notifyItemMoved(fromPosition, toPosition);
     }
 
     void notifyList(List<Announce> newFilteredAnnounces) {
-        applyAndAnimateRemovals(newFilteredAnnounces);
-        applyAndAnimateAdditions(newFilteredAnnounces);
-        applyAndAnimateChangedItems(newFilteredAnnounces);
+        eventGenerator.compareLists(filteredAnnounces, newFilteredAnnounces);
     }
 
     void setFilterString(String filterString) {
