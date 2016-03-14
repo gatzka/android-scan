@@ -49,6 +49,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
         eventGenerator = new DisplayUpdateEventGenerator(this);
         filteredAnnounces = new ArrayList<>();
         listFragment = fragment;
+        this.setHasStableIds(true);
 
         listFragment.setAdapter(this);
     }
@@ -63,6 +64,12 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
     public void onBindViewHolder(DeviceViewHolder holder, int position) {
         final Announce announce = filteredAnnounces.get(position);
         holder.bind(announce);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Announce announce = filteredAnnounces.get(position);
+        return announce.getCommunicationPathId();
     }
 
     @Override
