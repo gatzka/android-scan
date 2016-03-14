@@ -199,17 +199,17 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
                 filterConstraint = constraint;
             }
             final String upperCaseConstraint = filterConstraint.toString().toUpperCase(Locale.US);
-            final List<Announce> filt = new ArrayList<>();
+            final List<Announce> filteredAnnounces = new ArrayList<>();
             final List<Announce> announceList = collectedAnnounces.get();
             for (final Announce announce : announceList) {
                 if (displayNameMatches(announce, upperCaseConstraint) ||
                     moduleTypeMatches(announce, upperCaseConstraint) ||
                     uuidMatches(announce, upperCaseConstraint)) {
-                    filt.add(announce);
+                    filteredAnnounces.add(announce);
                 }
             }
-            filteredResults.values = filt;
-            filteredResults.count = filt.size();
+            filteredResults.values = filteredAnnounces;
+            filteredResults.count = filteredAnnounces.size();
             return filteredResults;
         }
 
