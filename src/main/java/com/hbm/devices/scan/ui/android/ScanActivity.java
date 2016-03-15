@@ -41,6 +41,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -95,9 +97,18 @@ public final class ScanActivity extends AppCompatActivity {
         initDevicesView();
     	initToolbar();
         setDeviceListAdapter();
-		setupDrawerLayout();
+        setupDrawerLayout();
 
-		content = findViewById(R.id.content);
+        if (!kernelSupportsMulticast()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.no_multicast)
+                    .setMessage(R.string.no_multicast_msg)
+                    .setNeutralButton("Ok", null)
+                    .setIcon(R.drawable.ic_alert_circle_outline_black_36dp)
+                    .show();
+        }
+
+        content = findViewById(R.id.content);
     }
 
     @Override
@@ -185,7 +196,7 @@ public final class ScanActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doubleBackToExitPressedOnce = false;                       
+                doubleBackToExitPressedOnce = false;
             }
         }, TOAST_TIMEOUT);
     }
@@ -261,12 +272,17 @@ public final class ScanActivity extends AppCompatActivity {
         avatar.setPadding(0, getStatusBarHeight(), 0, 0);
     }
 
-	private int getStatusBarHeight() { 
-		int result = 0;
-		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-		if (resourceId > 0) {
-			result = getResources().getDimensionPixelSize(resourceId);
-		} 
-		return result;
-	} 
+    private int getStatusBarHeight() { 
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        } 
+        return result;
+    }
+
+    private boolean kernelSupportsMulticast() {
+        File igmp = new File("/proc/net/", "igmp");
+        return igmp.exists();
+    }
 }

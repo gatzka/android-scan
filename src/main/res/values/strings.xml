@@ -42,6 +42,8 @@
     <string name="network_info">Network Settings</string>
     <string name="no_gateway">No default gateway</string>
     <string name="no_ip">No IP set</string>
+    <string name="no_multicast">No Multicast support!</string>
+    <string name="no_multicast_msg">"Your Android kernel lacks multicast support.\n\nThis App might not operate appropriately!</string>
     <string name="no_netmask">No netmask set</string>
     <string name="not_set">Not set</string>
     <string name="search_hint">Search for devices</string>
