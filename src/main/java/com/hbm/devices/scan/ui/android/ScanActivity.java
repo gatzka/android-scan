@@ -103,7 +103,7 @@ public final class ScanActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.no_multicast)
                     .setMessage(R.string.no_multicast_msg)
-                    .setNeutralButton("Ok", null)
+                    .setNeutralButton(android.R.string.ok, null)
                     .setIcon(R.drawable.ic_alert_circle_outline_black_36dp)
                     .show();
         }

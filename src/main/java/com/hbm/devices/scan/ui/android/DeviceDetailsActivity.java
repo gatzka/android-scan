@@ -95,17 +95,28 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.action_share) {
-            handleShare(announce);
-            return true;
-        }
-        if (itemId == R.id.action_setup) {
-            Intent intent = new Intent(this, ConfigureActivity.class);
-            intent.putExtra(DETAILS, announce);
-            ActivityCompat.startActivity(this, intent, null);
-            return true;
+        switch (itemId) {
+            case R.id.action_share:
+                handleShare(announce);
+                return true;
+            case R.id.action_setup:
+                Intent intent = new Intent(this, ConfigureActivity.class);
+                intent.putExtra(DETAILS, announce);
+                ActivityCompat.startActivity(this, intent, null);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+                return true;
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
     private void handleShare(Announce announce) {
