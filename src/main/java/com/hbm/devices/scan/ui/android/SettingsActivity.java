@@ -31,12 +31,9 @@ package com.hbm.devices.scan.ui.android;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.view.WindowManager;
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
