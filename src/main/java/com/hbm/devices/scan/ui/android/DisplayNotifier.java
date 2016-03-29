@@ -28,7 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-public interface DisplayNotifier {
+interface DisplayNotifier {
     void notifyRemoveAt(int position);
     void notifyAddAt(int position);
     void notifyChangeAt(int position);

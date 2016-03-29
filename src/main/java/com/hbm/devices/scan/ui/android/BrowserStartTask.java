@@ -35,7 +35,7 @@ import android.os.AsyncTask;
 
 import java.net.InetSocketAddress;
 
-public final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, Integer> {
+final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, Integer> {
 
     private final Context context;
 

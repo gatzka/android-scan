@@ -44,7 +44,7 @@ import java.io.IOException;
 import java.net.NetworkInterface;
 import java.util.Collection;
 
-public class ConfigServiceThread extends Thread {
+class ConfigServiceThread extends Thread {
     private final ConfigurationService configService;
     private final ConfigurationMessageReceiver responseReceiver;
 

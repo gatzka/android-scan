@@ -50,7 +50,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.hbm.devices.scan.announce.Announce;
 
-public final class DeviceZipper {
+final class DeviceZipper {
 
     static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
         List<Announce> list = new ArrayList<>();

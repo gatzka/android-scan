@@ -36,11 +36,12 @@ import com.hbm.devices.scan.AbstractMessageReceiver;
 
 import java.util.Vector;
 
-public final class FakeMessageReceiver extends AbstractMessageReceiver {
+final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private boolean shallRun = true;
     private final Gson gson = new Gson();
     private static final String ADDRESS_KEY = "address";
+    private static final int NUMBER_OF_ANNOUNCED_MODULES = 100;
     private final FakeMessageType messageType;
 	private static int deviceCounter;
 
@@ -84,7 +85,7 @@ public final class FakeMessageReceiver extends AbstractMessageReceiver {
         if (messageType == FakeMessageType.NEW_DEVICE_EVERY_SECOND) {
             announceOneEverySecond();
         } else {
-            announceAtSameTime(100);
+            announceAtSameTime(NUMBER_OF_ANNOUNCED_MODULES);
         }
     }
 

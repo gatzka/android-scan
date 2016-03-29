@@ -32,7 +32,7 @@ import com.hbm.devices.scan.announce.Announce;
 
 import java.util.List;
 
-public class DisplayUpdateEventGenerator {
+class DisplayUpdateEventGenerator {
     private final DisplayNotifier notifier;
 
     DisplayUpdateEventGenerator(final DisplayNotifier n) {
