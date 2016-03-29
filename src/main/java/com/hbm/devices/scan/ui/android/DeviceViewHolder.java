@@ -168,6 +168,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         Integer resourceId = resourceCache.get(key);
         if (resourceId == null) {
             resourceId = resolveResourceId(key);
+            resourceCache.put(key, resourceId);
         }
         return resourceId;
     }
