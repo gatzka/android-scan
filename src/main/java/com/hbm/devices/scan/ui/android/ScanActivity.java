@@ -252,21 +252,23 @@ public final class ScanActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                case R.id.drawer_settings:
-                    startActivity(new Intent(getApplicationContext(),
-                        SettingsActivity.class));
-                    return true;
-                default:
-                    Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
-                    menuItem.setChecked(true);
-                    drawerLayout.closeDrawers();
-                    return true;
+        if (view != null) {
+            view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.drawer_settings:
+                            startActivity(new Intent(getApplicationContext(),
+                                    SettingsActivity.class));
+                            return true;
+                        default:
+                            Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+                            menuItem.setChecked(true);
+                            drawerLayout.closeDrawers();
+                            return true;
+                    }
                 }
-            }
-        });
+            });
+        }
 
 		ImageView avatar = (ImageView) view.getHeaderView(0).findViewById(R.id.avatar);
         avatar.setPadding(0, getStatusBarHeight(), 0, 0);
