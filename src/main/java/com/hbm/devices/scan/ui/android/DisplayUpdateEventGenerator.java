@@ -49,7 +49,7 @@ public class DisplayUpdateEventGenerator {
         int count = oldList.size();
         for (int i = count - 1; i >= 0; i--) {
             final Announce announce = oldList.get(i);
-            if (!isInList(newList, announce)) {
+            if (isNotInList(newList, announce)) {
                 oldList.remove(i);
                 notifier.notifyRemoveAt(i);
             }
@@ -59,7 +59,7 @@ public class DisplayUpdateEventGenerator {
     private void updateAdditions(final List<Announce> oldList, final List<Announce> newList) {
         for (int i = 0, count = newList.size(); i < count; i++) {
             final Announce announce = newList.get(i);
-            if (!isInList(oldList, announce)) {
+            if (isNotInList(oldList, announce)) {
                 oldList.add(announce);
                 notifier.notifyAddAt(i);
             } else {
@@ -83,7 +83,7 @@ public class DisplayUpdateEventGenerator {
         }
     }
 
-    private static boolean isInList(final List<Announce> list, final Announce announce) {
+    private static boolean isNotInList(final List<Announce> list, final Announce announce) {
         for (Announce element : list) {
             if (element.sameCommunicationPath(announce)) {
                 return true;
