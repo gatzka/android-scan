@@ -281,8 +281,8 @@ public final class ConfigureActivity extends AppCompatActivity {
                         return "";
                     } else {
                         String[] splits = resultingTxt.split("\\.");
-                        for (int i=0; i<splits.length; i++) {
-                            if (Integer.valueOf(splits[i]) > 255) {
+                        for (String split : splits) {
+                            if (Integer.valueOf(split) > 255) {
                                 return "";
                             }
                         }
