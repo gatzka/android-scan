@@ -134,9 +134,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 final InetSocketAddress address  = (InetSocketAddress) announce.getCookie();
-                if (address == null) {
-                //TODO: showConfigure(announce);
-                } else {
+                if (address != null) {
                     openBrowser(address);
                 }
             }
