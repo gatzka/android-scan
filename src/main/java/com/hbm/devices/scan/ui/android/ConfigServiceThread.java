@@ -84,9 +84,9 @@ class ConfigServiceThread extends Thread {
     }
 
     private class SendParams {
-        ConfigurationParams params;
-        ConfigurationCallback callback;
-        int timeout;
+        final ConfigurationParams params;
+        final ConfigurationCallback callback;
+        final int timeout;
 
         public SendParams(ConfigurationParams params, ConfigurationCallback callback,
                           int timeout) {

@@ -40,7 +40,7 @@ import com.hbm.devices.scan.announce.Announce;
 
 final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> implements DisplayNotifier {
 
-    private List<Announce> filteredAnnounces;
+    private final List<Announce> filteredAnnounces;
     private final DeviceListFragment listFragment;
     private final DisplayUpdateEventGenerator eventGenerator;
 

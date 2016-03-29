@@ -51,7 +51,7 @@ import com.hbm.devices.scan.announce.Device;
 
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
-    private AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
+    private final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
     private AtomicReference<List<Announce>> collectedAnnounces;
     private boolean paused = false;
     private String filterString;

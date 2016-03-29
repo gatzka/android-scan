@@ -69,7 +69,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     private Announce announce;
     private ConfigServiceThread configThread;
 
-    private static InputFilter[] ipAddressFilter;
+    private static final InputFilter[] ipAddressFilter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

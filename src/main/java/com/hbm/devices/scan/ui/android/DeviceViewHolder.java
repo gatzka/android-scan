@@ -64,17 +64,17 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final Drawable whiteInfo;
     private Announce announce;
 
-    private int cardBackgroundNotConntectable;
-    private int cardBackgroundConntectable;
-    private int moduleTypeTextColorNotConnectable;
-    private int moduleTypeTextColorConnectable;
-    private int moduleNameTextColorNotConnectable;
-    private int moduleNameTextColorConnectable;
-    private int moduleIdTextColorNotConnectable;
-    private int moduleIdTextColorConnectable;
-    private int alpha;
+    private final int cardBackgroundNotConntectable;
+    private final int cardBackgroundConntectable;
+    private final int moduleTypeTextColorNotConnectable;
+    private final int moduleTypeTextColorConnectable;
+    private final int moduleNameTextColorNotConnectable;
+    private final int moduleNameTextColorConnectable;
+    private final int moduleIdTextColorNotConnectable;
+    private final int moduleIdTextColorConnectable;
+    private final int alpha;
 
-    private static HashMap<String, Integer> resourceCache = new HashMap<String, Integer>();
+    private static final HashMap<String, Integer> resourceCache = new HashMap<String, Integer>();
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
