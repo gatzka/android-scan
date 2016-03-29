@@ -177,8 +177,6 @@ final class ScanThread extends Thread implements Observer {
 
     private static class BestConnectableAddressComparator implements Comparator<InetAddress>, Serializable {
 
-        public static final long serialVersionUID = -3102023252018485636L;
-
         @Override
         public int compare(InetAddress first, InetAddress second) {
             if ((first instanceof Inet4Address) && (second instanceof Inet6Address)) {
