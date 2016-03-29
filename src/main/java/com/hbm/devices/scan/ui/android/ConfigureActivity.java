@@ -65,6 +65,7 @@ import java.util.List;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
+    private static final int CONFIGURATIION_TIMEOUT = 5000;
     private Announce announce;
     private ConfigServiceThread configThread;
 
@@ -183,7 +184,7 @@ public final class ConfigureActivity extends AppCompatActivity {
                 });
             }
         };
-        configThread.sendConfiguration(params, callback, 5000);
+        configThread.sendConfiguration(params, callback, CONFIGURATIION_TIMEOUT);
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
