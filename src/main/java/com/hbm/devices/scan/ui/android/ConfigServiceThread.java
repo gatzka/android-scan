@@ -75,12 +75,7 @@ class ConfigServiceThread extends Thread {
     public void sendConfiguration(ConfigurationParams configParams,
                                   ConfigurationCallback callback, int timeout) throws NullPointerException,
             IllegalArgumentException {
-        if (this.configService != null) {
-            new SendConfigTask().execute(new SendParams(configParams, callback, timeout));
-        } else {
-            Log.e("ConfigSender",
-                    "Cannot send the configuration. The service is null");
-        }
+        new SendConfigTask().execute(new SendParams(configParams, callback, timeout));
     }
 
     private class SendParams {
