@@ -59,7 +59,7 @@ import com.hbm.devices.scan.announce.UpdateDeviceEvent;
 
 final class ScanThread extends Thread implements Observer {
 
-    public static final int INITIAL_ANNOUNCE_CAPACITY = 100;
+    private static final int INITIAL_ANNOUNCE_CAPACITY = 100;
 
     private final AbstractMessageReceiver messageReceiver;
     private final DeviceMonitor deviceMonitor;
