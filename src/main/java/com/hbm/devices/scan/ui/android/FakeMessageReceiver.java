@@ -90,7 +90,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     }
 
     private void announceAtSameTime(int numberOfModules) {
-        Vector<String> deviceList = new Vector<String>();
+        Vector<String> deviceList = new Vector<>();
         for (int i = 0; i < numberOfModules; i++) {
             deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
         }

@@ -65,7 +65,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        collectedAnnounces = new AtomicReference<List<Announce>>();
+        collectedAnnounces = new AtomicReference<>();
         deviceFilter = new DeviceFilter();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());

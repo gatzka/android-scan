@@ -74,7 +74,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final int moduleIdTextColorConnectable;
     private final int alpha;
 
-    private static final HashMap<String, Integer> resourceCache = new HashMap<String, Integer>();
+    private static final HashMap<String, Integer> resourceCache = new HashMap<>();
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
