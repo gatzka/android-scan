@@ -103,11 +103,7 @@ class ConfigServiceThread extends Thread {
                 try {
                     configService.sendConfiguration(sendParam.params,
                             sendParam.callback, sendParam.timeout);
-                } catch (NullPointerException e) {
-                    Log.e("SendConfigTask", e.toString());
-                } catch (IllegalArgumentException e) {
-                    Log.e("SendConfigTask", e.toString());
-                } catch (IOException e) {
+                } catch (NullPointerException | IllegalArgumentException | IOException e) {
                     Log.e("SendConfigTask", e.toString());
                 }
                 // Escape early if cancel() is called
