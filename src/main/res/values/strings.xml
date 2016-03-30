@@ -54,6 +54,8 @@
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
     <string name="use_dhcp">Use DHCP</string>
+    <string name="could_not_delete">Could not delete </string>
+    <string name="could_not_create">Could not create </string>
 
     <string name="pref_debug">Debugging</string>
     <string name="pref_use_fake_messages">Use Fake Messages</string>

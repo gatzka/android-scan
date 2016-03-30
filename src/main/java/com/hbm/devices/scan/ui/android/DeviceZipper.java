@@ -78,11 +78,11 @@ final class DeviceZipper {
             }
             File file = new File(subDir, FILE_NAME);
             if (!file.delete()) {
-                Toast.makeText(activity, "Could not delete " + FILE_NAME, Toast.LENGTH_SHORT);
+                Toast.makeText(activity, activity.getString(R.string.could_not_delete) + FILE_NAME, Toast.LENGTH_SHORT);
                 return null;
             }
             if (!file.createNewFile()) {
-                Toast.makeText(activity, "Could not create " + FILE_NAME, Toast.LENGTH_SHORT);
+                Toast.makeText(activity, activity.getString(R.string.could_not_create) + FILE_NAME, Toast.LENGTH_SHORT);
                 return null;
             }
             FileOutputStream fos = new FileOutputStream(file, false);

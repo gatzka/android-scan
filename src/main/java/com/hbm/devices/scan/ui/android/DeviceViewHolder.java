@@ -73,6 +73,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final int moduleIdTextColorNotConnectable;
     private final int moduleIdTextColorConnectable;
     private final int alpha;
+    private final String unknown;
 
     private static final HashMap<String, Integer> resourceCache = new HashMap<>();
 
@@ -100,6 +101,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         moduleNameTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
         moduleIdTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
         moduleIdTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
+        unknown = itemView.getContext().getString(R.string.unknown);
     }
 
     public void bind(Announce a) {
@@ -302,7 +304,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getModuleType(final Device device) {
         String moduleType = device.getType();
         if (moduleType == null || moduleType.length() == 0) {
-            moduleType = context.getString(R.string.unknown);
+            moduleType = unknown;
         }
         return moduleType;
     }
@@ -310,7 +312,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getDisplayName(final Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
-            displayName = context.getString(R.string.unknown);
+            displayName = unknown;
         }
         return displayName;
     }
