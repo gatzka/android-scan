@@ -213,8 +213,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 	private void addServices() {
 		final List<ServiceEntry> services = announce.getParams().getServices();
 		if (services != null && !services.isEmpty()) {
-			final LinearLayout cardContainer = (LinearLayout) findViewById(R.id.card_container);
-			
 			CardView card = new CardView(this);
 
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -227,7 +225,10 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 				getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
 				getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
 			card.setLayoutParams(params);
-			cardContainer.addView(card);
+            final LinearLayout cardContainer = (LinearLayout) findViewById(R.id.card_container);
+            if (cardContainer != null) {
+                cardContainer.addView(card);
+            }
 
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);

@@ -268,10 +268,15 @@ public final class ScanActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
 
-		ImageView avatar = (ImageView) view.getHeaderView(0).findViewById(R.id.avatar);
-        avatar.setPadding(0, getStatusBarHeight(), 0, 0);
+            View headerView = view.getHeaderView(0);
+            if (headerView != null) {
+                ImageView avatar = (ImageView) headerView.findViewById(R.id.avatar);
+                if (avatar != null) {
+                    avatar.setPadding(0, getStatusBarHeight(), 0, 0);
+                }
+            }
+        }
     }
 
     private int getStatusBarHeight() { 

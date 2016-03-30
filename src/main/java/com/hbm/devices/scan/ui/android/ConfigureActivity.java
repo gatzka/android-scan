@@ -66,6 +66,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     private static final int CONFIGURATIION_TIMEOUT = 5000;
     private Announce announce;
     private ConfigServiceThread configThread;
+    private boolean dhcpEnabled;
 
     private static final InputFilter[] ipAddressFilter;
 
@@ -85,50 +86,60 @@ public final class ConfigureActivity extends AppCompatActivity {
             setEdit(false);
 
             EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
-            ipv4Address.setFilters(ipAddressFilter);
+            if (ipv4Address != null) {
+                ipv4Address.setFilters(ipAddressFilter);
+            }
             EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
-            ipv4Mask.setFilters(ipAddressFilter);
+            if (ipv4Mask != null) {
+                ipv4Mask.setFilters(ipAddressFilter);
+            }
             EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
-            gateway.setFilters(ipAddressFilter);
-
+            if (gateway != null) {
+                gateway.setFilters(ipAddressFilter);
+            }
             final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
-            dhcpSwitch.setChecked(true);
-            dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        setEdit(false);
-                    } else {
-                        setEdit(true);
+            if (dhcpSwitch != null) {
+                dhcpSwitch.setChecked(true);
+                dhcpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            dhcpEnabled = true;
+                            setEdit(false);
+                        } else {
+                            dhcpEnabled = false;
+                            setEdit(true);
+                        }
                     }
-                }
-            });
+                });
+            }
             Button submit = (Button) findViewById(R.id.submit);
-            submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ConfigurationInterface interfaceSettings;
-                    String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
-                    if (dhcpSwitch.isChecked()) {
-                        interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
-                    } else {
-                        IPv4EntryManual ipv4Manual = getManualConfiguration();
-                        interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
-                    }
-                    ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
+            if (submit != null) {
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ConfigurationInterface interfaceSettings;
+                        String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
+                        if (dhcpEnabled) {
+                            interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
+                        } else {
+                            IPv4EntryManual ipv4Manual = getManualConfiguration();
+                            interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
+                        }
+                        ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
 
-                    ConfigurationDefaultGateway gateway = getDefaultGateway();
-                    ConfigurationNetSettings netSettings;
-                    if (gateway != null) {
-                        netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
-                    } else {
-                        netSettings = new ConfigurationNetSettings(interfaceSettings);
+                        ConfigurationDefaultGateway gateway = getDefaultGateway();
+                        ConfigurationNetSettings netSettings;
+                        if (gateway != null) {
+                            netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
+                        } else {
+                            netSettings = new ConfigurationNetSettings(interfaceSettings);
+                        }
+                        ConfigurationParams params = new ConfigurationParams(device, netSettings);
+                        sendConfiguration(v.getContext(), params);
                     }
-                    ConfigurationParams params = new ConfigurationParams(device, netSettings);
-                    sendConfiguration(v.getContext(), params);
-                }
-            });
-
+                });
+            }
         } catch (IOException e) {
             final Toast failureToast = Toast.makeText(this,
                     "Could not start configuration service!", Toast.LENGTH_SHORT);
@@ -187,7 +198,7 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     private ConfigurationDefaultGateway getDefaultGateway() {
         EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
-        if (gateway.getText() != null && gateway.getText().length() > 0) {
+        if (gateway!= null && gateway.getText() != null && gateway.getText().length() > 0) {
             return new ConfigurationDefaultGateway(gateway.getText().toString());
         } else{
             return null;
@@ -197,7 +208,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     private IPv4EntryManual getManualConfiguration() {
         EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
         String ip;
-        if ((ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
+        if ((ipv4Address != null) && (ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
             ip = ipv4Address.getText().toString();
         } else {
             ip = "";
@@ -205,7 +216,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
 
         String mask;
-        if ((ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
+        if ((ipv4Mask != null) && (ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
             mask = ipv4Mask.getText().toString();
         } else {
             mask = "";
@@ -215,15 +226,21 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     private void setEdit(boolean edit) {
         EditText ipv4 = (EditText) findViewById(R.id.configure_ip_address_edit);
-        ipv4.setEnabled(edit);
-        if (edit) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
+        if (ipv4 != null) {
+            ipv4.setEnabled(edit);
+            if (edit) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
+            }
+            EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+            if (ipv4Mask != null) {
+                ipv4Mask.setEnabled(edit);
+            }
+            EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+            if (gateway != null) {
+                gateway.setEnabled(edit);
+            }
         }
-        EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
-        ipv4Mask.setEnabled(edit);
-        EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
-        gateway.setEnabled(edit);
     }
 
     private void setCurrentIp(Announce announce) {
@@ -231,9 +248,13 @@ public final class ConfigureActivity extends AppCompatActivity {
         if (!ipv4Addresses.isEmpty()) {
             IPv4Entry entry = ipv4Addresses.get(0);
             TextView currentIp = (TextView) findViewById(R.id.configure_current_ip);
-            currentIp.setText(entry.getAddress());
+            if (currentIp != null) {
+                currentIp.setText(entry.getAddress());
+            }
             TextView currentNetMask = (TextView) findViewById(R.id.configure_current_subnetmask);
-            currentNetMask.setText(entry.getNetmask());
+            if (currentNetMask != null) {
+                currentNetMask.setText(entry.getNetmask());
+            }
         }
     }
 
@@ -241,8 +262,8 @@ public final class ConfigureActivity extends AppCompatActivity {
         DefaultGateway gateway = announce.getParams().getNetSettings().getDefaultGateway();
         if (gateway != null) {
             String ipv4Gateway = gateway.getIpv4Address();
-            if (ipv4Gateway != null) {
-                TextView currentGateway = (TextView) findViewById(R.id.configure_current_gateway);
+            TextView currentGateway = (TextView) findViewById(R.id.configure_current_gateway);
+            if ((ipv4Gateway != null) && (currentGateway != null)) {
                 currentGateway.setText(ipv4Gateway);
             }
         }
