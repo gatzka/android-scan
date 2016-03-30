@@ -31,6 +31,7 @@ package com.hbm.devices.scan.ui.android;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -51,6 +52,8 @@ import java.util.zip.ZipOutputStream;
 import com.hbm.devices.scan.announce.Announce;
 
 final class DeviceZipper {
+
+    private static final String FILE_NAME = "devices.zip";
 
     static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
         List<Announce> list = new ArrayList<>();
@@ -73,8 +76,15 @@ final class DeviceZipper {
                     return null;
                 }
             }
-            File file = new File(subDir, "devices.zip");
-            file.createNewFile();
+            File file = new File(subDir, FILE_NAME);
+            if (!file.delete()) {
+                Toast.makeText(activity, "Could not delete " + FILE_NAME, Toast.LENGTH_SHORT);
+                return null;
+            }
+            if (!file.createNewFile()) {
+                Toast.makeText(activity, "Could not create " + FILE_NAME, Toast.LENGTH_SHORT);
+                return null;
+            }
             FileOutputStream fos = new FileOutputStream(file, false);
             ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
             ZipEntry entry = new ZipEntry("devices.json");
