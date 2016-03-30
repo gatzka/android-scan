@@ -86,9 +86,9 @@ class DisplayUpdateEventGenerator {
     private static boolean isNotInList(final List<Announce> list, final Announce announce) {
         for (Announce element : list) {
             if (element.sameCommunicationPath(announce)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
