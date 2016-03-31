@@ -42,13 +42,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.DefaultGateway;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.IPv4Entry;
 import com.hbm.devices.scan.configure.ConfigurationCallback;
 import com.hbm.devices.scan.configure.ConfigurationDevice;
 import com.hbm.devices.scan.configure.ConfigurationInterface;
@@ -59,7 +56,6 @@ import com.hbm.devices.scan.configure.IPv4EntryManual;
 import com.hbm.devices.scan.configure.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
