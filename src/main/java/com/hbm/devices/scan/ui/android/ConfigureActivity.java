@@ -81,8 +81,6 @@ public final class ConfigureActivity extends AppCompatActivity {
             announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
             initToolbar(announce);
 
-            setCurrentIp(announce);
-            setCurrentGateway(announce);
             setEdit(false);
 
             EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
@@ -239,32 +237,6 @@ public final class ConfigureActivity extends AppCompatActivity {
             EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
             if (gateway != null) {
                 gateway.setEnabled(edit);
-            }
-        }
-    }
-
-    private void setCurrentIp(Announce announce) {
-        List<IPv4Entry> ipv4Addresses = announce.getParams().getNetSettings().getInterface().getIPv4();
-        if (!ipv4Addresses.isEmpty()) {
-            IPv4Entry entry = ipv4Addresses.get(0);
-            TextView currentIp = (TextView) findViewById(R.id.configure_current_ip);
-            if (currentIp != null) {
-                currentIp.setText(entry.getAddress());
-            }
-            TextView currentNetMask = (TextView) findViewById(R.id.configure_current_subnetmask);
-            if (currentNetMask != null) {
-                currentNetMask.setText(entry.getNetmask());
-            }
-        }
-    }
-
-    private void setCurrentGateway(Announce announce) {
-        DefaultGateway gateway = announce.getParams().getNetSettings().getDefaultGateway();
-        if (gateway != null) {
-            String ipv4Gateway = gateway.getIpv4Address();
-            TextView currentGateway = (TextView) findViewById(R.id.configure_current_gateway);
-            if ((ipv4Gateway != null) && (currentGateway != null)) {
-                currentGateway.setText(ipv4Gateway);
             }
         }
     }
