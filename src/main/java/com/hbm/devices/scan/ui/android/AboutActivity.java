@@ -29,8 +29,27 @@
 package com.hbm.devices.scan.ui.android;
 
 
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 public class AboutActivity extends AppCompatActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.about_layout);
+        initToolbar();
+    }
 
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle(getString(R.string.about));
+    }
 }
