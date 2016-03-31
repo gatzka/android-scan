@@ -260,9 +260,12 @@ public final class ScanActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(),
                                     SettingsActivity.class));
                             return true;
+
+                        case R.id.drawer_about:
+                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                            return true;
+
                         default:
-                            Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
-                            menuItem.setChecked(true);
                             drawerLayout.closeDrawers();
                             return true;
                     }
