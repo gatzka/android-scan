@@ -33,6 +33,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
     @Override
@@ -40,6 +43,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_layout);
         initToolbar();
+        fillVersion();
     }
 
     private void initToolbar() {
@@ -51,5 +55,17 @@ public class AboutActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setTitle(getString(R.string.about));
+    }
+
+    private void fillVersion() {
+        TextView versionView = (TextView) findViewById(R.id.about_version);
+        if (versionView == null) {
+            return;
+        }
+        versionView.setText(getString(R.string.about_version) + " 0.8");
+        TextView imageCourtedy = (TextView) findViewById(R.id.about_images);
+        if (imageCourtedy == null) {
+            imageCourtedy.setMovementMethod(LinkMovementMethod.getInstance());
+        }
     }
 }
