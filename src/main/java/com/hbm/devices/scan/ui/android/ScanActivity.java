@@ -74,7 +74,6 @@ public final class ScanActivity extends AppCompatActivity {
     private RecyclerView devicesView;
     private ModuleListAdapter adapter;
 	private DrawerLayout drawerLayout;
-	private View content;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -107,8 +106,6 @@ public final class ScanActivity extends AppCompatActivity {
                     .setIcon(R.drawable.ic_alert_circle_outline_black_36dp)
                     .show();
         }
-
-        content = findViewById(R.id.content);
     }
 
     @Override
