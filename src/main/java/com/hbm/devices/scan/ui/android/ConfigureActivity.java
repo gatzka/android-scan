@@ -145,6 +145,12 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDestroy() {
+        configThread.kill();
+        super.onDestroy();config
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         switch (itemId) {
