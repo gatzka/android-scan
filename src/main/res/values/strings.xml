@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_version">Android Scanner for HBM Devices, Version</string>
+    <string name="about_version">Android Scanner for HBM Devices, Version %s</string>
     <string name="about_copyright">Copyright \u00A9 Stephan Gatzka</string>
     <string name="about_license">Licensed under the terms of the MIT License.</string>
     <string name="about_images_courtesy">Images by courtesy of <a href="http://www.hbm.com">Hottinger Baldwin Messtechnik GmbH</a>.</string>
-    <string name="about_build_info">Build Information:</string>
-    <string name="about_version_code">Version Code:</string>
-    <string name="about_build_date">Build Date:</string>
-    <string name="aboud_build_id">Build ID:</string>
+    <string name="about_build_info">Build Information:\nVersion Code: %1$d\nBuild Date: %2$s\nBuild ID: %3$s</string>
     <string name="app_name">HBM Scan</string>
     <string name="create_devices_file_error">Can\'t create devices file!</string>
     <string name="configure">Configure</string>
-    <string name="configure_label">Configure:</string>
-    <string name="configure_interface_name_label">Interface name:</string>
-    <string name="configure_method_label">Configuration method:</string>
-    <string name="configure_method_dhcp_label">Dhcp</string>
-    <string name="configure_method_manual">Manual</string>
     <string name="configure_ip_address_label">IP Address</string>
     <string name="configure_subnet_label">Subnet Mask</string>
     <string name="configure_gateway_label">Default Gateway</string>
-    <string name="configure_gateway_ip_label">IP Address</string>
-    <string name="configure_ready_button">Send configuration</string>
     <string name="device_family_type">Family Type</string>
     <string name="device_firmware_version">Firmware Version</string>
     <string name="device_hardware_id">Hardware ID</string>
@@ -32,10 +22,7 @@
     <string name="device_router_info">Router Information</string>
     <string name="device_type">Device Type</string>
     <string name="device_uuid">UUID</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="favourite">Favourite</string>
     <string name="hbm_logo">HBM Logo</string>
-    <string name="home">Home</string>
     <string name="info_button">Click form more information</string>
     <string name="interface_description">Interface Description</string>
     <string name="interface_name">Interface Name</string>
@@ -46,14 +33,9 @@
     <string name="menu_pause_option">Pause/Resume</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
-    <string name="more">More</string>
     <string name="network_info">Network Settings</string>
-    <string name="no_gateway">No default gateway</string>
-    <string name="no_ip">No IP set</string>
     <string name="no_multicast">No Multicast support!</string>
     <string name="no_multicast_msg">"Your Android kernel lacks multicast support.\n\nThis App might not operate appropriately!</string>
-    <string name="no_netmask">No netmask set</string>
-    <string name="not_set">Not set</string>
     <string name="search_hint">Search for devices</string>
     <string name="services">Services</string>
     <string name="settings">Settings</string>

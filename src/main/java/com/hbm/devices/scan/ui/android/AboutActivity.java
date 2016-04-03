@@ -62,7 +62,7 @@ public class AboutActivity extends AppCompatActivity {
         if (versionView == null) {
             return;
         }
-        versionView.setText(getString(R.string.about_version) + " " + BuildConfig.VERSION_NAME);
+        versionView.setText(this.getResources().getString(R.string.about_version, BuildConfig.VERSION_NAME));
         TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
         if (imageCourtesy == null) {
             imageCourtesy.setMovementMethod(LinkMovementMethod.getInstance());
@@ -71,10 +71,9 @@ public class AboutActivity extends AppCompatActivity {
         if (buidInfo == null) {
             return;
         }
-        StringBuilder stringBuilder = new StringBuilder(getString(R.string.about_build_info)).append('\n')
-                .append(getString(R.string.about_version_code)).append(' ').append(BuildConfig.VERSION_CODE).append('\n')
-                .append(getString(R.string.about_build_date)).append(' ').append(new Date(BuildConfig.TIMESTAMP)).append('\n')
-                .append(getString(R.string.aboud_build_id)).append(' ').append(BuildConfig.GITHASH);
-        buidInfo.setText(stringBuilder.toString());
+        buidInfo.setText(this.getResources().getString(R.string.about_build_info,
+                BuildConfig.VERSION_CODE,
+                new Date(BuildConfig.TIMESTAMP),
+                BuildConfig.GITHASH));
     }
 }
