@@ -147,7 +147,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         configThread.kill();
-        super.onDestroy();config
+        super.onDestroy();
     }
 
     @Override
@@ -196,7 +196,7 @@ public final class ConfigureActivity extends AppCompatActivity {
                 });
             }
         };
-        configThread.sendConfiguration(params, callback, CONFIGURATIION_TIMEOUT);
+        configThread.sendConfiguration(params, callback);
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
