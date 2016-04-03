@@ -9,115 +9,75 @@
     >
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/GridLayout1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="@dimen/configure_margins"
-            tools:context=".GridXMLActivity"
-
             >
-
-            <TextView
-                android:id="@+id/use_dhcp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="18sp"
-                android:textIsSelectable="false"
-                android:text="@string/use_dhcp"
-                />
             <Switch
                 android:id="@+id/dhcp_switch"
-                android:layout_width="wrap_content"
+                android:hint="@string/use_dhcp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="1"
+                android:layout_marginBottom="16dp"
                 />
 
-            <TextView
-                android:id="@+id/configure_ip_address_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:textAppearance="@style/DetailsTextView"
-                android:text="@string/configure_ip_address_label"
-                android:layout_marginTop="@dimen/configure_margins"
-                />
-            <EditText
-                android:id="@+id/configure_ip_address_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:digits="0123456789."
-                android:inputType="number|numberDecimal"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="start|bottom"
-                android:singleLine="true"
-                />
+            <android:android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/configure_ip_address_edit"
+                    android:ems="15"
+                    android:digits="0123456789."
+                    android:inputType="number|numberDecimal"
+                    android:layout_gravity="start|bottom"
+                    android:singleLine="true"
+                    android:hint="@string/configure_ip_address_label"
+                    android:layout_marginTop="@dimen/configure_margins"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </android:android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/configure_subnet_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:text="@string/configure_subnet_label"
-                android:textAppearance="@style/DetailsTextView"
-                android:layout_marginTop="@dimen/configure_margins"
-                />
-            <EditText
-                android:id="@+id/configure_subnet_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:digits="0123456789."
-                android:inputType="number|numberDecimal"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="start|bottom"
-                android:singleLine="true"
-                />
+            <android:android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/configure_subnet_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="15"
+                    android:digits="0123456789."
+                    android:inputType="number|numberDecimal"
+                    android:layout_gravity="start|bottom"
+                    android:singleLine="true"
+                    android:hint="@string/configure_subnet_label"
+                    android:layout_marginTop="@dimen/configure_margins"
+                    />
+            </android:android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/configure_gateway_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="5"
-                android:layout_column="0"
-                android:text="@string/configure_gateway_label"
-                android:textAppearance="@style/DetailsTextView"
-                android:layout_marginTop="@dimen/configure_margins"
-                />
-            <EditText
-                android:id="@+id/configure_gateway_ip_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:digits="0123456789."
-                android:layout_row="6"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="start|bottom"
-                android:singleLine="true"
-                />
+            <android:android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/configure_gateway_ip_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="15"
+                    android:digits="0123456789."
+                    android:layout_gravity="start|bottom"
+                    android:singleLine="true"
+                    android:hint="@string/configure_gateway_label"
+                    android:layout_marginTop="@dimen/configure_margins"
+                    />
+            </android:android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_width="match_parent"
@@ -125,13 +85,11 @@
                 android:text="@string/submit"
                 android:textColor="@color/button_text_color"
                 android:id="@+id/submit"
-                android:layout_row="7"
-                android:layout_columnSpan="2"
-                android:layout_column="0"
                 style="?attr/borderlessButtonStyle"
                 android:layout_gravity="end|bottom"
                 />
-        </GridLayout>
+
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.AppBarLayout
