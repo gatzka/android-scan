@@ -33,6 +33,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -64,8 +65,9 @@ public class AboutActivity extends AppCompatActivity {
         }
         versionView.setText(this.getResources().getString(R.string.about_version, BuildConfig.VERSION_NAME));
         TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
-        if (imageCourtesy == null) {
-            imageCourtesy.setMovementMethod(LinkMovementMethod.getInstance());
+        MovementMethod method = LinkMovementMethod.getInstance();
+        if ((imageCourtesy != null) && (method != null)) {
+            imageCourtesy.setMovementMethod(method);
         }
         TextView buidInfo = (TextView) findViewById(R.id.about_build_info);
         if (buidInfo == null) {
