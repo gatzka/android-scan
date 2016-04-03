@@ -30,21 +30,13 @@ def getTotalCommits() {
 
 def isDirty() {
 	def dirty = 'git diff --shortstat'.execute().text.trim()
-	if (dirty == "") {
-		return false
-	} else {
-		return true;
-	}
+	return dirty != ""
 }
 
 def isRelease() {
 	def getRelease = "git describe --exact-match HEAD".execute()
 	getRelease.waitFor()
-	if (getRelease.exitValue() == 0) {
-		return true
-	} else {
-		return false
-	}
+	return getRelease.exitValue() == 0
 }
 //set build variables based on build type (release, continuous integration, development)
 
