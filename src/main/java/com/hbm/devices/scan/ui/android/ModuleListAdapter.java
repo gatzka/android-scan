@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
@@ -106,7 +107,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
     }
 
     List<Announce> getFilteredAnnounces() {
-        return filteredAnnounces;
+        return Collections.unmodifiableList(filteredAnnounces);
     }
 
     boolean isPaused() {
