@@ -26,7 +26,10 @@
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:textIsSelectable="false"
-                android:padding="@dimen/details_headings_padding"
+                android:layout_marginTop="@dimen/details_card_margin_top"
+                android:layout_marginBottom="@dimen/details_card_margin_bottom"
+                android:layout_marginStart="@dimen/details_card_margin_start"
+                android:layout_marginEnd="@dimen/details_card_margin_end"
                 android:textAppearance="@style/DetailsTextView"
                 />
             <TextView
@@ -35,8 +38,10 @@
                 android:text="@string/about_copyright"
                 android:editable="false"
                 android:textIsSelectable="false"
-                android:padding="@dimen/details_headings_padding"
-                android:textAppearance="@style/DetailsTextView"
+                android:layout_marginTop="@dimen/details_card_margin_top"
+                android:layout_marginBottom="@dimen/details_card_margin_bottom"
+                android:layout_marginStart="@dimen/details_card_margin_start"
+                android:layout_marginEnd="@dimen/details_card_margin_end"                android:textAppearance="@style/DetailsTextView"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -44,7 +49,10 @@
                 android:text="@string/about_license"
                 android:editable="false"
                 android:textIsSelectable="false"
-                android:padding="@dimen/details_headings_padding"
+                android:layout_marginTop="@dimen/details_card_margin_top"
+                android:layout_marginBottom="@dimen/details_card_margin_bottom"
+                android:layout_marginStart="@dimen/details_card_margin_start"
+                android:layout_marginEnd="@dimen/details_card_margin_end"
                 android:textAppearance="@style/DetailsTextView"
                 />
             <TextView
@@ -53,10 +61,24 @@
                 android:layout_height="wrap_content"
                 android:text="@string/about_images_courtesy"
                 android:editable="false"
-                android:padding="@dimen/details_headings_padding"
+                android:layout_marginTop="@dimen/details_card_margin_top"
+                android:layout_marginBottom="@dimen/details_card_margin_bottom"
+                android:layout_marginStart="@dimen/details_card_margin_start"
+                android:layout_marginEnd="@dimen/details_card_margin_end"
                 android:textAppearance="@style/DetailsTextView"
                 />
-
+            <TextView
+                android:id="@+id/about_build_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="true"
+                android:editable="false"
+                android:layout_marginTop="@dimen/details_card_margin_top"
+                android:layout_marginBottom="@dimen/details_card_margin_bottom"
+                android:layout_marginStart="@dimen/details_card_margin_start"
+                android:layout_marginEnd="@dimen/details_card_margin_end"
+                android:textAppearance="@style/DetailsTextView"
+                />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

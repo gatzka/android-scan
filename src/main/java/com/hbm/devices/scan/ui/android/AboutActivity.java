@@ -28,14 +28,14 @@
 
 package com.hbm.devices.scan.ui.android;
 
-
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Date;
 
 public class AboutActivity extends AppCompatActivity {
     @Override
@@ -62,10 +62,19 @@ public class AboutActivity extends AppCompatActivity {
         if (versionView == null) {
             return;
         }
-        versionView.setText(getString(R.string.about_version) + " 0.8");
-        TextView imageCourtedy = (TextView) findViewById(R.id.about_images);
-        if (imageCourtedy == null) {
-            imageCourtedy.setMovementMethod(LinkMovementMethod.getInstance());
+        versionView.setText(getString(R.string.about_version) + " " + BuildConfig.VERSION_NAME);
+        TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
+        if (imageCourtesy == null) {
+            imageCourtesy.setMovementMethod(LinkMovementMethod.getInstance());
         }
+        TextView buidInfo = (TextView) findViewById(R.id.about_build_info);
+        if (buidInfo == null) {
+            return;
+        }
+        StringBuilder stringBuilder = new StringBuilder(getString(R.string.about_build_info)).append('\n')
+                .append(getString(R.string.about_version_code)).append(' ').append(BuildConfig.VERSION_CODE).append('\n')
+                .append(getString(R.string.about_build_date)).append(' ').append(new Date(BuildConfig.TIMESTAMP)).append('\n')
+                .append(getString(R.string.aboud_build_id)).append(' ').append(BuildConfig.GITHASH);
+        buidInfo.setText(stringBuilder.toString());
     }
 }

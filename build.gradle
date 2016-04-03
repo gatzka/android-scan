@@ -14,6 +14,51 @@ plugins {
 
 description 'Web application launcher for HBM devices.'
 
+version = '0.9.0'
+
+ext {
+	isReleaseBuild = false
+}
+
+String getGitHash() {
+    return 'git rev-parse --verify HEAD'.execute().text.trim()
+}
+
+def getTotalCommits() {
+  return 'git rev-list HEAD --count'.execute().text.trim()
+}
+
+def isDirty() {
+	def dirty = 'git diff --shortstat'.execute().text.trim()
+	if (dirty == "") {
+		return false
+	} else {
+		return true;
+	}
+}
+
+def isRelease() {
+	def getRelease = "git describe --exact-match HEAD".execute()
+	getRelease.waitFor()
+	if (getRelease.exitValue() == 0) {
+		return true
+	} else {
+		return false
+	}
+}
+//set build variables based on build type (release, continuous integration, development)
+
+ext.isReleaseBuild = isRelease()
+def totalCommits = getTotalCommits()
+
+if (!ext.isReleaseBuild) {
+	version = version + "-" + totalCommits
+}
+
+if (isDirty()) {
+	version = version + "+dirty"
+}
+
 repositories {
 	mavenCentral()
 }
@@ -47,8 +92,10 @@ android {
         applicationId "com.hbm.devices.scan.ui.android"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode totalCommits.toInteger()
+        versionName version
+		buildConfigField("long", "TIMESTAMP", System.currentTimeMillis() + "L")
+		buildConfigField("String", "GITHASH", "\"${getGitHash()}\"")
     }
 
 	signingConfigs {

@@ -4,6 +4,10 @@
     <string name="about_copyright">Copyright \u00A9 Stephan Gatzka</string>
     <string name="about_license">Licensed under the terms of the MIT License.</string>
     <string name="about_images_courtesy">Images by courtesy of <a href="http://www.hbm.com">Hottinger Baldwin Messtechnik GmbH</a>.</string>
+    <string name="about_build_info">Build Information:</string>
+    <string name="about_version_code">Version Code:</string>
+    <string name="about_build_date">Build Date:</string>
+    <string name="aboud_build_id">Build ID:</string>
     <string name="app_name">HBM Scan</string>
     <string name="create_devices_file_error">Can\'t create devices file!</string>
     <string name="configure">Configure</string>
