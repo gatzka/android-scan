@@ -59,7 +59,7 @@ import java.io.IOException;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
-    private static final int CONFIGURATIION_TIMEOUT = 5000;
+    static final int CONFIGURATIION_TIMEOUT = 5000;
     private Announce announce;
     private ConfigServiceThread configThread;
     private boolean dhcpEnabled;
