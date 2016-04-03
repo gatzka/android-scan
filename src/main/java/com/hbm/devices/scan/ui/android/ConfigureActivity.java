@@ -118,6 +118,9 @@ public final class ConfigureActivity extends AppCompatActivity {
                             interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
                         } else {
                             IPv4EntryManual ipv4Manual = getManualConfiguration();
+                            if (ipv4Manual == null) {
+                                return;
+                            }
                             interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
                         }
                         ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
@@ -205,7 +208,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         if ((ipv4Address != null) && (ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
             ip = ipv4Address.getText().toString();
         } else {
-            ip = "";
+            return null;
         }
         EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
 
@@ -213,7 +216,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         if ((ipv4Mask != null) && (ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
             mask = ipv4Mask.getText().toString();
         } else {
-            mask = "";
+            return null;
         }
         return new IPv4EntryManual(ip, mask);
     }
