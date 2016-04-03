@@ -175,21 +175,21 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private void addNetSettings() {
         final LinearLayout layout = (LinearLayout) findViewById(R.id.network_container);
-        final Interface iface = announce.getParams().getNetSettings().getInterface();
+        final Interface anInterface = announce.getParams().getNetSettings().getInterface();
 
-        addTextWithLabelNoSeparator(layout, iface.getName(), getString(R.string.interface_name));
+        addTextWithLabelNoSeparator(layout, anInterface.getName(), getString(R.string.interface_name));
 
-        final String interfaceType = iface.getType();
+        final String interfaceType = anInterface.getType();
         if (interfaceType != null && interfaceType.length() > 0) {
             addTextWithLabelTopSeparator(layout, interfaceType, getString(R.string.interface_type));
         }
 
-        final String interfaceDescription = iface.getDescription();
+        final String interfaceDescription = anInterface.getDescription();
         if (interfaceDescription != null && interfaceDescription.length() > 0) {
             addTextWithLabelTopSeparator(layout, interfaceDescription, getString(R.string.interface_description));
         }
 
-        final List<IPv4Entry> ipv4Address = iface.getIPv4();
+        final List<IPv4Entry> ipv4Address = anInterface.getIPv4();
         if (ipv4Address != null && !ipv4Address.isEmpty()) {
             addRule(layout);
             for (final IPv4Entry entry : ipv4Address) {
@@ -198,7 +198,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             addLabel(layout, getString(R.string.ipv4_addresses));
         }
 
-        final List<IPv6Entry> ipv6Address = iface.getIPv6();
+        final List<IPv6Entry> ipv6Address = anInterface.getIPv6();
         if (ipv6Address != null && !ipv6Address.isEmpty()) {
             addRule(layout);
             for (final IPv6Entry entry : ipv6Address) {

@@ -64,8 +64,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final Drawable whiteInfo;
     private Announce announce;
 
-    private final int cardBackgroundNotConntectable;
-    private final int cardBackgroundConntectable;
+    private final int cardBackgroundNotConnectable;
+    private final int cardBackgroundConnectable;
     private final int moduleTypeTextColorNotConnectable;
     private final int moduleTypeTextColorConnectable;
     private final int moduleNameTextColorNotConnectable;
@@ -93,8 +93,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         setImageAlpha(blackInfo, alpha);
         whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
 
-        cardBackgroundNotConntectable = ContextCompat.getColor(context, R.color.color_not_connectable);
-        cardBackgroundConntectable = ContextCompat.getColor(context, android.R.color.background_light);
+        cardBackgroundNotConnectable = ContextCompat.getColor(context, R.color.color_not_connectable);
+        cardBackgroundConnectable = ContextCompat.getColor(context, android.R.color.background_light);
         moduleTypeTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.primary_text_dark);
         moduleTypeTextColorConnectable = ContextCompat.getColor(context, android.R.color.primary_text_light);
         moduleNameTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
@@ -112,13 +112,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String uuid = device.getUuid();
 
         if (announce.getCookie() == null) {
-            cardView.setCardBackgroundColor(cardBackgroundNotConntectable);
+            cardView.setCardBackgroundColor(cardBackgroundNotConnectable);
             tvModuleType.setTextColor(moduleTypeTextColorNotConnectable);
             tvModuleName.setTextColor(moduleNameTextColorNotConnectable);
             tvModuleId.setTextColor(moduleIdTextColorNotConnectable);
             infoButton.setImageDrawable(whiteInfo);
         } else {
-            cardView.setCardBackgroundColor(cardBackgroundConntectable);
+            cardView.setCardBackgroundColor(cardBackgroundConnectable);
             tvModuleType.setTextColor(setTextAlpha(moduleTypeTextColorConnectable, alpha));
             tvModuleName.setTextColor(setTextAlpha(moduleNameTextColorConnectable, alpha));
             tvModuleId.setTextColor(setTextAlpha(moduleIdTextColorConnectable, alpha));

@@ -86,7 +86,7 @@ class ConfigServiceThread extends Thread {
         public SendParams(ConfigurationParams params, ConfigurationCallback callback) {
             this.params = params;
             this.callback = callback;
-            this.timeout = ConfigureActivity.CONFIGURATIION_TIMEOUT;
+            this.timeout = ConfigureActivity.CONFIGURATION_TIMEOUT;
         }
     }
 

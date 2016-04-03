@@ -69,11 +69,11 @@ public class AboutActivity extends AppCompatActivity {
         if ((imageCourtesy != null) && (method != null)) {
             imageCourtesy.setMovementMethod(method);
         }
-        TextView buidInfo = (TextView) findViewById(R.id.about_build_info);
-        if (buidInfo == null) {
+        TextView buildInfo = (TextView) findViewById(R.id.about_build_info);
+        if (buildInfo == null) {
             return;
         }
-        buidInfo.setText(this.getResources().getString(R.string.about_build_info,
+        buildInfo.setText(this.getResources().getString(R.string.about_build_info,
                 BuildConfig.VERSION_CODE,
                 new Date(BuildConfig.TIMESTAMP),
                 BuildConfig.GITHASH));
