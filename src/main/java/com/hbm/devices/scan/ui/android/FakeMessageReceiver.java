@@ -85,18 +85,18 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         if (messageType == FakeMessageType.NEW_DEVICE_EVERY_SECOND) {
             announceOneEverySecond();
         } else {
-            announceAtSameTime(NUMBER_OF_ANNOUNCED_MODULES);
+            announceAtSameTime();
         }
     }
 
-    private void announceAtSameTime(int numberOfModules) {
+    private void announceAtSameTime() {
         Vector<String> deviceList = new Vector<>();
-        for (int i = 0; i < numberOfModules; i++) {
+        for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
             deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
         }
         while (shallRun) {
             try {
-                for (int i = 0; i < numberOfModules; i++) {
+                for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
                     final String message = deviceList.get(i);
                     setChanged();
                     notifyObservers(message);
