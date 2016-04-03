@@ -64,12 +64,8 @@ class ConfigServiceThread extends Thread {
     }
 
     public void kill() {
-        try {
-            responseReceiver.close();
-            configService.close();
-        } catch (Throwable e) {
-            Log.e("ConfigSender", e.toString());
-        }
+        responseReceiver.close();
+        configService.close();
     }
 
     public void sendConfiguration(ConfigurationParams configParams,
