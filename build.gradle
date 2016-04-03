@@ -115,15 +115,10 @@ sonarqube {
 	properties {
 		def android_sdk = System.getenv("ANDROID_SDK")
 
-		property "sonar.projectName", "Android Scan"
-		property "sonar.projectVersion", "1.0"
-		property "sonar.projectDescription", "Android scanner for HBM devices"
-		property "sonar.projectKey", "my.group:project-key"
-		property "sonar.host.url", "http://localhost:9000"
 		property "sonar.sourceEncoding", "UTF-8"
 		property "sonar.sources", "src"
 		property "sonar.java.binaries", "build/intermediates/classes/release/"
-		property "sonar.java.libraries", "libs/*.jar,${android_sdk}/platforms/android-23/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
+		property "sonar.java.libraries", "${android_sdk}/platforms/android-23/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
 	}
 }
 
