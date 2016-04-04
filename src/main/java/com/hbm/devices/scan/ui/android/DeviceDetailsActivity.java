@@ -59,7 +59,7 @@ import com.hbm.devices.scan.announce.ServiceEntry;
 
 public final class DeviceDetailsActivity extends AppCompatActivity {
 
-	static final String DETAILS = "Details";
+    static final String DETAILS = "Details";
 
     private Announce announce;
 
@@ -69,7 +69,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.device_details);
 
         announce = (Announce) getIntent().getSerializableExtra(DeviceViewHolder.DETAILS);
-    	initToolbar(announce);
+        initToolbar(announce);
 
         addDeviceInformation();
         addNetSettings();
@@ -78,12 +78,12 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_details_actions, menu);
-		return true;
+        return true;
     }
 
-   	private String getDisplayName(Device device) {
+    private String getDisplayName(Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
@@ -108,8 +108,9 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
                 finish();
                 overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -120,15 +121,15 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private void handleShare(Announce announce) {
         final Uri uri = DeviceZipper.saveAnnounce(announce, this);
-        if (uri != null) {
+        if (uri == null) {
+            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+            exitToast.show();
+        } else {
             Intent devices = new Intent();
             devices.setAction(Intent.ACTION_SEND);
             devices.putExtra(Intent.EXTRA_STREAM, uri);
             devices.setTypeAndNormalize("application/zip");
             startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
-        } else {
-            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
-            exitToast.show();
         }
     }
 
@@ -210,21 +211,21 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         addBottomMargin(layout);
     }
 
-	private void addServices() {
-		final List<ServiceEntry> services = announce.getParams().getServices();
-		if (services != null && !services.isEmpty()) {
-			CardView card = new CardView(this);
+    private void addServices() {
+        final List<ServiceEntry> services = announce.getParams().getServices();
+        if (services != null && !services.isEmpty()) {
+            CardView card = new CardView(this);
 
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT
-					);
-			params.setMargins(
-				getResources().getDimensionPixelSize(R.dimen.details_card_margin_start),
-				getResources().getDimensionPixelSize(R.dimen.details_card_margin_top),
-				getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
-				getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
-			card.setLayoutParams(params);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+            params.setMargins(
+                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_start),
+                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_top),
+                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
+                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
+            card.setLayoutParams(params);
             final LinearLayout cardContainer = (LinearLayout) findViewById(R.id.card_container);
             if (cardContainer != null) {
                 cardContainer.addView(card);
@@ -235,20 +236,20 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             card.addView(layout);
 
-			AppCompatTextView textView = new AppCompatTextView(this);
-			textView.setPadding(
-					getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
-					getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-					getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
-					getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
-			if (Build.VERSION.SDK_INT < 23) {
-				textView.setTextAppearance(this, R.style.DetailsHeading);
-			} else {
-				textView.setTextAppearance(R.style.DetailsHeading);
+            AppCompatTextView textView = new AppCompatTextView(this);
+            textView.setPadding(
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
+            if (Build.VERSION.SDK_INT < 23) {
+                textView.setTextAppearance(this, R.style.DetailsHeading);
+            } else {
+                textView.setTextAppearance(R.style.DetailsHeading);
             }
-			textView.setTextIsSelectable(false);
-			textView.setMaxLines(1);
-			textView.setEllipsize(TruncateAt.END);
+            textView.setTextIsSelectable(false);
+            textView.setMaxLines(1);
+            textView.setEllipsize(TruncateAt.END);
             textView.setText(getString(R.string.services));
             layout.addView(textView);
 
