@@ -175,36 +175,36 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static int resolveResourceId(String key) {
-        if (key.equals("CX23R")) {
+        if ("CX23R".equals(key)) {
             return R.drawable.cx23;
         }
 
-        if (key.equals("MX1601") || key.equals("MX1601B")) {
+        if ("MX1601".equals(key) || "MX1601B".equals(key)) {
             return R.drawable.mx1601b;
         }
-        if (key.equals("MX1601BR")) {
+        if ("MX1601BR".equals(key)) {
             return R.drawable.mx1601br;
         }
 
-        if (key.equals("MX1609KBR")) {
+        if ("MX1609KBR".equals(key)) {
             return R.drawable.mx1609kbr;
         }
-        if (key.equals("MX1609") || key.equals("MX1609KB")) {
+        if ("MX1609".equals(key) || "MX1609KB".equals(key)) {
             return R.drawable.mx1609kb;
         }
 
-        if (key.equals("MX1609TB")) {
+        if ("MX1609TB".equals(key)) {
             return R.drawable.mx1609tb;
         }
-        if (key.equals("MX1609T")) {
+        if ("MX1609T".equals(key)) {
             return R.drawable.mx1609t;
         }
 
-        if (key.equals("MX1615BR")) {
+        if ("MX1615BR".equals(key)) {
             return R.drawable.mx1615br;
         }
 
-        if (key.equals("MX1615B") || key.equals("MX1615")) {
+        if ("MX1615B".equals(key) || "MX1615".equals(key)) {
             return R.drawable.mx1615b;
         }
 
@@ -212,75 +212,75 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             return R.drawable.mx411br;
         }
 
-        if (key.equals("MX411P")) {
+        if ("MX411P".equals(key)) {
             return R.drawable.mx411p;
         }
 
-        if (key.equals("MX410") || key.equals("MX410B")) {
+        if ("MX410".equals(key) || "MX410B".equals(key)) {
             return R.drawable.mx410b;
         }
 
-        if (key.equals("MX471BR")) {
+        if ("MX471BR".equals(key)) {
             return R.drawable.mx471br;
         }
 
-        if (key.equals("MX471") || key.equals("MX471B")) {
+        if ("MX471".equals(key) || "MX471B".equals(key)) {
             return R.drawable.mx471b;
         }
 
-        if (key.equals("MX879") || key.equals("MX879B")) {
+        if ("MX879".equals(key) || "MX879B".equals(key)) {
             return R.drawable.mx879b;
         }
 
-        if (key.equals("MX878") || key.equals("MX878B")) {
+        if ("MX878".equals(key) || "MX878B".equals(key)) {
             return R.drawable.mx878b;
         }
 
-        if (key.equals("MX460") || key.equals("MX460B")) {
+        if ("MX460".equals(key) || "MX460B".equals(key)) {
             return R.drawable.mx460b;
         }
 
-        if (key.equals("MX440") || key.equals("MX440A") || key.equals("MX440B")) {
+        if ("MX440".equals(key) || "MX440A".equals(key) || "MX440B".equals(key)) {
             return R.drawable.mx440b;
         }
 
-        if (key.equals("MX403") || key.equals("MX403B")) {
+        if ("MX403".equals(key) || "MX403B".equals(key)) {
             return R.drawable.mx403b;
         }
 
-        if (key.equals("CX27") || key.equals("CX27B")) {
+        if ("CX27".equals(key) || "CX27B".equals(key)) {
             return R.drawable.cx27b;
         }
 
-        if (key.equals("CX22B")) {
+        if ("CX22B".equals(key)) {
             return R.drawable.cx22b;
         }
 
-        if (key.equals("CX22W")) {
+        if ("CX22W".equals(key)) {
             return R.drawable.cx22w;
         }
 
-        if (key.equals("MX840") || key.equals("MX840A") || key.equals("MX840B")) {
+        if ("MX840".equals(key) || "MX840A".equals(key) || "MX840B".equals(key)) {
             return R.drawable.mx840b;
         }
 
-        if (key.equals("MX840BR")) {
+        if ("MX840BR".equals(key)) {
             return R.drawable.mx840br;
         }
 
-        if (key.equals("MX403") || key.equals("MX430B")) {
+        if ("MX403".equals(key) || "MX430B".equals(key)) {
             return R.drawable.mx430b;
         }
 
-        if (key.equals("MX809") || key.equals("MX809B")) {
+        if ("MX809".equals(key) || "MX809B".equals(key)) {
             return R.drawable.mx809b;
         }
 
-        if (key.equals("MX238") || key.equals("MX238B")) {
+        if ("MX238".equals(key) || "MX238B".equals(key)) {
             return R.drawable.mx238b;
         }
 
-        if (key.equals("PMX")) {
+        if ("PMX".equals(key)) {
             return R.drawable.pmx;
         }
 
