@@ -45,7 +45,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
     private final DeviceListFragment listFragment;
     private final DisplayUpdateEventGenerator eventGenerator;
 
-    public ModuleListAdapter(DeviceListFragment fragment) {
+    ModuleListAdapter(DeviceListFragment fragment) {
         super();
         eventGenerator = new DisplayUpdateEventGenerator(this);
         filteredAnnounces = new ArrayList<>();
