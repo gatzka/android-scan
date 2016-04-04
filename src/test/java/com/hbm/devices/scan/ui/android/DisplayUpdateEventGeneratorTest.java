@@ -54,7 +54,7 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
     private List<DisplayEventAt> events = new ArrayList<DisplayEventAt>();
 
-    private boolean fillNewList = false;
+    private boolean fillNewList;
 
     private static final String DEVICE1;
     private static final String DEVICE1UPDATE;
