@@ -63,23 +63,23 @@ class ConfigServiceThread extends Thread {
         responseReceiver.run();
     }
 
-    public void kill() {
+    void kill() {
         responseReceiver.close();
         configService.close();
     }
 
-    public void sendConfiguration(ConfigurationParams configParams,
-                                  ConfigurationCallback callback) throws NullPointerException,
+    void sendConfiguration(ConfigurationParams configParams,
+            ConfigurationCallback callback) throws NullPointerException,
             IllegalArgumentException {
         new SendConfigTask().execute(new SendParams(configParams, callback));
     }
 
     private class SendParams {
-        final ConfigurationParams params;
-        final ConfigurationCallback callback;
-        final int timeout;
+        private final ConfigurationParams params;
+        private final ConfigurationCallback callback;
+        private final int timeout;
 
-        public SendParams(ConfigurationParams params, ConfigurationCallback callback) {
+        SendParams(ConfigurationParams params, ConfigurationCallback callback) {
             this.params = params;
             this.callback = callback;
             this.timeout = ConfigureActivity.CONFIGURATION_TIMEOUT;
@@ -97,8 +97,9 @@ class ConfigServiceThread extends Thread {
                     Log.e("SendConfigTask", e.toString());
                 }
                 // Escape early if cancel() is called
-                if (isCancelled())
+                if (isCancelled()) {
                     break;
+                }
             }
             return null;
         }

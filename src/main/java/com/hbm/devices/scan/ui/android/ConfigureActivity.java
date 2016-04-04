@@ -127,10 +127,10 @@ public final class ConfigureActivity extends AppCompatActivity {
 
                         ConfigurationDefaultGateway gateway = getDefaultGateway();
                         ConfigurationNetSettings netSettings;
-                        if (gateway != null) {
-                            netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
-                        } else {
+                        if (gateway == null) {
                             netSettings = new ConfigurationNetSettings(interfaceSettings);
+                        } else {
+                            netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
                         }
                         ConfigurationParams params = new ConfigurationParams(device, netSettings);
                         sendConfiguration(v.getContext(), params);

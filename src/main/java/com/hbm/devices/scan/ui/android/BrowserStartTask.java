@@ -39,7 +39,7 @@ final class BrowserStartTask extends AsyncTask<InetSocketAddress, Void, Integer>
 
     private final Context context;
 
-    public BrowserStartTask(Context context) {
+    BrowserStartTask(Context context) {
         super();
         this.context = context;
     }
