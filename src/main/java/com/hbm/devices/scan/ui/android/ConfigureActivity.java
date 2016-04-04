@@ -268,8 +268,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
         }
-        title.append(" ");
-        title.append(displayName);
+        title.append(" ").append(displayName);
         return title.toString();
     }
 
