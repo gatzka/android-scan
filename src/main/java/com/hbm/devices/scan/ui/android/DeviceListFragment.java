@@ -53,7 +53,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
 
     private final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
     private AtomicReference<List<Announce>> collectedAnnounces;
-    private boolean paused = false;
+    private boolean paused;
     private String filterString;
     private ScanThread scanThread;
     private DeviceFilter deviceFilter;
