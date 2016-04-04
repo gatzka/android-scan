@@ -72,7 +72,7 @@ public final class ScanActivity extends AppCompatActivity {
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
     private ModuleListAdapter adapter;
-	private DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public final class ScanActivity extends AppCompatActivity {
         }
 
         initDevicesView();
-    	initToolbar();
+        initToolbar();
         setDeviceListAdapter();
         setupDrawerLayout();
 
@@ -109,7 +109,7 @@ public final class ScanActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_list_actions, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -232,15 +232,15 @@ public final class ScanActivity extends AppCompatActivity {
 
     private void handleShare(List<Announce> announces) {
         final Uri uri = DeviceZipper.saveAnnounces(announces, this);
-        if (uri != null) {
+        if (uri == null) {
+            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
+            exitToast.show();
+        } else {
             Intent devices = new Intent();
             devices.setAction(Intent.ACTION_SEND);
             devices.putExtra(Intent.EXTRA_STREAM, uri);
             devices.setTypeAndNormalize("application/zip");
             startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
-        } else {
-            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
-            exitToast.show();
         }
     }
 
