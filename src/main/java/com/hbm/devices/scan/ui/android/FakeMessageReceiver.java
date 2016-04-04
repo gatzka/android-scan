@@ -34,7 +34,7 @@ import com.google.gson.JsonObject;
 
 import com.hbm.devices.scan.AbstractMessageReceiver;
 
-import java.util.Vector;
+import java.util.LinkedList;
 
 final class FakeMessageReceiver extends AbstractMessageReceiver {
 
@@ -43,7 +43,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     private static final String ADDRESS_KEY = "address";
     private static final int NUMBER_OF_ANNOUNCED_MODULES = 100;
     private final FakeMessageType messageType;
-	private static int deviceCounter;
+    private static int deviceCounter;
 
     private static final String[] devices = {
         "CX23R",
@@ -90,14 +90,13 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     }
 
     private void announceAtSameTime() {
-        Vector<String> deviceList = new Vector<>();
+        LinkedList<String> deviceList = new LinkedList<>();
         for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
             deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
         }
         while (shallRun) {
             try {
-                for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
-                    final String message = deviceList.get(i);
+                for (final String message : deviceList) {
                     setChanged();
                     notifyObservers(message);
                 }
