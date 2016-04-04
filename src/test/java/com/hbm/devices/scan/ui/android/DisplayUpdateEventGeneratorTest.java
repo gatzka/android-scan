@@ -83,7 +83,7 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
         assertEquals(oldList.size(), 5);
         assertEquals(newList.size(), 5);
-        oldListClone = new ArrayList<Announce>(oldList.size());
+        oldListClone = new ArrayList<>(oldList.size());
         for (Announce item: oldList) {
             oldListClone.add(item);
         }
