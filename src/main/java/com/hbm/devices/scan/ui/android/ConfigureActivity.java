@@ -275,6 +275,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     static {
         ipAddressFilter = new InputFilter[1];
         InputFilter filter = new InputFilter() {
+            @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (end > start) {
                     String destTxt = dest.toString();
