@@ -71,17 +71,13 @@ final class DeviceZipper {
         try {
             File cacheDir = activity.getCacheDir();
             File subDir = new File(cacheDir, "devices");
-            if (!subDir.exists() ) {
-                if (!subDir.mkdirs()) {
-                    return null;
-                }
+            if (!subDir.exists() && (!subDir.mkdirs())) {
+                return null;
             }
             File file = new File(subDir, FILE_NAME);
-            if (file.exists()) {
-                if (!file.delete()) {
-                    Toast.makeText(activity, activity.getString(R.string.could_not_delete, FILE_NAME), Toast.LENGTH_SHORT).show();
-                    return null;
-                }
+            if (file.exists() && !file.delete()) {
+                Toast.makeText(activity, activity.getString(R.string.could_not_delete, FILE_NAME), Toast.LENGTH_SHORT).show();
+                return null;
             }
             if (!file.createNewFile()) {
                 Toast.makeText(activity, activity.getString(R.string.could_not_create, FILE_NAME), Toast.LENGTH_SHORT).show();
