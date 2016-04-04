@@ -158,8 +158,10 @@ public final class ConfigureActivity extends AppCompatActivity {
                 finish();
                 overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
                 return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
