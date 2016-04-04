@@ -175,6 +175,7 @@ public final class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onSuccess(final Response response) {
                 runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         Toast.makeText(context, "Configuration successful", Toast.LENGTH_LONG).show();
                     }
@@ -183,6 +184,7 @@ public final class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onTimeout(long t) {
                 runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         Toast.makeText(context, "Configuration timeout", Toast.LENGTH_LONG).show();
                     }
@@ -192,6 +194,7 @@ public final class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onError(final Response response) {
                 runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         Toast.makeText(context, "Error: " + response.getError().getMessage(), Toast.LENGTH_LONG).show();
                     }
