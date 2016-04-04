@@ -51,7 +51,7 @@ import com.squareup.picasso.Picasso;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
-	static final String DETAILS = "Details";
+    static final String DETAILS = "Details";
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
@@ -77,7 +77,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private static final HashMap<String, Integer> resourceCache = new HashMap<>();
 
-    public DeviceViewHolder(View itemView) {
+    DeviceViewHolder(View itemView) {
         super(itemView);
 
         context = itemView.getContext();
@@ -104,7 +104,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         unknown = itemView.getContext().getString(R.string.unknown);
     }
 
-    public void bind(Announce a) {
+    void bind(Announce a) {
         this.announce = a;
         final Device device = announce.getParams().getDevice();
         final String displayName = getDisplayName(device);
@@ -143,14 +143,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         });
 
         infoButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, DeviceDetailsActivity.class);
+                Context viewContext = v.getContext();
+                Intent intent = new Intent(viewContext, DeviceDetailsActivity.class);
                 intent.putExtra(DETAILS, announce);
-                ActivityCompat.startActivity((ScanActivity) context, intent, null);
-                ((ScanActivity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+                ActivityCompat.startActivity((ScanActivity) viewContext, intent, null);
+                ((ScanActivity) viewContext).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
     }
