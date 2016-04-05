@@ -194,7 +194,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         if (ipv4Address != null && !ipv4Address.isEmpty()) {
             addRule(layout);
             for (final IPv4Entry entry : ipv4Address) {
-                addTextNoSeparator(layout, entry.getAddress() + "/" + entry.getNetmask());
+                addTextNoSeparator(layout, entry.getAddress() + '/' + entry.getNetmask());
             }
             addLabel(layout, getString(R.string.ipv4_addresses));
         }
@@ -203,7 +203,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         if (ipv6Address != null && !ipv6Address.isEmpty()) {
             addRule(layout);
             for (final IPv6Entry entry : ipv6Address) {
-                addTextNoSeparator(layout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + "/" + entry.getPrefix());
+                addTextNoSeparator(layout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' + entry.getPrefix());
             }
             addLabel(layout, getString(R.string.ipv6_addresses));
         }
