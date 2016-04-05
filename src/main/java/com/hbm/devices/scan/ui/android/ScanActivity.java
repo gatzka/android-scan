@@ -109,7 +109,7 @@ public final class ScanActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_list_actions, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -142,14 +142,14 @@ public final class ScanActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
+        final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_pause_control:
                 handlePause(item);
                 return true;
 
             case R.id.action_share:
-                List<Announce> announces = adapter.getFilteredAnnounces();
+                final List<Announce> announces = adapter.getFilteredAnnounces();
                 handleShare(announces);
                 return true;
 
@@ -236,7 +236,7 @@ public final class ScanActivity extends AppCompatActivity {
             final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
             exitToast.show();
         } else {
-            Intent devices = new Intent();
+            final Intent devices = new Intent();
             devices.setAction(Intent.ACTION_SEND);
             devices.putExtra(Intent.EXTRA_STREAM, uri);
             devices.setTypeAndNormalize("application/zip");
@@ -247,7 +247,7 @@ public final class ScanActivity extends AppCompatActivity {
     private void setupDrawerLayout() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
+        final NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
         if (view != null) {
             view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -268,9 +268,9 @@ public final class ScanActivity extends AppCompatActivity {
                 }
             });
 
-            View headerView = view.getHeaderView(0);
+            final View headerView = view.getHeaderView(0);
             if (headerView != null) {
-                ImageView avatar = (ImageView) headerView.findViewById(R.id.avatar);
+                final ImageView avatar = (ImageView) headerView.findViewById(R.id.avatar);
                 if (avatar != null) {
                     avatar.setPadding(0, getStatusBarHeight(), 0, 0);
                 }
@@ -280,15 +280,15 @@ public final class ScanActivity extends AppCompatActivity {
 
     private int getStatusBarHeight() { 
         int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        final int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         } 
         return result;
     }
 
-    private boolean kernelSupportsMulticast() {
-        File igmp = new File("/proc/net/", "igmp");
+    private static boolean kernelSupportsMulticast() {
+        final File igmp = new File("/proc/net/", "igmp");
         return igmp.exists();
     }
 }

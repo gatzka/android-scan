@@ -128,9 +128,9 @@ final class ScanThread extends Thread implements Observer {
     }
 
     private void remove(Announce announce) {
-        int count = collectedAnnounces.size();
+        final int count = collectedAnnounces.size();
         for (int i = count - 1; i >= 0; i--) {
-            Announce element = collectedAnnounces.get(i);
+            final Announce element = collectedAnnounces.get(i);
             if (element.sameCommunicationPath(announce)) {
                 collectedAnnounces.remove(i);
             }
@@ -188,7 +188,7 @@ final class ScanThread extends Thread implements Observer {
             }
         }
 
-        private int compareLinkLocal(InetAddress first, InetAddress second) {
+        private static int compareLinkLocal(InetAddress first, InetAddress second) {
             if (!first.isLinkLocalAddress() && second.isLinkLocalAddress()) {
                 return -1;
             } else if (first.isLinkLocalAddress() && !second.isLinkLocalAddress()) {

@@ -77,6 +77,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     };
 
     FakeMessageReceiver(FakeMessageType messageType) {
+        super();
         this.messageType = messageType;
     }
 
@@ -90,7 +91,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     }
 
     private void announceAtSameTime() {
-        LinkedList<String> deviceList = new LinkedList<>();
+        final LinkedList<String> deviceList = new LinkedList<>();
         for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
             deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
         }
@@ -128,7 +129,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         shallRun = false;
     }
 
-    private int getDeviceIndex() {
+    private static int getDeviceIndex() {
         deviceCounter++;
         if (deviceCounter >= devices.length) {
             deviceCounter = 0;

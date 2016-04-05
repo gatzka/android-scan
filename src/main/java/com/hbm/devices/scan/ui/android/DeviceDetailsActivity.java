@@ -78,7 +78,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_details_actions, menu);
         return true;
     }
@@ -93,13 +93,13 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
+        final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_share:
                 handleShare(announce);
                 return true;
             case R.id.action_setup:
-                Intent intent = new Intent(this, ConfigureActivity.class);
+                final Intent intent = new Intent(this, ConfigureActivity.class);
                 intent.putExtra(DETAILS, announce);
                 ActivityCompat.startActivity(this, intent, null);
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
@@ -125,7 +125,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
             exitToast.show();
         } else {
-            Intent devices = new Intent();
+            final Intent devices = new Intent();
             devices.setAction(Intent.ACTION_SEND);
             devices.putExtra(Intent.EXTRA_STREAM, uri);
             devices.setTypeAndNormalize("application/zip");
@@ -214,9 +214,9 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     private void addServices() {
         final List<ServiceEntry> services = announce.getParams().getServices();
         if (services != null && !services.isEmpty()) {
-            CardView card = new CardView(this);
+            final CardView card = new CardView(this);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                     );
@@ -231,12 +231,12 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
                 cardContainer.addView(card);
             }
 
-            LinearLayout layout = new LinearLayout(this);
+            final LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             card.addView(layout);
 
-            AppCompatTextView textView = new AppCompatTextView(this);
+            final AppCompatTextView textView = new AppCompatTextView(this);
             textView.setPadding(
                     getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
                     getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
@@ -253,7 +253,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             textView.setText(getString(R.string.services));
             layout.addView(textView);
 
-            View rule = new View(this);
+            final View rule = new View(this);
             rule.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.ruler_height)));
             rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule_color));
             layout.addView(rule);
@@ -289,8 +289,8 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void addBottomMargin(LinearLayout layout) {
-        View rule = new View(this);
-        LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
+        final View rule = new View(this);
+        final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
         viewLp.setMargins(
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
@@ -304,7 +304,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             addRule(layout);
         }
 
-        AppCompatTextView textView = new AppCompatTextView(this);
+        final AppCompatTextView textView = new AppCompatTextView(this);
         textView.setPadding(
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
@@ -323,8 +323,8 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void addRule(LinearLayout layout) {
-        View rule = new View(this);
-        LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
+        final View rule = new View(this);
+        final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
         viewLp.setMargins(
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
@@ -335,7 +335,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     }
 
     private void addLabel(LinearLayout layout, String label) {
-        AppCompatTextView labelView = new AppCompatTextView(this);
+        final AppCompatTextView labelView = new AppCompatTextView(this);
         labelView.setPadding(
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),

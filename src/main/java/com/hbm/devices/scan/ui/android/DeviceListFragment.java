@@ -68,7 +68,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         collectedAnnounces = new AtomicReference<>();
         deviceFilter = new DeviceFilter();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         startScanThread(sharedPreferences);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -216,7 +216,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<Announce> filteredAnnounces = (ArrayList<Announce>) results.values;
+            final List<Announce> filteredAnnounces = (ArrayList<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
             if (a != null) {
                 a.notifyList(filteredAnnounces);

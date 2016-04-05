@@ -129,7 +129,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleName.setText(displayName);
         tvModuleId.setText(uuid);
         devicePhoto.setImageDrawable(null);
-        Picasso picasso = Picasso.with(context);
+        final Picasso picasso = Picasso.with(context);
         picasso.load(getImageResourceId(a)).into(devicePhoto);
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -145,8 +145,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context viewContext = v.getContext();
-                Intent intent = new Intent(viewContext, DeviceDetailsActivity.class);
+                final Context viewContext = v.getContext();
+                final Intent intent = new Intent(viewContext, DeviceDetailsActivity.class);
                 intent.putExtra(DETAILS, announce);
                 ActivityCompat.startActivity((ScanActivity) viewContext, intent, null);
                 ((ScanActivity) viewContext).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
@@ -288,15 +288,15 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {
-        int alpha = alphaPercent * 255 / 100;
+        final int alpha = alphaPercent * 255 / 100;
         draw.setAlpha(alpha);
     }
 
     private static int setTextAlpha(int color, int alphaPercent) {
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        int alpha = alphaPercent * 255 / 100;
+        final int red = Color.red(color);
+        final int green = Color.green(color);
+        final int blue = Color.blue(color);
+        final int alpha = alphaPercent * 255 / 100;
         return Color.argb(alpha, red, green, blue);
     }
 

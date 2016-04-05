@@ -56,25 +56,25 @@ final class DeviceZipper {
     private static final String FILE_NAME = "devices.zip";
 
     static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
-        List<Announce> list = new ArrayList<>();
+        final List<Announce> list = new ArrayList<>();
         list.add(announce);
         return saveAnnounces(list, activity);
     }
 
     static Uri saveAnnounces(List<Announce> announces, AppCompatActivity activity) {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.US);
+        final TimeZone tz = TimeZone.getTimeZone("UTC");
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.US);
         df.setTimeZone(tz);
-        String isoDate = df.format(new Date());
-        Charset charSet = Charset.forName("UTF-8");
+        final String isoDate = df.format(new Date());
+        final Charset charSet = Charset.forName("UTF-8");
 
         try {
-            File cacheDir = activity.getCacheDir();
-            File subDir = new File(cacheDir, "devices");
+            final File cacheDir = activity.getCacheDir();
+            final File subDir = new File(cacheDir, "devices");
             if (!subDir.exists() && (!subDir.mkdirs())) {
                 return null;
             }
-            File file = new File(subDir, FILE_NAME);
+            final File file = new File(subDir, FILE_NAME);
             if (file.exists() && !file.delete()) {
                 Toast.makeText(activity, activity.getString(R.string.could_not_delete, FILE_NAME), Toast.LENGTH_SHORT).show();
                 return null;
@@ -83,15 +83,15 @@ final class DeviceZipper {
                 Toast.makeText(activity, activity.getString(R.string.could_not_create, FILE_NAME), Toast.LENGTH_SHORT).show();
                 return null;
             }
-            FileOutputStream fos = new FileOutputStream(file, false);
-            ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
-            ZipEntry entry = new ZipEntry("devices.json");
+            final FileOutputStream fos = new FileOutputStream(file, false);
+            final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
+            final ZipEntry entry = new ZipEntry("devices.json");
             zos.putNextEntry(entry);
             zos.write(("{\"date\":\"" + isoDate + "\",").getBytes(charSet));
             zos.write(("\"version\": \"1.0\",").getBytes(charSet));
             zos.write("\"devices\":[".getBytes(charSet));
 
-            Iterator<Announce> iterator = announces.iterator();
+            final Iterator<Announce> iterator = announces.iterator();
             while (iterator.hasNext()) {
                 final Announce announce = iterator.next();
                 zos.write(announce.getJSONString().getBytes(charSet));

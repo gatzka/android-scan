@@ -89,7 +89,7 @@ class ConfigServiceThread extends Thread {
     private class SendConfigTask extends AsyncTask<SendParams, Integer, Void> {
 
         protected Void doInBackground(SendParams... params) {
-            for (SendParams sendParam : params) {
+            for (final SendParams sendParam : params) {
                 try {
                     configService.sendConfiguration(sendParam.params,
                             sendParam.callback, sendParam.timeout);

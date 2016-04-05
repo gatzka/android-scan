@@ -59,17 +59,17 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void fillVersion() {
-        TextView versionView = (TextView) findViewById(R.id.about_version);
+        final TextView versionView = (TextView) findViewById(R.id.about_version);
         if (versionView == null) {
             return;
         }
         versionView.setText(this.getResources().getString(R.string.about_version, BuildConfig.VERSION_NAME));
-        TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
-        MovementMethod method = LinkMovementMethod.getInstance();
+        final TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
+        final MovementMethod method = LinkMovementMethod.getInstance();
         if ((imageCourtesy != null) && (method != null)) {
             imageCourtesy.setMovementMethod(method);
         }
-        TextView buildInfo = (TextView) findViewById(R.id.about_build_info);
+        final TextView buildInfo = (TextView) findViewById(R.id.about_build_info);
         if (buildInfo == null) {
             return;
         }

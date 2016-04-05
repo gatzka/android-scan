@@ -69,7 +69,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
 
     @Override
     public long getItemId(int position) {
-        Announce announce = filteredAnnounces.get(position);
+        final Announce announce = filteredAnnounces.get(position);
         return announce.getCommunicationPathId();
     }
 

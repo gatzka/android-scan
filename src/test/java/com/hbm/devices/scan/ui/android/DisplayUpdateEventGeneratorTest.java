@@ -35,7 +35,6 @@ import com.hbm.devices.scan.ui.android.DisplayUpdateEventGenerator;
 
 
 import java.io.IOException;
-import java.lang.Override;
 import java.util.ArrayList;
 import java.io.InputStream;
 import java.util.List;
@@ -66,7 +65,7 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
     @Test
     public void testCompareLists() throws Exception {
-        AnnounceDeserializer parser = new AnnounceDeserializer();
+        final AnnounceDeserializer parser = new AnnounceDeserializer();
         parser.addObserver(this);
         parser.update(null, DEVICE1);
         parser.update(null, DEVICE2);
@@ -84,11 +83,11 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
         assertEquals(oldList.size(), 5);
         assertEquals(newList.size(), 5);
         oldListClone = new ArrayList<>(oldList.size());
-        for (Announce item: oldList) {
+        for (final Announce item: oldList) {
             oldListClone.add(item);
         }
         assertEquals("Cloned old list not equals to oldList", oldList, oldListClone);
-        DisplayUpdateEventGenerator eventGenerator = new DisplayUpdateEventGenerator(this);
+        final DisplayUpdateEventGenerator eventGenerator = new DisplayUpdateEventGenerator(this);
         eventGenerator.compareLists(oldList, newList);
         assertEquals("oldList not the same as newList after compareList", oldList, newList);
         assertEquals("updated events list not the same as newList after compareList", oldListClone, newList);
@@ -102,7 +101,7 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
     @Override
     public void notifyMoved(int fromPosition, int toPosition) {
-        Announce announce = oldListClone.remove(fromPosition);
+        final Announce announce = oldListClone.remove(fromPosition);
         oldListClone.add(toPosition, announce);
         events.add(new DisplayEventAt(DisplayEvents.MOVE, fromPosition, toPosition));
     }

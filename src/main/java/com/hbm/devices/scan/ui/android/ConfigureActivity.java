@@ -79,15 +79,15 @@ public final class ConfigureActivity extends AppCompatActivity {
 
             setEdit(false);
 
-            EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
+            final EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
             if (ipv4Address != null) {
                 ipv4Address.setFilters(ipAddressFilter);
             }
-            EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+            final EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
             if (ipv4Mask != null) {
                 ipv4Mask.setFilters(ipAddressFilter);
             }
-            EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+            final EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
             if (gateway != null) {
                 gateway.setFilters(ipAddressFilter);
             }
@@ -107,32 +107,32 @@ public final class ConfigureActivity extends AppCompatActivity {
                     }
                 });
             }
-            Button submit = (Button) findViewById(R.id.submit);
+            final Button submit = (Button) findViewById(R.id.submit);
             if (submit != null) {
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ConfigurationInterface interfaceSettings;
-                        String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
+                        final String interfaceName = announce.getParams().getNetSettings().getInterface().getName();
                         if (dhcpEnabled) {
                             interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.DHCP);
                         } else {
-                            IPv4EntryManual ipv4Manual = getManualConfiguration();
+                            final IPv4EntryManual ipv4Manual = getManualConfiguration();
                             if (ipv4Manual == null) {
                                 return;
                             }
                             interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
                         }
-                        ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
+                        final ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
 
-                        ConfigurationDefaultGateway gateway = getDefaultGateway();
+                        final ConfigurationDefaultGateway gateway = getDefaultGateway();
                         ConfigurationNetSettings netSettings;
                         if (gateway == null) {
                             netSettings = new ConfigurationNetSettings(interfaceSettings);
                         } else {
                             netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
                         }
-                        ConfigurationParams params = new ConfigurationParams(device, netSettings);
+                        final ConfigurationParams params = new ConfigurationParams(device, netSettings);
                         sendConfiguration(v.getContext(), params);
                     }
                 });
@@ -152,15 +152,13 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+            overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -171,7 +169,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     private void sendConfiguration(final Context context, ConfigurationParams params) {
-        ConfigurationCallback callback = new ConfigurationCallback() {
+        final ConfigurationCallback callback = new ConfigurationCallback() {
             @Override
             public void onSuccess(final Response response) {
                 runOnUiThread(new Runnable() {
@@ -205,7 +203,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
-        EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+        final EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
         if (gateway!= null && gateway.getText() != null && gateway.getText().length() > 0) {
             return new ConfigurationDefaultGateway(gateway.getText().toString());
         } else{
@@ -214,14 +212,14 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     private IPv4EntryManual getManualConfiguration() {
-        EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
+        final EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
         String ip;
         if ((ipv4Address != null) && (ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
             ip = ipv4Address.getText().toString();
         } else {
             return null;
         }
-        EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+        final EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
 
         String mask;
         if ((ipv4Mask != null) && (ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
@@ -233,18 +231,18 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     private void setEdit(boolean edit) {
-        EditText ipv4 = (EditText) findViewById(R.id.configure_ip_address_edit);
+        final EditText ipv4 = (EditText) findViewById(R.id.configure_ip_address_edit);
         if (ipv4 != null) {
             ipv4.setEnabled(edit);
             if (edit) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
             }
-            EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+            final EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
             if (ipv4Mask != null) {
                 ipv4Mask.setEnabled(edit);
             }
-            EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+            final EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
             if (gateway != null) {
                 gateway.setEnabled(edit);
             }
@@ -263,7 +261,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
    	private String getDisplayName(Device device) {
-        StringBuilder title = new StringBuilder(getResources().getText(R.string.configure));
+        final StringBuilder title = new StringBuilder(getResources().getText(R.string.configure));
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
@@ -274,7 +272,7 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     static {
         ipAddressFilter = new InputFilter[1];
-        InputFilter filter = new InputFilter() {
+        final InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (end > start) {
