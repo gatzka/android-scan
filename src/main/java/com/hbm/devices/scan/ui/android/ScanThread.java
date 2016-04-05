@@ -157,7 +157,7 @@ final class ScanThread extends Thread implements Observer {
             return -1;
         }
         for (final ServiceEntry entry : entries) {
-            if (entry.getType().equals(ServiceEntry.SERVICE_HTTP)) {
+            if (ServiceEntry.SERVICE_HTTP.equals(entry.getType())) {
                 return entry.getPort();
             }
         }
