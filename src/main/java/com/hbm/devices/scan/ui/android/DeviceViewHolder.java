@@ -77,7 +77,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     private static final HashMap<String, Integer> resourceCache = new HashMap<>();
 
-    DeviceViewHolder(View itemView) {
+    DeviceViewHolder(CardView itemView) {
         super(itemView);
 
         context = itemView.getContext();
@@ -87,7 +87,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleName = (TextView) itemView.findViewById(R.id.moduleName);
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
-        cardView = (CardView) itemView;
+        cardView = itemView;
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
         alpha = context.getResources().getInteger(R.integer.text_alpha);
         setImageAlpha(blackInfo, alpha);

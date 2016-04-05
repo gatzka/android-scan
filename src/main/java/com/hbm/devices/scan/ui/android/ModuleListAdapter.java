@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dev_item, parent, false);
-        return new DeviceViewHolder(itemView);
+        return new DeviceViewHolder((CardView) itemView);
     }
 
     @Override
