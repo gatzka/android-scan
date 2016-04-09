@@ -111,21 +111,21 @@ class ConfigServiceThread extends Thread {
         }
 
         @Override
-        protected synchronized void onPostExecute(Void result) {
+        protected void onPostExecute(Void result) {
             synchronized (this) {
                 Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
             }
         }
 
         @Override
-        public synchronized void onSuccess(final Response response) {
+        public void onSuccess(final Response response) {
             synchronized (this) {
                 message = activity.getString(R.string.config_successful);
                 notifyAll();
             }
         }
         @Override
-        public synchronized void onTimeout(long t) {
+        public void onTimeout(long t) {
             synchronized (this) {
                 message = activity.getString(R.string.config_timeout);
                 notifyAll();
@@ -133,7 +133,7 @@ class ConfigServiceThread extends Thread {
         }
 
         @Override
-        public synchronized void onError(final Response response) {
+        public void onError(final Response response) {
             synchronized (this) {
                 message = activity.getString(R.string.config_error, response.getError().getMessage());
                 notifyAll();
