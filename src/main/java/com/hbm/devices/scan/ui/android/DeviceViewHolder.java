@@ -41,13 +41,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.InetSocketAddress;
-import java.util.HashMap;
-
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
-
 import com.squareup.picasso.Picasso;
+
+import java.net.InetSocketAddress;
+import java.util.HashMap;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
@@ -145,11 +144,10 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Context viewContext = v.getContext();
-                final Intent intent = new Intent(viewContext, DeviceDetailsActivity.class);
+                final Intent intent = new Intent(context, DeviceDetailsActivity.class);
                 intent.putExtra(DETAILS, announce);
-                ActivityCompat.startActivity((ScanActivity) viewContext, intent, null);
-                ((ScanActivity) viewContext).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+                ActivityCompat.startActivity((ScanActivity) context, intent, null);
+                ((ScanActivity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
     }
