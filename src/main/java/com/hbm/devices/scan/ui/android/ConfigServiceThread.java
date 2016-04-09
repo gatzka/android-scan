@@ -89,8 +89,9 @@ class ConfigServiceThread extends Thread {
                     configService.sendConfiguration(sendParam,
                             this, ConfigureActivity.CONFIGURATION_TIMEOUT);
                 } catch (IOException e) {
-                    message = activity.getString(R.string.could_not_send_config_req) +
-                            ": " + e;
+                    synchronized (this) {
+                        message = activity.getString(R.string.could_not_send_config_req) + ": " + e;
+                    }
                 }
                 // Escape early if cancel() is called
                 if (isCancelled()) {
@@ -99,7 +100,9 @@ class ConfigServiceThread extends Thread {
             }
             synchronized (this) {
                 try {
-                    wait();
+                    while ((message == null) || message.isEmpty()) {
+                        wait();
+                    }
                 } catch (InterruptedException e) {
                     message = activity.getString(R.string.config_error, activity.getString(R.string.interrupted_wait));
                 }
@@ -108,7 +111,7 @@ class ConfigServiceThread extends Thread {
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected synchronized void onPostExecute(Void result) {
             Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
         }
 
