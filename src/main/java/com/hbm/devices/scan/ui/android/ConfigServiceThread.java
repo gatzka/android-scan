@@ -69,8 +69,7 @@ class ConfigServiceThread extends Thread {
     }
 
     void sendConfiguration(ConfigurationParams configParams,
-            ConfigurationCallback callback) throws NullPointerException,
-            IllegalArgumentException {
+            ConfigurationCallback callback) {
         new SendConfigTask().execute(new SendParams(configParams, callback));
     }
 
@@ -93,7 +92,7 @@ class ConfigServiceThread extends Thread {
                 try {
                     configService.sendConfiguration(sendParam.params,
                             sendParam.callback, sendParam.timeout);
-                } catch (NullPointerException | IllegalArgumentException | IOException e) {
+                } catch (IOException e) {
                     Log.e("SendConfigTask", e.toString());
                 }
                 // Escape early if cancel() is called
