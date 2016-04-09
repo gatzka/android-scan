@@ -46,14 +46,12 @@ import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.configure.ConfigurationCallback;
+import com.hbm.devices.scan.configure.ConfigurationDefaultGateway;
 import com.hbm.devices.scan.configure.ConfigurationDevice;
 import com.hbm.devices.scan.configure.ConfigurationInterface;
 import com.hbm.devices.scan.configure.ConfigurationNetSettings;
-import com.hbm.devices.scan.configure.ConfigurationDefaultGateway;
 import com.hbm.devices.scan.configure.ConfigurationParams;
 import com.hbm.devices.scan.configure.IPv4EntryManual;
-import com.hbm.devices.scan.configure.Response;
 
 import java.io.IOException;
 
@@ -133,7 +131,7 @@ public final class ConfigureActivity extends AppCompatActivity {
                             netSettings = new ConfigurationNetSettings(interfaceSettings, gateway);
                         }
                         final ConfigurationParams params = new ConfigurationParams(device, netSettings);
-                        sendConfiguration(v.getContext(), params);
+                        configThread.sendConfiguration(params, ConfigureActivity.this);
                     }
                 });
             }
@@ -166,46 +164,6 @@ public final class ConfigureActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-    }
-
-    private void sendConfiguration(final Context context, ConfigurationParams params) {
-        final ConfigurationCallback callback = new ConfigurationCallback() {
-            @Override
-            public void onSuccess(final Response response) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "Configuration successful", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            @Override
-            public void onTimeout(long t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "Configuration timeout", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(final Response response) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final String msg;
-                        if (response == null) {
-                            msg = getString(R.string.could_not_send_config_req);
-                        } else {
-                            msg = response.getError().getMessage();
-                        }
-                        Toast.makeText(context, "Error: " + msg, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        };
-        configThread.sendConfiguration(params, callback);
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {

@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.configure.ConfigurationCallback;
@@ -37,6 +38,7 @@ import com.hbm.devices.scan.configure.ConfigurationMulticastSender;
 import com.hbm.devices.scan.configure.ConfigurationParams;
 import com.hbm.devices.scan.configure.ConfigurationSerializer;
 import com.hbm.devices.scan.configure.ConfigurationService;
+import com.hbm.devices.scan.configure.Response;
 import com.hbm.devices.scan.configure.ResponseDeserializer;
 
 import java.io.IOException;
@@ -67,37 +69,64 @@ class ConfigServiceThread extends Thread {
         configService.close();
     }
 
-    void sendConfiguration(ConfigurationParams configParams,
-            ConfigurationCallback callback) {
-        new SendConfigTask().execute(new SendParams(configParams, callback));
+    void sendConfiguration(ConfigurationParams configParams, ConfigureActivity activity) {
+        new SendConfigTask(activity).execute(configParams);
     }
 
-    private class SendParams {
-        private final ConfigurationParams params;
-        private final ConfigurationCallback callback;
+    private class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void> implements ConfigurationCallback {
+        private final ConfigureActivity activity;
+        private String message;
 
-        SendParams(ConfigurationParams params, ConfigurationCallback callback) {
-            this.params = params;
-            this.callback = callback;
+        SendConfigTask(final ConfigureActivity act) {
+            activity = act;
         }
-    }
 
-    private class SendConfigTask extends AsyncTask<SendParams, Integer, Void> {
+        @Override
+        protected Void doInBackground(ConfigurationParams... params) {
 
-        protected Void doInBackground(SendParams... params) {
-            for (final SendParams sendParam : params) {
+            for (final ConfigurationParams sendParam : params) {
                 try {
-                    configService.sendConfiguration(sendParam.params,
-                            sendParam.callback, ConfigureActivity.CONFIGURATION_TIMEOUT);
+                    configService.sendConfiguration(sendParam,
+                            this, ConfigureActivity.CONFIGURATION_TIMEOUT);
                 } catch (IOException e) {
-                    sendParam.callback.onError(null);
+                    message = activity.getString(R.string.could_not_send_config_req) +
+                            ": " + e;
                 }
                 // Escape early if cancel() is called
                 if (isCancelled()) {
                     break;
                 }
             }
+            synchronized (this) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    message = activity.getString(R.string.config_error, "Call interrupted!");
+                }
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public synchronized void onSuccess(final Response response) {
+            message = activity.getString(R.string.config_successful);
+            notifyAll();
+        }
+        @Override
+        public synchronized void onTimeout(long t) {
+            message = activity.getString(R.string.config_timeout);
+            notifyAll();
+        }
+
+        @Override
+        public synchronized void onError(final Response response) {
+            message = activity.getString(R.string.config_error, response.getError().getMessage());
+            notifyAll();
         }
     }
 }
