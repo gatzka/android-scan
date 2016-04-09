@@ -75,12 +75,10 @@ class ConfigServiceThread extends Thread {
     private class SendParams {
         private final ConfigurationParams params;
         private final ConfigurationCallback callback;
-        private final int timeout;
 
         SendParams(ConfigurationParams params, ConfigurationCallback callback) {
             this.params = params;
             this.callback = callback;
-            this.timeout = ConfigureActivity.CONFIGURATION_TIMEOUT;
         }
     }
 
@@ -90,7 +88,7 @@ class ConfigServiceThread extends Thread {
             for (final SendParams sendParam : params) {
                 try {
                     configService.sendConfiguration(sendParam.params,
-                            sendParam.callback, sendParam.timeout);
+                            sendParam.callback, ConfigureActivity.CONFIGURATION_TIMEOUT);
                 } catch (IOException e) {
                     sendParam.callback.onError(null);
                 }
