@@ -112,24 +112,32 @@ class ConfigServiceThread extends Thread {
 
         @Override
         protected synchronized void onPostExecute(Void result) {
-            Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+            synchronized (this) {
+                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override
         public synchronized void onSuccess(final Response response) {
-            message = activity.getString(R.string.config_successful);
-            notifyAll();
+            synchronized (this) {
+                message = activity.getString(R.string.config_successful);
+                notifyAll();
+            }
         }
         @Override
         public synchronized void onTimeout(long t) {
-            message = activity.getString(R.string.config_timeout);
-            notifyAll();
+            synchronized (this) {
+                message = activity.getString(R.string.config_timeout);
+                notifyAll();
+            }
         }
 
         @Override
         public synchronized void onError(final Response response) {
-            message = activity.getString(R.string.config_error, response.getError().getMessage());
-            notifyAll();
+            synchronized (this) {
+                message = activity.getString(R.string.config_error, response.getError().getMessage());
+                notifyAll();
+            }
         }
     }
 }
