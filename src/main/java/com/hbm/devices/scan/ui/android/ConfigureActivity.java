@@ -194,7 +194,13 @@ public final class ConfigureActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Error: " + response.getError().getMessage(), Toast.LENGTH_LONG).show();
+                        final String msg;
+                        if (response == null) {
+                            msg = getString(R.string.could_not_send_config_req);
+                        } else {
+                            msg = response.getError().getMessage();
+                        }
+                        Toast.makeText(context, "Error: " + msg, Toast.LENGTH_LONG).show();
                     }
                 });
             }

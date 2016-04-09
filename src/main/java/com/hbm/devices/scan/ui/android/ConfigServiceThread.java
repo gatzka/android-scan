@@ -29,7 +29,6 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.configure.ConfigurationCallback;
@@ -93,7 +92,7 @@ class ConfigServiceThread extends Thread {
                     configService.sendConfiguration(sendParam.params,
                             sendParam.callback, sendParam.timeout);
                 } catch (IOException e) {
-                    Log.e("SendConfigTask", e.toString());
+                    sendParam.callback.onError(null);
                 }
                 // Escape early if cancel() is called
                 if (isCancelled()) {
