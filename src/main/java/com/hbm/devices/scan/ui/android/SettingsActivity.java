@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
             .replace(R.id.content_frame, new SettingsFragment())
             .commit();
-	}
+    }
 
     private void initToolbar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

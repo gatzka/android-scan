@@ -133,7 +133,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         deviceCounter++;
         if (deviceCounter >= devices.length) {
             deviceCounter = 0;
-        }	
+        }
         return deviceCounter;
     }
 

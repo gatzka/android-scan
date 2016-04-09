@@ -137,7 +137,7 @@ public final class ScanActivity extends AppCompatActivity {
         } else {
             pauseItem.setIcon(R.drawable.ic_action_pause);
         }
-		return true;
+        return true;
     }
 
     @Override

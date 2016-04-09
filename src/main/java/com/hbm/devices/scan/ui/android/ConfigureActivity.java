@@ -260,7 +260,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         setTitle(getDisplayName(announce.getParams().getDevice()));
     }
 
-   	private String getDisplayName(Device device) {
+    private String getDisplayName(Device device) {
         final StringBuilder title = new StringBuilder(getResources().getText(R.string.configure));
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
@@ -295,3 +295,4 @@ public final class ConfigureActivity extends AppCompatActivity {
         ipAddressFilter[0] = filter;
     }
 }
+
