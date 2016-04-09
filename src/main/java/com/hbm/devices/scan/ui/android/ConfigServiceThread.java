@@ -101,7 +101,7 @@ class ConfigServiceThread extends Thread {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    message = activity.getString(R.string.config_error, "Call interrupted!");
+                    message = activity.getString(R.string.config_error, activity.getString(R.string.interrupted_wait));
                 }
             }
             return null;
