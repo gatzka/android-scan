@@ -51,6 +51,7 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     public static final int CONFIGURATION_TIMEOUT = 5000;
     private ConfigServiceThread configThread;
+    private static final String CONFIG_SERVICE_THREAD_NAME = "Configuration Service Thread";
 
     private static final InputFilter[] ipAddressFilter;
 
@@ -63,7 +64,7 @@ public final class ConfigureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_layout);
         try {
-            this.configThread = new ConfigServiceThread();
+            this.configThread = new ConfigServiceThread(CONFIG_SERVICE_THREAD_NAME);
             configThread.start();
 
             final Announce announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);

@@ -49,7 +49,8 @@ class ConfigServiceThread extends Thread {
     private final ConfigurationService configService;
     private final ConfigurationMessageReceiver responseReceiver;
 
-    ConfigServiceThread() throws IOException {
+    ConfigServiceThread(String name) throws IOException {
+        super(name);
         responseReceiver = new ConfigurationMessageReceiver();
         final ResponseDeserializer responseParser = new ResponseDeserializer();
         responseReceiver.addObserver(responseParser);
@@ -73,11 +74,13 @@ class ConfigServiceThread extends Thread {
         new SendConfigTask(activity).execute(configParams);
     }
 
-    private class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void> implements ConfigurationCallback {
+    private class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void>
+            implements ConfigurationCallback {
         private final ConfigureActivity activity;
         private String message;
 
         SendConfigTask(final ConfigureActivity act) {
+            super();
             activity = act;
         }
 
