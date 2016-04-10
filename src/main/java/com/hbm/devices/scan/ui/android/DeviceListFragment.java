@@ -29,25 +29,25 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Filter;
 
+import com.hbm.devices.scan.announce.Announce;
+import com.hbm.devices.scan.announce.Device;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
-
-import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.Device;
 
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
@@ -59,6 +59,10 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     private DeviceFilter deviceFilter;
     private WifiLock wifiLock;
     private MulticastLock mcLock;
+
+    public DeviceListFragment() {
+        super();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         /*
          * Probably a good idea to update UI only after this method was called.
          * Then we should have a complete view. In onDestroyView we can stop updating UI.
-         * Probably a better idea is to start/stop updating UI in onResume/onPause. 
+         * Probably a better idea is to start/stop updating UI in onResume/onPause.
          * Has to be clarified if these methods are called when activity goes into background.
          */
         final ScanActivity activity = (ScanActivity) getActivity();
@@ -142,7 +146,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         this.filterString = filterString;
         updateList();
     }
-    
+
     void notify(List<Announce> announces) {
         collectedAnnounces.set(announces);
         if (!paused) {
@@ -163,7 +167,8 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
 
     private void startScanThread(SharedPreferences sharedPreferences) {
         final boolean useFakeMessages = sharedPreferences.getBoolean(getString(R.string.pref_use_fake_messages), false);
-        final String fakeMessageType = sharedPreferences.getString(getString(R.string.pref_fake_message_type), getString(R.string.default_fake_type));
+        final String fakeMessageType = sharedPreferences.getString(getString(R.string.pref_fake_message_type),
+                getString(R.string.default_fake_type));
 
         FakeMessageType messageType;
         if (fakeMessageType.equals(getString(R.string.new_dev_every_second))) {
@@ -180,7 +185,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
         }
     }
-    
+
     private void stopScanThread() {
         scanThread.finish();
         try {
@@ -216,7 +221,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            final List<Announce> filteredAnnounces = (ArrayList<Announce>) results.values;
+            final List<Announce> filteredAnnounces = (List<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
             if (a != null) {
                 a.notifyList(filteredAnnounces);
