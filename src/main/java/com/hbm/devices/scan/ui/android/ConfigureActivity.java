@@ -48,10 +48,14 @@ import java.io.IOException;
 
 public final class ConfigureActivity extends AppCompatActivity {
 
-    static final int CONFIGURATION_TIMEOUT = 5000;
+    public static final int CONFIGURATION_TIMEOUT = 5000;
     private ConfigServiceThread configThread;
 
     private static final InputFilter[] ipAddressFilter;
+
+    public ConfigureActivity() {
+        super();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,7 +159,7 @@ public final class ConfigureActivity extends AppCompatActivity {
                     String resultingTxt = destTxt.substring(0, dstart) +
                             source.subSequence(start, end) +
                             destTxt.substring(dend);
-                    
+
                     if (resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
                         String[] splits = resultingTxt.split("\\.");
                         for (String split : splits) {
