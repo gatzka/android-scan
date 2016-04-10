@@ -30,28 +30,26 @@ package com.hbm.devices.scan.ui.android;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
-import com.hbm.devices.scan.ui.android.DisplayNotifier;
-import com.hbm.devices.scan.ui.android.DisplayUpdateEventGenerator;
 
+import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Properties;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observer {
 
-    private List<Announce> oldList = new ArrayList<Announce>();
-    private List<Announce> newList = new ArrayList<Announce>();
+    private List<Announce> oldList = new ArrayList<>();
+    private List<Announce> newList = new ArrayList<>();
     private List<Announce> oldListClone;
 
-    private List<DisplayEventAt> events = new ArrayList<DisplayEventAt>();
+    private List<DisplayEventAt> events = new ArrayList<>();
 
     private boolean fillNewList;
 
