@@ -54,7 +54,7 @@ if (isDirty()) {
 repositories {
 	mavenCentral()
 }
-	
+
 apply plugin: 'com.android.application'
 
 allprojects {
@@ -82,7 +82,7 @@ android {
 
     defaultConfig {
         applicationId "com.hbm.devices.scan.ui.android"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode totalCommits.toInteger()
         versionName version
