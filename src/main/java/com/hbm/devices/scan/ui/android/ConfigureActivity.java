@@ -182,7 +182,7 @@ class IPv4InputFilter implements InputFilter {
         if (address.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
             final String[] splits = address.split("\\.");
             for (final String split : splits) {
-                if (Integer.valueOf(split) > MAX_IPV4_NUMBER) {
+                if (Integer.parseInt(split) > MAX_IPV4_NUMBER) {
                     return false;
                 }
             }
