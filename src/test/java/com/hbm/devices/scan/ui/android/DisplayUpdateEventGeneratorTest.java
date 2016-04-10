@@ -49,8 +49,6 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
     private List<Announce> newList = new ArrayList<>();
     private List<Announce> oldListClone;
 
-    private List<DisplayEventAt> events = new ArrayList<>();
-
     private boolean fillNewList;
 
     private static final String DEVICE1;
@@ -94,26 +92,22 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
     @Override
     public void notifyRemoveAt(int position) {
         oldListClone.remove(position);
-        events.add(new DisplayEventAt(DisplayEvents.REMOVE, position));
     }
 
     @Override
     public void notifyMoved(int fromPosition, int toPosition) {
         final Announce announce = oldListClone.remove(fromPosition);
         oldListClone.add(toPosition, announce);
-        events.add(new DisplayEventAt(DisplayEvents.MOVE, fromPosition, toPosition));
     }
 
     @Override
     public void notifyChangeAt(int position) {
         oldListClone.set(position, newList.get(position));
-        events.add(new DisplayEventAt(DisplayEvents.UPDATE, position));
     }
 
     @Override
     public void notifyAddAt(int position) {
         oldListClone.add(newList.get(position));
-        events.add(new DisplayEventAt(DisplayEvents.ADD, position));
     }
 
     @Override
@@ -139,28 +133,6 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
             DEVICE6 = props.getProperty("scan.announce.device6");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
-        }
-    }
-
-    enum DisplayEvents {
-        REMOVE, ADD, MOVE, UPDATE
-    }
-
-    class DisplayEventAt {
-        DisplayEvents event;
-        int position;
-        int fromPosition;
-        int toPosition;
-
-        DisplayEventAt(DisplayEvents ev, int pos) {
-            this.event = ev;
-            this.position = pos;
-        }
-
-        DisplayEventAt(DisplayEvents ev, int from, int to) {
-            this.event = ev;
-            this.fromPosition = from;
-            this.toPosition = to;
         }
     }
 }
