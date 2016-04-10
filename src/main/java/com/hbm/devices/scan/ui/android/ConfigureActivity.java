@@ -95,7 +95,7 @@ public final class ConfigureActivity extends AppCompatActivity {
             }
         } catch (IOException e) {
             final Toast failureToast = Toast.makeText(this,
-                    "Could not start configuration service!", Toast.LENGTH_SHORT);
+                    getString(R.string.could_not_start_config, e), Toast.LENGTH_SHORT);
             failureToast.show();
         }
     }
