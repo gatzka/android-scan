@@ -49,57 +49,29 @@ class DetailsFiller {
 
     private final DeviceDetailsActivity activity;
     private final Announce announce;
+    private final LinearLayout layout;
 
     DetailsFiller(Announce a, DeviceDetailsActivity act) {
         announce = a;
         activity = act;
+        layout = (LinearLayout) activity.findViewById(R.id.device_container);
     }
 
     void addDeviceInformation() {
-        final LinearLayout layout = (LinearLayout) activity.findViewById(R.id.device_container);
-
         final Device device = announce.getParams().getDevice();
-        addTextWithLabelNoSeparator(layout, device.getUuid(), activity.getString(R.string.device_uuid));
 
-        final String deviceName = device.getName();
-        if (deviceName != null && deviceName.length() > 0) {
-            addTextWithLabelTopSeparator(layout, deviceName, activity.getString(R.string.device_name));
-        }
-
-        final String type = device.getType();
-        if (type != null && type.length() > 0) {
-            addTextWithLabelTopSeparator(layout, type, activity.getString(R.string.device_type));
-        }
-
-        final String familyType = device.getFamilyType();
-        if (familyType != null && familyType.length() > 0) {
-            addTextWithLabelTopSeparator(layout, familyType, activity.getString(R.string.device_family_type));
-        }
-
-        final String hardwareID = device.getHardwareId();
-        if (hardwareID != null && hardwareID.length() > 0) {
-            addTextWithLabelTopSeparator(layout, hardwareID, activity.getString(R.string.device_hardware_id));
-        }
-
-        final String firmwareVersion = device.getFirmwareVersion();
-        if (firmwareVersion != null && firmwareVersion.length() > 0) {
-            addTextWithLabelTopSeparator(layout, firmwareVersion, activity.getString(R.string.device_firmware_version));
-        }
-
-        final boolean isRouter = device.isRouter();
-        if (isRouter) {
-            addTextWithLabelTopSeparator(layout,
-                    activity.getString(R.string.device_is_router), activity.getString(R.string.device_router_info));
-        } else {
-            addTextWithLabelTopSeparator(layout, activity.getString(R.string.device_is_no_router),
-                    activity.getString(R.string.device_router_info));
-        }
+        addDeviceUuid(device);
+        addDeviceName(device);
+        addDeviceType(device);
+        addFamilyType(device);
+        addHardwareId(device);
+        addFirmwareVersion(device);
+        addRouterInfo(device);
 
         addBottomMargin(layout);
     }
 
     void addNetSettings() {
-        final LinearLayout layout = (LinearLayout) activity.findViewById(R.id.network_container);
         final Interface anInterface = announce.getParams().getNetSettings().getInterface();
 
         addTextWithLabelNoSeparator(layout, anInterface.getName(), activity.getString(R.string.interface_name));
@@ -157,7 +129,6 @@ class DetailsFiller {
                 cardContainer.addView(card);
             }
 
-            final LinearLayout layout = new LinearLayout(activity);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -190,6 +161,56 @@ class DetailsFiller {
                 addTextNoSeparator(layout, entry.getType() + ": " + entry.getPort());
             }
             addBottomMargin(layout);
+        }
+    }
+
+    private void addDeviceUuid(Device device) {
+        addTextWithLabelNoSeparator(layout, device.getUuid(), activity.getString(R.string.device_uuid));
+    }
+
+    private void addDeviceName(Device device) {
+        final String deviceName = device.getName();
+        if (deviceName != null && deviceName.length() > 0) {
+            addTextWithLabelTopSeparator(layout, deviceName, activity.getString(R.string.device_name));
+        }
+    }
+
+    private void addDeviceType(Device device) {
+        final String type = device.getType();
+        if (type != null && type.length() > 0) {
+            addTextWithLabelTopSeparator(layout, type, activity.getString(R.string.device_type));
+        }
+    }
+
+    private void addFamilyType(Device device) {
+        final String familyType = device.getFamilyType();
+        if (familyType != null && familyType.length() > 0) {
+            addTextWithLabelTopSeparator(layout, familyType, activity.getString(R.string.device_family_type));
+        }
+    }
+
+    private void addHardwareId(Device device) {
+        final String hardwareID = device.getHardwareId();
+        if (hardwareID != null && hardwareID.length() > 0) {
+            addTextWithLabelTopSeparator(layout, hardwareID, activity.getString(R.string.device_hardware_id));
+        }
+    }
+
+    private void addFirmwareVersion(Device device) {
+        final String firmwareVersion = device.getFirmwareVersion();
+        if (firmwareVersion != null && firmwareVersion.length() > 0) {
+            addTextWithLabelTopSeparator(layout, firmwareVersion, activity.getString(R.string.device_firmware_version));
+        }
+    }
+
+    private void addRouterInfo(Device device) {
+        final boolean isRouter = device.isRouter();
+        if (isRouter) {
+            addTextWithLabelTopSeparator(layout,
+                    activity.getString(R.string.device_is_router), activity.getString(R.string.device_router_info));
+        } else {
+            addTextWithLabelTopSeparator(layout, activity.getString(R.string.device_is_no_router),
+                    activity.getString(R.string.device_router_info));
         }
     }
 
