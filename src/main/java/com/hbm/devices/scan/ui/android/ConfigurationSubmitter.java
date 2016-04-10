@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
+import android.text.Editable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
@@ -66,7 +67,8 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
             if (ipv4Manual == null) {
                 return;
             }
-            interfaceSettings = new ConfigurationInterface(interfaceName, ConfigurationInterface.Method.MANUAL, ipv4Manual);
+            interfaceSettings = new ConfigurationInterface(interfaceName,
+                    ConfigurationInterface.Method.MANUAL, ipv4Manual);
         }
         final ConfigurationDevice device = new ConfigurationDevice(announce.getParams().getDevice().getUuid());
 
@@ -94,29 +96,40 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
 
     private IPv4EntryManual getManualConfiguration() {
         final EditText ipv4Address = (EditText) activity.findViewById(R.id.configure_ip_address_edit);
-        String ip;
-        if ((ipv4Address != null) && (ipv4Address.getText() != null) && (ipv4Address.getText().length() > 0)) {
-            ip = ipv4Address.getText().toString();
-        } else {
-            return null;
+        String ip = null;
+        if (ipv4Address != null) {
+            final Editable ipv4Text = ipv4Address.getText();
+            if (ipv4Text.length() > 0) {
+                ip = ipv4Text.toString();
+            }
         }
-        final EditText ipv4Mask = (EditText) activity.findViewById(R.id.configure_subnet_edit);
 
-        String mask;
-        if ((ipv4Mask != null) && (ipv4Mask.getText() != null) && (ipv4Mask.getText().length() > 0)) {
-            mask = ipv4Mask.getText().toString();
-        } else {
-            return null;
+        final EditText ipv4Mask = (EditText) activity.findViewById(R.id.configure_subnet_edit);
+        String mask = null;
+        if (ipv4Mask != null) {
+            final Editable ipv4MaskText = ipv4Mask.getText();
+            if (ipv4MaskText.length() > 0) {
+                mask = ipv4MaskText.toString();
+            }
         }
-        return new IPv4EntryManual(ip, mask);
+        if ((ip == null) || (mask == null)) {
+            return null;
+        } else {
+            return new IPv4EntryManual(ip, mask);
+        }
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
         final EditText gateway = (EditText) activity.findViewById(R.id.configure_gateway_ip_edit);
-        if (gateway!= null && gateway.getText() != null && gateway.getText().length() > 0) {
-            return new ConfigurationDefaultGateway(gateway.getText().toString());
-        } else{
+        if (gateway == null) {
             return null;
+        } else {
+            final Editable gatewayText = gateway.getText();
+            if (gatewayText.length() > 0) {
+                return new ConfigurationDefaultGateway(gatewayText.toString());
+            } else {
+                return null;
+            }
         }
     }
 
@@ -125,7 +138,8 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
         if (ipv4 != null) {
             ipv4.setEnabled(edit);
             if (edit) {
-                final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                final InputMethodManager imm =
+                        (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
             }
             final EditText ipv4Mask = (EditText) activity.findViewById(R.id.configure_subnet_edit);
