@@ -44,18 +44,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
-
-import java.util.List;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.Interface;
 import com.hbm.devices.scan.announce.IPv4Entry;
 import com.hbm.devices.scan.announce.IPv6Entry;
+import com.hbm.devices.scan.announce.Interface;
 import com.hbm.devices.scan.announce.ServiceEntry;
+
+import java.util.List;
 
 public final class DeviceDetailsActivity extends AppCompatActivity {
 
@@ -191,7 +191,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         }
 
         final List<IPv4Entry> ipv4Address = anInterface.getIPv4();
-        if (ipv4Address != null && !ipv4Address.isEmpty()) {
+        if (!ipv4Address.isEmpty()) {
             addRule(layout);
             for (final IPv4Entry entry : ipv4Address) {
                 addTextNoSeparator(layout, entry.getAddress() + '/' + entry.getNetmask());
@@ -200,7 +200,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         }
 
         final List<IPv6Entry> ipv6Address = anInterface.getIPv6();
-        if (ipv6Address != null && !ipv6Address.isEmpty()) {
+        if (!ipv6Address.isEmpty()) {
             addRule(layout);
             for (final IPv6Entry entry : ipv6Address) {
                 addTextNoSeparator(layout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' + entry.getPrefix());
@@ -213,7 +213,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
     private void addServices() {
         final List<ServiceEntry> services = announce.getParams().getServices();
-        if (services != null && !services.isEmpty()) {
+        if (!services.isEmpty()) {
             final CardView card = new CardView(this);
 
             final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -238,9 +238,9 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
             final AppCompatTextView textView = new AppCompatTextView(this);
             textView.setPadding(
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
                     getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding), 
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
+                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
                     getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
             if (Build.VERSION.SDK_INT < 23) {
                 textView.setTextAppearance(this, R.style.DetailsHeading);
@@ -292,7 +292,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         final View rule = new View(this);
         final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
         viewLp.setMargins(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
             0, 0);
         rule.setLayoutParams(viewLp);
@@ -306,7 +306,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
 
         final AppCompatTextView textView = new AppCompatTextView(this);
         textView.setPadding(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
             0, 0);
         if (Build.VERSION.SDK_INT < 23) {
@@ -326,7 +326,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         final View rule = new View(this);
         final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
         viewLp.setMargins(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
             0, 0);
         rule.setLayoutParams(viewLp);
@@ -337,7 +337,7 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     private void addLabel(LinearLayout layout, String label) {
         final AppCompatTextView labelView = new AppCompatTextView(this);
         labelView.setPadding(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left), 
+            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
             getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
             0, 0);
         if (Build.VERSION.SDK_INT < 23) {

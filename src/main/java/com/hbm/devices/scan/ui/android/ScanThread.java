@@ -30,6 +30,18 @@ package com.hbm.devices.scan.ui.android;
 
 import android.util.Log;
 
+import com.hbm.devices.scan.AbstractMessageReceiver;
+import com.hbm.devices.scan.ScanInterfaces;
+import com.hbm.devices.scan.announce.Announce;
+import com.hbm.devices.scan.announce.AnnounceDeserializer;
+import com.hbm.devices.scan.announce.AnnounceReceiver;
+import com.hbm.devices.scan.announce.ConnectionFinder;
+import com.hbm.devices.scan.announce.DeviceMonitor;
+import com.hbm.devices.scan.announce.LostDeviceEvent;
+import com.hbm.devices.scan.announce.NewDeviceEvent;
+import com.hbm.devices.scan.announce.ServiceEntry;
+import com.hbm.devices.scan.announce.UpdateDeviceEvent;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.Inet4Address;
@@ -44,18 +56,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import com.hbm.devices.scan.AbstractMessageReceiver;
-import com.hbm.devices.scan.ScanInterfaces;
-import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.AnnounceDeserializer;
-import com.hbm.devices.scan.announce.AnnounceReceiver;
-import com.hbm.devices.scan.announce.ConnectionFinder;
-import com.hbm.devices.scan.announce.DeviceMonitor;
-import com.hbm.devices.scan.announce.LostDeviceEvent;
-import com.hbm.devices.scan.announce.NewDeviceEvent;
-import com.hbm.devices.scan.announce.ServiceEntry;
-import com.hbm.devices.scan.announce.UpdateDeviceEvent;
 
 final class ScanThread extends Thread implements Observer {
 
@@ -86,7 +86,7 @@ final class ScanThread extends Thread implements Observer {
         }
         messageReceiver.addObserver(announceParser);
     }
-    
+
     @Override
     public void run() {
         try {
@@ -153,9 +153,6 @@ final class ScanThread extends Thread implements Observer {
 
     private int getHttpPort(Announce announce) {
         final List<ServiceEntry> entries = announce.getParams().getServices();
-        if (entries == null) {
-            return -1;
-        }
         for (final ServiceEntry entry : entries) {
             if (ServiceEntry.SERVICE_HTTP.equals(entry.getType())) {
                 return entry.getPort();
