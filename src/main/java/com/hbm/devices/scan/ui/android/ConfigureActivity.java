@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -151,30 +152,33 @@ public final class ConfigureActivity extends AppCompatActivity {
 
     static {
         ipAddressFilter = new InputFilter[1];
-        final InputFilter filter = new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (end > start) {
-                    String destTxt = dest.toString();
-                    String resultingTxt = destTxt.substring(0, dstart) +
-                            source.subSequence(start, end) +
-                            destTxt.substring(dend);
-
-                    if (resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
-                        String[] splits = resultingTxt.split("\\.");
-                        for (String split : splits) {
-                            if (Integer.valueOf(split) > 255) {
-                                return "";
-                            }
-                        }
-                    } else {
-                        return "";
-                    }
-                }
-                return null;
-            }
-        };
+        final IPv4InputFilter filter = new IPv4InputFilter();
         ipAddressFilter[0] = filter;
     }
 }
 
+class IPv4InputFilter implements InputFilter {
+    private static final int MAX_IPV4_NUMBER = 255;
+    @Nullable
+    @Override
+    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        if (end > start) {
+            final String destTxt = dest.toString();
+            final String resultingTxt = destTxt.substring(0, dstart) +
+                    source.subSequence(start, end) +
+                    destTxt.substring(dend);
+
+            if (resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
+                final String[] splits = resultingTxt.split("\\.");
+                for (final String split : splits) {
+                    if (Integer.valueOf(split) > MAX_IPV4_NUMBER) {
+                        return "";
+                    }
+                }
+            } else {
+                return "";
+            }
+        }
+        return null;
+    }
+}
