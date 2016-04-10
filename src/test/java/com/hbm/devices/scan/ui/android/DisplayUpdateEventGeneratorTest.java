@@ -45,8 +45,8 @@ import static org.junit.Assert.assertEquals;
 
 public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observer {
 
-    private List<Announce> oldList = new ArrayList<>();
-    private List<Announce> newList = new ArrayList<>();
+    private final List<Announce> oldList = new ArrayList<>();
+    private final List<Announce> newList = new ArrayList<>();
     private List<Announce> oldListClone;
 
     private boolean fillNewList;
