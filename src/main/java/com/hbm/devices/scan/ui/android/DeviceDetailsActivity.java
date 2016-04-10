@@ -59,7 +59,7 @@ import java.util.List;
 
 public final class DeviceDetailsActivity extends AppCompatActivity {
 
-    static final String DETAILS = "Details";
+    public static final String DETAILS = "Details";
 
     private Announce announce;
 
