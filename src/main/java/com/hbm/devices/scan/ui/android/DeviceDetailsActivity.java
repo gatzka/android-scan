@@ -30,38 +30,28 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils.TruncateAt;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.IPv4Entry;
-import com.hbm.devices.scan.announce.IPv6Entry;
-import com.hbm.devices.scan.announce.Interface;
-import com.hbm.devices.scan.announce.ServiceEntry;
-
-import java.util.List;
 
 public final class DeviceDetailsActivity extends AppCompatActivity {
 
     public static final String DETAILS = "Details";
 
     private Announce announce;
+
+    public DeviceDetailsActivity() {
+        super();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,9 +61,10 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         announce = (Announce) getIntent().getSerializableExtra(DeviceViewHolder.DETAILS);
         initToolbar(announce);
 
-        addDeviceInformation();
-        addNetSettings();
-        addServices();
+        final DetailsFiller filler = new DetailsFiller(announce, this);
+        filler.addDeviceInformation();
+        filler.addNetSettings();
+        filler.addServices();
     }
 
     @Override
@@ -133,138 +124,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void addDeviceInformation() {
-        final LinearLayout layout = (LinearLayout) findViewById(R.id.device_container);
-
-        final Device device = announce.getParams().getDevice();
-        addTextWithLabelNoSeparator(layout, device.getUuid(), getString(R.string.device_uuid));
-
-        final String deviceName = device.getName();
-        if (deviceName != null && deviceName.length() > 0) {
-            addTextWithLabelTopSeparator(layout, deviceName, getString(R.string.device_name));
-        }
-
-        final String type = device.getType();
-        if (type != null && type.length() > 0) {
-            addTextWithLabelTopSeparator(layout, type, getString(R.string.device_type));
-        }
-
-        final String familyType = device.getFamilyType();
-        if (familyType != null && familyType.length() > 0) {
-            addTextWithLabelTopSeparator(layout, familyType, getString(R.string.device_family_type));
-        }
-
-        final String hardwareID = device.getHardwareId();
-        if (hardwareID != null && hardwareID.length() > 0) {
-            addTextWithLabelTopSeparator(layout, hardwareID, getString(R.string.device_hardware_id));
-        }
-
-        final String firmwareVersion = device.getFirmwareVersion();
-        if (firmwareVersion != null && firmwareVersion.length() > 0) {
-            addTextWithLabelTopSeparator(layout, firmwareVersion, getString(R.string.device_firmware_version));
-        }
-
-        final boolean isRouter = device.isRouter();
-        if (isRouter) {
-            addTextWithLabelTopSeparator(layout, getString(R.string.device_is_router), getString(R.string.device_router_info));
-        } else {
-            addTextWithLabelTopSeparator(layout, getString(R.string.device_is_no_router), getString(R.string.device_router_info));
-        }
-
-        addBottomMargin(layout);
-    }
-
-    private void addNetSettings() {
-        final LinearLayout layout = (LinearLayout) findViewById(R.id.network_container);
-        final Interface anInterface = announce.getParams().getNetSettings().getInterface();
-
-        addTextWithLabelNoSeparator(layout, anInterface.getName(), getString(R.string.interface_name));
-
-        final String interfaceType = anInterface.getType();
-        if (interfaceType != null && interfaceType.length() > 0) {
-            addTextWithLabelTopSeparator(layout, interfaceType, getString(R.string.interface_type));
-        }
-
-        final String interfaceDescription = anInterface.getDescription();
-        if (interfaceDescription != null && interfaceDescription.length() > 0) {
-            addTextWithLabelTopSeparator(layout, interfaceDescription, getString(R.string.interface_description));
-        }
-
-        final List<IPv4Entry> ipv4Address = anInterface.getIPv4();
-        if (!ipv4Address.isEmpty()) {
-            addRule(layout);
-            for (final IPv4Entry entry : ipv4Address) {
-                addTextNoSeparator(layout, entry.getAddress() + '/' + entry.getNetmask());
-            }
-            addLabel(layout, getString(R.string.ipv4_addresses));
-        }
-
-        final List<IPv6Entry> ipv6Address = anInterface.getIPv6();
-        if (!ipv6Address.isEmpty()) {
-            addRule(layout);
-            for (final IPv6Entry entry : ipv6Address) {
-                addTextNoSeparator(layout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' + entry.getPrefix());
-            }
-            addLabel(layout, getString(R.string.ipv6_addresses));
-        }
-
-        addBottomMargin(layout);
-    }
-
-    private void addServices() {
-        final List<ServiceEntry> services = announce.getParams().getServices();
-        if (!services.isEmpty()) {
-            final CardView card = new CardView(this);
-
-            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-            params.setMargins(
-                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_start),
-                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_top),
-                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
-                    getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
-            card.setLayoutParams(params);
-            final LinearLayout cardContainer = (LinearLayout) findViewById(R.id.card_container);
-            if (cardContainer != null) {
-                cardContainer.addView(card);
-            }
-
-            final LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-            card.addView(layout);
-
-            final AppCompatTextView textView = new AppCompatTextView(this);
-            textView.setPadding(
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
-            if (Build.VERSION.SDK_INT < 23) {
-                textView.setTextAppearance(this, R.style.DetailsHeading);
-            } else {
-                textView.setTextAppearance(R.style.DetailsHeading);
-            }
-            textView.setTextIsSelectable(false);
-            textView.setMaxLines(1);
-            textView.setEllipsize(TruncateAt.END);
-            textView.setText(getString(R.string.services));
-            layout.addView(textView);
-
-            final View rule = new View(this);
-            rule.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.ruler_height)));
-            rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule_color));
-            layout.addView(rule);
-
-            for (final ServiceEntry entry : services) {
-                addTextNoSeparator(layout, entry.getType() + ": " + entry.getPort());
-            }
-            addBottomMargin(layout);
-        }
-    }
-
     private void initToolbar(Announce announce) {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -274,79 +133,5 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setTitle(getDisplayName(announce.getParams().getDevice()));
-    }
-
-    private void addTextWithLabelTopSeparator(LinearLayout layout, String text, String label) {
-        addText(layout, text, label, true);
-    }
-
-    private void addTextWithLabelNoSeparator(LinearLayout layout, String text, String label) {
-        addText(layout, text, label, false);
-    }
-
-    private void addTextNoSeparator(LinearLayout layout, String text) {
-        addText(layout, text, null, false);
-    }
-
-    private void addBottomMargin(LinearLayout layout) {
-        final View rule = new View(this);
-        final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
-        viewLp.setMargins(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
-            0, 0);
-        rule.setLayoutParams(viewLp);
-        layout.addView(rule);
-    }
-
-    private void addText(LinearLayout layout, String text, String label, boolean withTopSeparator) {
-        if (withTopSeparator) {
-            addRule(layout);
-        }
-
-        final AppCompatTextView textView = new AppCompatTextView(this);
-        textView.setPadding(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
-            0, 0);
-        if (Build.VERSION.SDK_INT < 23) {
-            textView.setTextAppearance(this, R.style.DetailsTextView);
-        } else {
-            textView.setTextAppearance(R.style.DetailsTextView);
-        }
-        textView.setText(text);
-        layout.addView(textView);
-
-        if (label != null) {
-            addLabel(layout, label);
-        }
-    }
-
-    private void addRule(LinearLayout layout) {
-        final View rule = new View(this);
-        final LinearLayout.LayoutParams viewLp = new LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.rule_height));
-        viewLp.setMargins(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
-            0, 0);
-        rule.setLayoutParams(viewLp);
-        rule.setBackgroundColor(ContextCompat.getColor(this, R.color.details_horizontal_rule_color));
-        layout.addView(rule);
-    }
-
-    private void addLabel(LinearLayout layout, String label) {
-        final AppCompatTextView labelView = new AppCompatTextView(this);
-        labelView.setPadding(
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),
-            getResources().getDimensionPixelSize(R.dimen.device_info_padding_top),
-            0, 0);
-        if (Build.VERSION.SDK_INT < 23) {
-            labelView.setTextAppearance(this, R.style.DetailsLabelView);
-        } else {
-            labelView.setTextAppearance(R.style.DetailsTextView);
-        }
-
-        labelView.setText(label);
-        layout.addView(labelView);
     }
 }
