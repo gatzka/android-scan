@@ -168,17 +168,26 @@ class IPv4InputFilter implements InputFilter {
                     source.subSequence(start, end) +
                     destTxt.substring(dend);
 
-            if (resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
-                final String[] splits = resultingTxt.split("\\.");
-                for (final String split : splits) {
-                    if (Integer.valueOf(split) > MAX_IPV4_NUMBER) {
-                        return "";
-                    }
-                }
+            if (isIPv4Address(resultingTxt)) {
+                return null;
             } else {
                 return "";
             }
         }
         return null;
+    }
+
+    private static boolean isIPv4Address(String address) {
+        if (address.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
+            final String[] splits = address.split("\\.");
+            for (final String split : splits) {
+                if (Integer.valueOf(split) > MAX_IPV4_NUMBER) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 }
