@@ -156,7 +156,8 @@ class DetailsFiller {
     private void addFirmwareVersion(Device device) {
         final String firmwareVersion = device.getFirmwareVersion();
         if (firmwareVersion != null && firmwareVersion.length() > 0) {
-            addTextWithLabelTopSeparator(deviceLayout, firmwareVersion, activity.getString(R.string.device_firmware_version));
+            addTextWithLabelTopSeparator(deviceLayout, firmwareVersion,
+                    activity.getString(R.string.device_firmware_version));
         }
     }
 
