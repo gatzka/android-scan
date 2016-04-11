@@ -31,9 +31,7 @@ package com.hbm.devices.scan.ui.android;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -58,20 +56,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton infoButton;
     private final CardView cardView;
     private final Context context;
-    private final Drawable blackInfo;
-    private final Drawable whiteInfo;
-    private Announce announce;
 
-    private final int cardBackgroundNotConnectable;
-    private final int cardBackgroundConnectable;
-    private final int moduleTypeTextColorNotConnectable;
-    private final int moduleTypeTextColorConnectable;
-    private final int moduleNameTextColorNotConnectable;
-    private final int moduleNameTextColorConnectable;
-    private final int moduleIdTextColorNotConnectable;
-    private final int moduleIdTextColorConnectable;
-    private final int alpha;
-    private final String unknown;
+    private Announce announce;
 
     DeviceViewHolder(CardView itemView) {
         super(itemView);
@@ -84,20 +70,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
         infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
         cardView = itemView;
-        blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
-        alpha = context.getResources().getInteger(R.integer.text_alpha);
-        setImageAlpha(blackInfo, alpha);
-        whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
 
-        cardBackgroundNotConnectable = ContextCompat.getColor(context, R.color.color_not_connectable);
-        cardBackgroundConnectable = ContextCompat.getColor(context, android.R.color.background_light);
-        moduleTypeTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.primary_text_dark);
-        moduleTypeTextColorConnectable = ContextCompat.getColor(context, android.R.color.primary_text_light);
-        moduleNameTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
-        moduleNameTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
-        moduleIdTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
-        moduleIdTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
-        unknown = itemView.getContext().getString(R.string.unknown);
     }
 
     void bind(Announce a) {
@@ -107,18 +80,20 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String moduleType = getModuleType(device);
         final String uuid = device.getUuid();
 
+        final DeviceHolderResources resources = DeviceHolderResources.getInstance(context);
         if (announce.getCookie() == null) {
-            cardView.setCardBackgroundColor(cardBackgroundNotConnectable);
-            tvModuleType.setTextColor(moduleTypeTextColorNotConnectable);
-            tvModuleName.setTextColor(moduleNameTextColorNotConnectable);
-            tvModuleId.setTextColor(moduleIdTextColorNotConnectable);
-            infoButton.setImageDrawable(whiteInfo);
+            cardView.setCardBackgroundColor(resources.getCardBackgroundNotConnectable());
+            tvModuleType.setTextColor(resources.getModuleTypeTextColorNotConnectable());
+            tvModuleName.setTextColor(resources.getModuleNameTextColorNotConnectable());
+            tvModuleId.setTextColor(resources.getModuleIdTextColorNotConnectable());
+            infoButton.setImageDrawable(resources.getWhiteInfo());
         } else {
-            cardView.setCardBackgroundColor(cardBackgroundConnectable);
-            tvModuleType.setTextColor(setTextAlpha(moduleTypeTextColorConnectable, alpha));
-            tvModuleName.setTextColor(setTextAlpha(moduleNameTextColorConnectable, alpha));
-            tvModuleId.setTextColor(setTextAlpha(moduleIdTextColorConnectable, alpha));
-            infoButton.setImageDrawable(blackInfo);
+            final int alpha = resources.getAlpha();
+            cardView.setCardBackgroundColor(resources.getCardBackgroundConnectable());
+            tvModuleType.setTextColor(setTextAlpha(resources.getModuleTypeTextColorConnectable(), alpha));
+            tvModuleName.setTextColor(setTextAlpha(resources.getModuleNameTextColorConnectable(), alpha));
+            tvModuleId.setTextColor(setTextAlpha(resources.getModuleIdTextColorConnectable(), alpha));
+            infoButton.setImageDrawable(resources.getBlackInfo());
         }
 
         tvModuleType.setText(moduleType);
@@ -160,11 +135,6 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         return ImageResourceCache.getResourceFromCache(key);
     }
 
-    private static void setImageAlpha(Drawable draw, int alphaPercent) {
-        final int alpha = alphaPercent * 255 / 100;
-        draw.setAlpha(alpha);
-    }
-
     private static int setTextAlpha(int color, int alphaPercent) {
         final int red = Color.red(color);
         final int green = Color.green(color);
@@ -176,7 +146,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getModuleType(final Device device) {
         String moduleType = device.getType();
         if (moduleType == null || moduleType.length() == 0) {
-            moduleType = unknown;
+            moduleType = DeviceHolderResources.getInstance(context).getUnknown();
         }
         return moduleType;
     }
@@ -184,7 +154,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getDisplayName(final Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
-            displayName = unknown;
+            displayName = DeviceHolderResources.getInstance(context).getUnknown();
         }
         return displayName;
     }
