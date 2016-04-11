@@ -46,11 +46,10 @@ import com.hbm.devices.scan.announce.Device;
 import com.squareup.picasso.Picasso;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
-    static final String DETAILS = "Details";
+    public static final String DETAILS = "Details";
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
@@ -73,8 +72,6 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final int moduleIdTextColorConnectable;
     private final int alpha;
     private final String unknown;
-
-    private static final HashMap<String, Integer> resourceCache = new HashMap<>();
 
     DeviceViewHolder(CardView itemView) {
         super(itemView);
@@ -160,129 +157,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (key == null || key.isEmpty()) {
             return R.drawable.ic_no_device;
         }
-        return getResourceFromCache(key);
-    }
-
-    private static int getResourceFromCache(String key) {
-        Integer resourceId = resourceCache.get(key);
-        if (resourceId == null) {
-            resourceId = resolveResourceId(key);
-            resourceCache.put(key, resourceId);
-        }
-        return resourceId;
-    }
-
-    private static int resolveResourceId(String key) {
-        if ("CX23R".equals(key)) {
-            return R.drawable.cx23;
-        }
-
-        if ("MX1601".equals(key) || "MX1601B".equals(key)) {
-            return R.drawable.mx1601b;
-        }
-        if ("MX1601BR".equals(key)) {
-            return R.drawable.mx1601br;
-        }
-
-        if ("MX1609KBR".equals(key)) {
-            return R.drawable.mx1609kbr;
-        }
-        if ("MX1609".equals(key) || "MX1609KB".equals(key)) {
-            return R.drawable.mx1609kb;
-        }
-
-        if ("MX1609TB".equals(key)) {
-            return R.drawable.mx1609tb;
-        }
-        if ("MX1609T".equals(key)) {
-            return R.drawable.mx1609t;
-        }
-
-        if ("MX1615BR".equals(key)) {
-            return R.drawable.mx1615br;
-        }
-
-        if ("MX1615B".equals(key) || "MX1615".equals(key)) {
-            return R.drawable.mx1615b;
-        }
-
-        if ("MX411BR".equals(key)) {
-            return R.drawable.mx411br;
-        }
-
-        if ("MX411P".equals(key)) {
-            return R.drawable.mx411p;
-        }
-
-        if ("MX410".equals(key) || "MX410B".equals(key)) {
-            return R.drawable.mx410b;
-        }
-
-        if ("MX471BR".equals(key)) {
-            return R.drawable.mx471br;
-        }
-
-        if ("MX471".equals(key) || "MX471B".equals(key)) {
-            return R.drawable.mx471b;
-        }
-
-        if ("MX879".equals(key) || "MX879B".equals(key)) {
-            return R.drawable.mx879b;
-        }
-
-        if ("MX878".equals(key) || "MX878B".equals(key)) {
-            return R.drawable.mx878b;
-        }
-
-        if ("MX460".equals(key) || "MX460B".equals(key)) {
-            return R.drawable.mx460b;
-        }
-
-        if ("MX440".equals(key) || "MX440A".equals(key) || "MX440B".equals(key)) {
-            return R.drawable.mx440b;
-        }
-
-        if ("MX403".equals(key) || "MX403B".equals(key)) {
-            return R.drawable.mx403b;
-        }
-
-        if ("CX27".equals(key) || "CX27B".equals(key)) {
-            return R.drawable.cx27b;
-        }
-
-        if ("CX22B".equals(key)) {
-            return R.drawable.cx22b;
-        }
-
-        if ("CX22W".equals(key)) {
-            return R.drawable.cx22w;
-        }
-
-        if ("MX840".equals(key) || "MX840A".equals(key) || "MX840B".equals(key)) {
-            return R.drawable.mx840b;
-        }
-
-        if ("MX840BR".equals(key)) {
-            return R.drawable.mx840br;
-        }
-
-        if ("MX403".equals(key) || "MX430B".equals(key)) {
-            return R.drawable.mx430b;
-        }
-
-        if ("MX809".equals(key) || "MX809B".equals(key)) {
-            return R.drawable.mx809b;
-        }
-
-        if ("MX238".equals(key) || "MX238B".equals(key)) {
-            return R.drawable.mx238b;
-        }
-
-        if ("PMX".equals(key)) {
-            return R.drawable.pmx;
-        }
-
-        return R.drawable.ic_no_device;
+        return ImageResourceCache.getResourceFromCache(key);
     }
 
     private static void setImageAlpha(Drawable draw, int alphaPercent) {
