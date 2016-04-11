@@ -31,8 +31,6 @@ package com.hbm.devices.scan.ui.android;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.CardView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -49,12 +47,16 @@ class DetailsFiller {
 
     private final DeviceDetailsActivity activity;
     private final Announce announce;
-    private final LinearLayout layout;
+    private final LinearLayout deviceLayout;
+    private final LinearLayout networkLayout;
+    private final LinearLayout serviceLayout;
 
     DetailsFiller(Announce a, DeviceDetailsActivity act) {
         announce = a;
         activity = act;
-        layout = (LinearLayout) activity.findViewById(R.id.device_container);
+        deviceLayout = (LinearLayout) activity.findViewById(R.id.device_container);
+        networkLayout = (LinearLayout) activity.findViewById(R.id.network_container);
+        serviceLayout = (LinearLayout) activity.findViewById(R.id.service_container);
     }
 
     void addDeviceInformation() {
@@ -68,148 +70,103 @@ class DetailsFiller {
         addFirmwareVersion(device);
         addRouterInfo(device);
 
-        addBottomMargin(layout);
+        addBottomMargin(deviceLayout);
     }
 
     void addNetSettings() {
         final Interface anInterface = announce.getParams().getNetSettings().getInterface();
 
-        addTextWithLabelNoSeparator(layout, anInterface.getName(), activity.getString(R.string.interface_name));
+        addTextWithLabelNoSeparator(networkLayout, anInterface.getName(), activity.getString(R.string.interface_name));
 
         final String interfaceType = anInterface.getType();
         if (interfaceType != null && interfaceType.length() > 0) {
-            addTextWithLabelTopSeparator(layout, interfaceType, activity.getString(R.string.interface_type));
+            addTextWithLabelTopSeparator(networkLayout, interfaceType, activity.getString(R.string.interface_type));
         }
 
         final String interfaceDescription = anInterface.getDescription();
         if (interfaceDescription != null && interfaceDescription.length() > 0) {
-            addTextWithLabelTopSeparator(layout, interfaceDescription,
+            addTextWithLabelTopSeparator(networkLayout, interfaceDescription,
                     activity.getString(R.string.interface_description));
         }
 
         final List<IPv4Entry> ipv4Address = anInterface.getIPv4();
         if (!ipv4Address.isEmpty()) {
-            addRule(layout);
+            addRule(networkLayout);
             for (final IPv4Entry entry : ipv4Address) {
-                addTextNoSeparator(layout, entry.getAddress() + '/' + entry.getNetmask());
+                addTextNoSeparator(networkLayout, entry.getAddress() + '/' + entry.getNetmask());
             }
-            addLabel(layout, activity.getString(R.string.ipv4_addresses));
+            addLabel(networkLayout, activity.getString(R.string.ipv4_addresses));
         }
 
         final List<IPv6Entry> ipv6Address = anInterface.getIPv6();
         if (!ipv6Address.isEmpty()) {
-            addRule(layout);
+            addRule(networkLayout);
             for (final IPv6Entry entry : ipv6Address) {
-                addTextNoSeparator(layout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
+                addTextNoSeparator(networkLayout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
                         entry.getPrefix());
             }
-            addLabel(layout, activity.getString(R.string.ipv6_addresses));
+            addLabel(networkLayout, activity.getString(R.string.ipv6_addresses));
         }
 
-        addBottomMargin(layout);
+        addBottomMargin(networkLayout);
     }
 
     void addServices() {
         final List<ServiceEntry> services = announce.getParams().getServices();
         if (!services.isEmpty()) {
-            final CardView card = new CardView(activity);
-
-            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_card_margin_start),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_card_margin_top),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_card_margin_end),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_card_margin_bottom));
-            card.setLayoutParams(params);
-            final LinearLayout cardContainer = (LinearLayout) activity.findViewById(R.id.card_container);
-            if (cardContainer != null) {
-                cardContainer.addView(card);
-            }
-
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            card.addView(layout);
-
-            final AppCompatTextView textView = new AppCompatTextView(activity);
-            textView.setPadding(
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_headings_padding),
-                    activity.getResources().getDimensionPixelSize(R.dimen.details_headings_padding));
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                textView.setTextAppearance(activity, R.style.DetailsHeading);
-            } else {
-                textView.setTextAppearance(R.style.DetailsHeading);
-            }
-            textView.setTextIsSelectable(false);
-            textView.setMaxLines(1);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setText(activity.getString(R.string.services));
-            layout.addView(textView);
-
-            final View rule = new View(activity);
-            rule.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    activity.getResources().getDimensionPixelSize(R.dimen.ruler_height)));
-            rule.setBackgroundColor(ContextCompat.getColor(activity, R.color.details_horizontal_rule_color));
-            layout.addView(rule);
-
             for (final ServiceEntry entry : services) {
-                addTextNoSeparator(layout, entry.getType() + ": " + entry.getPort());
+                addTextNoSeparator(serviceLayout, entry.getType() + ": " + entry.getPort());
             }
-            addBottomMargin(layout);
+            addBottomMargin(serviceLayout);
         }
     }
 
     private void addDeviceUuid(Device device) {
-        addTextWithLabelNoSeparator(layout, device.getUuid(), activity.getString(R.string.device_uuid));
+        addTextWithLabelNoSeparator(deviceLayout, device.getUuid(), activity.getString(R.string.device_uuid));
     }
 
     private void addDeviceName(Device device) {
         final String deviceName = device.getName();
         if (deviceName != null && deviceName.length() > 0) {
-            addTextWithLabelTopSeparator(layout, deviceName, activity.getString(R.string.device_name));
+            addTextWithLabelTopSeparator(deviceLayout, deviceName, activity.getString(R.string.device_name));
         }
     }
 
     private void addDeviceType(Device device) {
         final String type = device.getType();
         if (type != null && type.length() > 0) {
-            addTextWithLabelTopSeparator(layout, type, activity.getString(R.string.device_type));
+            addTextWithLabelTopSeparator(deviceLayout, type, activity.getString(R.string.device_type));
         }
     }
 
     private void addFamilyType(Device device) {
         final String familyType = device.getFamilyType();
         if (familyType != null && familyType.length() > 0) {
-            addTextWithLabelTopSeparator(layout, familyType, activity.getString(R.string.device_family_type));
+            addTextWithLabelTopSeparator(deviceLayout, familyType, activity.getString(R.string.device_family_type));
         }
     }
 
     private void addHardwareId(Device device) {
         final String hardwareID = device.getHardwareId();
         if (hardwareID != null && hardwareID.length() > 0) {
-            addTextWithLabelTopSeparator(layout, hardwareID, activity.getString(R.string.device_hardware_id));
+            addTextWithLabelTopSeparator(deviceLayout, hardwareID, activity.getString(R.string.device_hardware_id));
         }
     }
 
     private void addFirmwareVersion(Device device) {
         final String firmwareVersion = device.getFirmwareVersion();
         if (firmwareVersion != null && firmwareVersion.length() > 0) {
-            addTextWithLabelTopSeparator(layout, firmwareVersion, activity.getString(R.string.device_firmware_version));
+            addTextWithLabelTopSeparator(deviceLayout, firmwareVersion, activity.getString(R.string.device_firmware_version));
         }
     }
 
     private void addRouterInfo(Device device) {
         final boolean isRouter = device.isRouter();
         if (isRouter) {
-            addTextWithLabelTopSeparator(layout,
+            addTextWithLabelTopSeparator(deviceLayout,
                     activity.getString(R.string.device_is_router), activity.getString(R.string.device_router_info));
         } else {
-            addTextWithLabelTopSeparator(layout, activity.getString(R.string.device_is_no_router),
+            addTextWithLabelTopSeparator(deviceLayout, activity.getString(R.string.device_is_no_router),
                     activity.getString(R.string.device_router_info));
         }
     }
