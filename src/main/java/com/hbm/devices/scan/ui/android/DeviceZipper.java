@@ -33,6 +33,8 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.hbm.devices.scan.announce.Announce;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,11 +51,11 @@ import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.hbm.devices.scan.announce.Announce;
-
 final class DeviceZipper {
 
     private static final String FILE_NAME = "devices.zip";
+
+    private DeviceZipper() {}
 
     static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
         final List<Announce> list = new ArrayList<>();
@@ -69,18 +71,8 @@ final class DeviceZipper {
         final Charset charSet = Charset.forName("UTF-8");
 
         try {
-            final File cacheDir = activity.getCacheDir();
-            final File subDir = new File(cacheDir, "devices");
-            if (!subDir.exists() && (!subDir.mkdirs())) {
-                return null;
-            }
-            final File file = new File(subDir, FILE_NAME);
-            if (file.exists() && !file.delete()) {
-                Toast.makeText(activity, activity.getString(R.string.could_not_delete, FILE_NAME), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-            if (!file.createNewFile()) {
-                Toast.makeText(activity, activity.getString(R.string.could_not_create, FILE_NAME), Toast.LENGTH_SHORT).show();
+            final File file = createFile(activity);
+            if (file == null) {
                 return null;
             }
             final FileOutputStream fos = new FileOutputStream(file, false);
@@ -106,8 +98,26 @@ final class DeviceZipper {
             fos.close();
             return FileProvider.getUriForFile(activity, "com.hbm.devices.scan.ui.android.fileprovider", file);
         } catch (IOException e) {
+            Toast.makeText(activity, activity.getString(R.string.could_not_create, e),
+                    Toast.LENGTH_SHORT).show();
             return null;
         }
+    }
+
+    private static File createFile(AppCompatActivity activity) throws IOException {
+        final File cacheDir = activity.getCacheDir();
+        final File subDir = new File(cacheDir, "devices");
+        if (!subDir.exists() && (!subDir.mkdirs())) {
+            return null;
+        }
+        final File file = new File(subDir, FILE_NAME);
+        if (file.exists() && !file.delete()) {
+            throw new IOException("Cold not delete file!");
+        }
+        if (!file.createNewFile()) {
+            throw new IOException("Could not create file!");
+        }
+        return file;
     }
 }
 

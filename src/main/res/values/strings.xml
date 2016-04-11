@@ -45,8 +45,7 @@
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
     <string name="use_dhcp">Use DHCP</string>
-    <string name="could_not_delete">Could not delete %s</string>
-    <string name="could_not_create">Could not create %s</string>
+    <string name="could_not_create">Could not create file: %s</string>
     <string name="could_not_send_config_req">Could not send configuration request!</string>
     <string name="config_successful">Configuration successful</string>
     <string name="config_timeout">Configuration timeout</string>
