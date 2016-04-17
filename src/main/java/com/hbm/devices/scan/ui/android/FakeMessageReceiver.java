@@ -28,6 +28,8 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -54,6 +56,8 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     private static final int NEW_ANNOUNCE_PERIOD_MS = 1000;
     private final FakeMessageType messageType;
     private static int deviceCounter;
+
+    private final Context context;
 
     private static final String[] devices = {
         "CX23R",
@@ -86,8 +90,9 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         "PMX"
     };
 
-    FakeMessageReceiver(FakeMessageType messageType) {
+    FakeMessageReceiver(FakeMessageType messageType, Context context) {
         super();
+        this.context = context;
         this.messageType = messageType;
     }
 
@@ -159,12 +164,12 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         device.addProperty("isRouter", Boolean.FALSE);
     }
 
-    private static void composeNetSettings(JsonObject params, int counter) {
+    private void composeNetSettings(JsonObject params, int counter) {
         final JsonObject netSettings = new JsonObject();
         params.add("netSettings", netSettings);
         final JsonObject defaultGW = new JsonObject();
         netSettings.add("defaultGateway", defaultGW);
-        defaultGW.addProperty("ipv4Address", R.string.defaultGW);
+        defaultGW.addProperty("ipv4Address", context.getString(R.string.defaultGW));
         final JsonObject iface = new JsonObject();
         netSettings.add("interface", iface);
         iface.addProperty("name", "eth0");
@@ -177,17 +182,17 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         final JsonObject ipv4Entry = new JsonObject();
         ipv4Addresses.add(ipv4Entry);
         if ((counter / NUMBER_CONNECTABLE_MODULES) % NUMBER_OF_MODULE_GROUPS == 0) {
-            ipv4Entry.addProperty(ADDRESS_KEY, R.string.ip1);
-            ipv4Entry.addProperty(NETMASK_KEY, R.string.netmask1);
+            ipv4Entry.addProperty(ADDRESS_KEY, context.getString(R.string.ip1));
+            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask1));
         } else {
-            ipv4Entry.addProperty(ADDRESS_KEY, R.string.ip2);
-            ipv4Entry.addProperty(NETMASK_KEY, R.string.netmask2);
+            ipv4Entry.addProperty(ADDRESS_KEY, context.getString(R.string.ip2));
+            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask2));
         }
 
         final JsonObject apipa = new JsonObject();
         ipv4Addresses.add(apipa);
-        apipa.addProperty(ADDRESS_KEY, R.string.apipaIP);
-        apipa.addProperty(NETMASK_KEY, R.string.apipaNetmask);
+        apipa.addProperty(ADDRESS_KEY, context.getString(R.string.apipaIP));
+        apipa.addProperty(NETMASK_KEY, context.getString(R.string.apipaNetmask));
 
 
         final JsonArray ipv6Addresses = new JsonArray();
@@ -195,12 +200,12 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
 
         final JsonObject ipv6Entry = new JsonObject();
         ipv6Addresses.add(ipv6Entry);
-        ipv6Entry.addProperty(ADDRESS_KEY, R.string.ipv6address1);
+        ipv6Entry.addProperty(ADDRESS_KEY, context.getString(R.string.ipv6address1));
         ipv6Entry.addProperty("prefix", IPV6_PREFIX);
 
         final JsonObject ipv6Entry2 = new JsonObject();
         ipv6Addresses.add(ipv6Entry2);
-        ipv6Entry2.addProperty(ADDRESS_KEY, R.string.ipv6address2);
+        ipv6Entry2.addProperty(ADDRESS_KEY, context.getString(R.string.ipv6address2));
         ipv6Entry2.addProperty("prefix", IPV6_PREFIX);
     }
 

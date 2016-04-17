@@ -51,7 +51,7 @@ final class ScanThread extends Thread {
         final AnnounceDeserializer announceParser = new AnnounceDeserializer();
         announceParser.addObserver(deviceMonitor);
         if (useFakeMessages) {
-            messageReceiver = new FakeMessageReceiver(fakeMessageType);
+            messageReceiver = new FakeMessageReceiver(fakeMessageType, listFragment.getActivity());
         } else {
             messageReceiver = new AnnounceReceiver();
         }
