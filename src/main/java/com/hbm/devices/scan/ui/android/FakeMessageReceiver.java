@@ -29,19 +29,29 @@
 package com.hbm.devices.scan.ui.android;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray; 
-import com.google.gson.JsonObject; 
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.hbm.devices.scan.AbstractMessageReceiver;
 
 import java.util.LinkedList;
+import java.util.List;
 
 final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private boolean shallRun = true;
     private final Gson gson = new Gson();
     private static final String ADDRESS_KEY = "address";
+    private static final String NETMASK_KEY = "netmask";
+    private static final int IPV6_PREFIX = 64;
+    private static final int HTTP_PORT = 80;
+    private static final int SSH_PORT = 22;
+    private static final int STREAMING_PORT = 7411;
+    private static final int DEFAULT_EXPIRATION = 15;
     private static final int NUMBER_OF_ANNOUNCED_MODULES = 100;
+    private static final int NUMBER_CONNECTABLE_MODULES = 10;
+    private static final int NUMBER_OF_MODULE_GROUPS = 2;
+    private static final int ANNOUNCE_PERIOD_MS = 6000;
+    private static final int NEW_ANNOUNCE_PERIOD_MS = 1000;
     private final FakeMessageType messageType;
     private static int deviceCounter;
 
@@ -91,7 +101,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
     }
 
     private void announceAtSameTime() {
-        final LinkedList<String> deviceList = new LinkedList<>();
+        final List<String> deviceList = new LinkedList<>();
         for (int i = 0; i < FakeMessageReceiver.NUMBER_OF_ANNOUNCED_MODULES; i++) {
             deviceList.add(createAnnounceString(devices[getDeviceIndex()], i));
         }
@@ -101,7 +111,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
                     setChanged();
                     notifyObservers(message);
                 }
-                Thread.sleep(6000);
+                Thread.sleep(ANNOUNCE_PERIOD_MS);
             } catch (InterruptedException e) {
                 shallRun = false;
             }
@@ -115,13 +125,13 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
                 final String message = createAnnounceString(devices[getDeviceIndex()], idCounter);
                 setChanged();
                 notifyObservers(message);
-                Thread.sleep(1000);
+                Thread.sleep(NEW_ANNOUNCE_PERIOD_MS);
                 idCounter++;
             } catch (InterruptedException e) {
                 shallRun = false;
             }
         }
-        
+
     }
 
     @Override
@@ -154,7 +164,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         params.add("netSettings", netSettings);
         final JsonObject defaultGW = new JsonObject();
         netSettings.add("defaultGateway", defaultGW);
-        defaultGW.addProperty("ipv4Address", "172.19.169.254");
+        defaultGW.addProperty("ipv4Address", R.string.defaultGW);
         final JsonObject iface = new JsonObject();
         netSettings.add("interface", iface);
         iface.addProperty("name", "eth0");
@@ -166,18 +176,18 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
 
         final JsonObject ipv4Entry = new JsonObject();
         ipv4Addresses.add(ipv4Entry);
-        if ((counter / 10) % 2 == 0) {
-            ipv4Entry.addProperty(ADDRESS_KEY, "192.168.23.100");
-            ipv4Entry.addProperty("netmask", "255.255.255.0");
+        if ((counter / NUMBER_CONNECTABLE_MODULES) % NUMBER_OF_MODULE_GROUPS == 0) {
+            ipv4Entry.addProperty(ADDRESS_KEY, R.string.ip1);
+            ipv4Entry.addProperty(NETMASK_KEY, R.string.netmask1);
         } else {
-            ipv4Entry.addProperty(ADDRESS_KEY, "172.19.1.1");
-            ipv4Entry.addProperty("netmask", "255.255.0.0");
+            ipv4Entry.addProperty(ADDRESS_KEY, R.string.ip2);
+            ipv4Entry.addProperty(NETMASK_KEY, R.string.netmask2);
         }
 
         final JsonObject apipa = new JsonObject();
         ipv4Addresses.add(apipa);
-        apipa.addProperty(ADDRESS_KEY, "169.254.3.223");
-        apipa.addProperty("netmask", "255.255.0.0");
+        apipa.addProperty(ADDRESS_KEY, R.string.apipaIP);
+        apipa.addProperty(NETMASK_KEY, R.string.apipaNetmask);
 
 
         final JsonArray ipv6Addresses = new JsonArray();
@@ -185,13 +195,13 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
 
         final JsonObject ipv6Entry = new JsonObject();
         ipv6Addresses.add(ipv6Entry);
-        ipv6Entry.addProperty(ADDRESS_KEY, "fdfb:84a3:9d2d:0:222:4dff:feaa:4c1e");
-        ipv6Entry.addProperty("prefix", 64);
+        ipv6Entry.addProperty(ADDRESS_KEY, R.string.ipv6address1);
+        ipv6Entry.addProperty("prefix", IPV6_PREFIX);
 
         final JsonObject ipv6Entry2 = new JsonObject();
         ipv6Addresses.add(ipv6Entry2);
-        ipv6Entry2.addProperty(ADDRESS_KEY, "fe80:0:0:0:222:4dff:feaa:4c1e");
-        ipv6Entry2.addProperty("prefix", 64);
+        ipv6Entry2.addProperty(ADDRESS_KEY, R.string.ipv6address2);
+        ipv6Entry2.addProperty("prefix", IPV6_PREFIX);
     }
 
     private static void composeServices(JsonObject params) {
@@ -201,17 +211,17 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         final JsonObject http = new JsonObject();
         services.add(http);
         http.addProperty("type", "http");
-        http.addProperty("port", 80);
+        http.addProperty("port", HTTP_PORT);
 
         final JsonObject ssh = new JsonObject();
         services.add(ssh);
         ssh.addProperty("type", "ssh");
-        ssh.addProperty("port", 22);
+        ssh.addProperty("port", SSH_PORT);
 
         final JsonObject daq = new JsonObject();
         services.add(daq);
         daq.addProperty("type", "daq");
-        daq.addProperty("port", 7411);
+        daq.addProperty("port", STREAMING_PORT);
     }
 
     private String createAnnounceString(String type, int idPostfix) {
@@ -224,7 +234,7 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         root.addProperty("method", "announce");
         final JsonObject params = new JsonObject();
         root.add("params", params);
-        params.addProperty("expiration", 15);
+        params.addProperty("expiration", DEFAULT_EXPIRATION);
         params.addProperty("apiVersion", "1.0");
 
         composeDeviceSettings(params, deviceName, type, uuid);
