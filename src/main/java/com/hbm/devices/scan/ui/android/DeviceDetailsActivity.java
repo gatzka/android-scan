@@ -31,9 +31,6 @@ package com.hbm.devices.scan.ui.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +38,7 @@ import android.view.MenuItem;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 
-public final class DeviceDetailsActivity extends AppCompatActivity {
+public final class DeviceDetailsActivity extends AbstractToolbarActivity {
 
     public static final String DETAILS = "Details";
 
@@ -72,7 +69,8 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    private String getDisplayName(Device device) {
+    @Override
+    String getDisplayName(Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
             displayName = device.getUuid();
@@ -101,22 +99,5 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-    }
-
-    private void initToolbar(Announce announce) {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        setTitle(getDisplayName(announce.getParams().getDevice()));
     }
 }

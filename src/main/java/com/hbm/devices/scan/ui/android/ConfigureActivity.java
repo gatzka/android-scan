@@ -30,9 +30,6 @@ package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.MenuItem;
@@ -47,7 +44,7 @@ import com.hbm.devices.scan.configure.ConfigurationParams;
 
 import java.io.IOException;
 
-public final class ConfigureActivity extends AppCompatActivity {
+public final class ConfigureActivity extends AbstractToolbarActivity {
 
     public static final int CONFIGURATION_TIMEOUT = 5000;
     private ConfigServiceThread configThread;
@@ -125,23 +122,7 @@ public final class ConfigureActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-    }
-
-    private void initToolbar(Announce announce) {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        setTitle(getDisplayName(announce.getParams().getDevice()));
-    }
-
-    private String getDisplayName(Device device) {
+    String getDisplayName(Device device) {
         final StringBuilder title = new StringBuilder(getResources().getText(R.string.configure));
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
