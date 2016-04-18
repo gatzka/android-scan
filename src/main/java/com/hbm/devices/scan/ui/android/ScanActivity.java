@@ -28,51 +28,48 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.hbm.devices.scan.announce.Announce;
 
 import java.io.File;
 import java.util.List;
-
-import com.hbm.devices.scan.announce.Announce;
 
 /**
  * Main activity for the scan app.
  */
 public final class ScanActivity extends AppCompatActivity {
     public static final String LOG_TAG = "Scanner";
-    
+
     private static final int TOAST_TIMEOUT = 2000;
     private boolean doubleBackToExitPressedOnce;
     private DeviceListFragment listFragment;
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
     private ModuleListAdapter adapter;
-    private DrawerLayout drawerLayout;
+    private ScanDrawer drawer;
+
+    public ScanActivity() {
+        super();
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -95,7 +92,7 @@ public final class ScanActivity extends AppCompatActivity {
         initDevicesView();
         initToolbar();
         setDeviceListAdapter();
-        setupDrawerLayout();
+        drawer = new ScanDrawer(this);
 
         if (!kernelSupportsMulticast()) {
             new AlertDialog.Builder(this)
@@ -150,11 +147,12 @@ public final class ScanActivity extends AppCompatActivity {
 
             case R.id.action_share:
                 final List<Announce> announces = adapter.getFilteredAnnounces();
-                handleShare(announces);
+                final AnnounceSharer sharer = new AnnounceSharer(this);
+                sharer.handleShare(announces);
                 return true;
 
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                drawer.open();
                 return true;
 
             default:
@@ -167,11 +165,11 @@ public final class ScanActivity extends AppCompatActivity {
         listFragment = null;
         super.onDestroy();
     }
-    
+
     @Override
     public void onBackPressed() {
-        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            this.drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawer.isOpen()) {
+            drawer.close();
             return;
         }
         if (doubleBackToExitPressedOnce) {
@@ -228,63 +226,6 @@ public final class ScanActivity extends AppCompatActivity {
             item.setIcon(R.drawable.ic_action_play);
             adapter.pauseDeviceUpdates();
         }
-    }
-
-    private void handleShare(List<Announce> announces) {
-        final Uri uri = DeviceZipper.saveAnnounces(announces, this);
-        if (uri == null) {
-            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
-            exitToast.show();
-        } else {
-            final Intent devices = new Intent();
-            devices.setAction(Intent.ACTION_SEND);
-            devices.putExtra(Intent.EXTRA_STREAM, uri);
-            devices.setTypeAndNormalize("application/zip");
-            startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
-        }
-    }
-
-    private void setupDrawerLayout() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        final NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        if (view != null) {
-            view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.drawer_settings:
-                            startActivity(new Intent(getApplicationContext(),
-                                    SettingsActivity.class));
-                            return true;
-
-                        case R.id.drawer_about:
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                            return true;
-
-                        default:
-                            drawerLayout.closeDrawers();
-                            return true;
-                    }
-                }
-            });
-
-            final View headerView = view.getHeaderView(0);
-            if (headerView != null) {
-                final ImageView avatar = (ImageView) headerView.findViewById(R.id.avatar);
-                if (avatar != null) {
-                    avatar.setPadding(0, getStatusBarHeight(), 0, 0);
-                }
-            }
-        }
-    }
-
-    private int getStatusBarHeight() { 
-        int result = 0;
-        final int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        } 
-        return result;
     }
 
     private static boolean kernelSupportsMulticast() {

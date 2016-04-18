@@ -29,7 +29,6 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -38,7 +37,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
@@ -87,7 +85,8 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
         final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_share:
-                handleShare(announce);
+                final AnnounceSharer sharer = new AnnounceSharer(this);
+                sharer.handleShare(announce);
                 return true;
             case R.id.action_setup:
                 final Intent intent = new Intent(this, ConfigureActivity.class);
@@ -108,20 +107,6 @@ public final class DeviceDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-    }
-
-    private void handleShare(Announce announce) {
-        final Uri uri = DeviceZipper.saveAnnounce(announce, this);
-        if (uri == null) {
-            final Toast exitToast = Toast.makeText(this, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
-            exitToast.show();
-        } else {
-            final Intent devices = new Intent();
-            devices.setAction(Intent.ACTION_SEND);
-            devices.putExtra(Intent.EXTRA_STREAM, uri);
-            devices.setTypeAndNormalize("application/zip");
-            startActivity(Intent.createChooser(devices, getResources().getText(R.string.share_devices)));
-        }
     }
 
     private void initToolbar(Announce announce) {
