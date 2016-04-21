@@ -43,6 +43,9 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Unit test for testing the DisplayUpdateEventGenerator.
+ */
 public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observer {
 
     private final List<Announce> oldList = new ArrayList<>();
@@ -59,25 +62,34 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
     private static final String DEVICE5;
     private static final String DEVICE6;
 
+    /**
+     * Default constructor. This is called by the junit environment.
+     */
+    public DisplayUpdateEventGeneratorTest() {
+        super();
+    }
+
+    /**
+     * Test case to ensure that a list is correctly updated by the events fired from the DisplayUpdateEventGenerator.
+     */
     @Test
-    public void testCompareLists() throws Exception {
+    public void testCompareLists()  {
+        final String[] oldArray = {DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5};
+        final String[] newArray = {DEVICE1UPDATE, DEVICE2, DEVICE6, DEVICE5, DEVICE4};
+
         final AnnounceDeserializer parser = new AnnounceDeserializer();
         parser.addObserver(this);
-        parser.update(null, DEVICE1);
-        parser.update(null, DEVICE2);
-        parser.update(null, DEVICE3);
-        parser.update(null, DEVICE4);
-        parser.update(null, DEVICE5);
 
+        for (final String elem : oldArray) {
+            parser.update(null, elem);
+        }
         fillNewList = true;
-        parser.update(null, DEVICE1UPDATE);
-        parser.update(null, DEVICE2);
-        parser.update(null, DEVICE6);
-        parser.update(null, DEVICE5);
-        parser.update(null, DEVICE4);
+        for (final String elem : newArray) {
+            parser.update(null, elem);
+        }
 
-        assertEquals(oldList.size(), 5);
-        assertEquals(newList.size(), 5);
+        assertEquals(oldList.size(), oldArray.length);
+        assertEquals(newList.size(), newArray.length);
         oldListClone = new ArrayList<>(oldList.size());
         for (final Announce item: oldList) {
             oldListClone.add(item);
