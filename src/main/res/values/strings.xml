@@ -52,6 +52,9 @@
     <string name="config_error">Configuration error: %s</string>
     <string name="interrupted_wait">Call interrupted!</string>
     <string name="could_not_start_config">Could not start configuration service: %s!</string>
+    <string name="could_not_get_wifimanager">Could not get WifiManager!</string>
+    <string name="no_thread_start">Can\'t start thread!</string>
+    <string name="interrupted_join">Interrupt while joining thread!</string>
 
     <string name="pref_debug">Debugging</string>
     <string name="pref_use_fake_messages">Use Fake Messages</string>

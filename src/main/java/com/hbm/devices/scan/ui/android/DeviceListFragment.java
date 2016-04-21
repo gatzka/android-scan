@@ -37,8 +37,8 @@ import android.net.wifi.WifiManager.WifiLock;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.Filter;
+import android.widget.Toast;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
@@ -98,7 +98,9 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         final ScanActivity activity = (ScanActivity) getActivity();
         final WifiManager wifi = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
         if (wifi == null) {
-            Log.e(ScanActivity.LOG_TAG, "Could not get WifiManager");
+            final Toast failureToast = Toast.makeText(activity,
+                    activity.getString(R.string.could_not_get_wifimanager), Toast.LENGTH_SHORT);
+            failureToast.show();
         } else {
             if (wifiLock == null || !wifiLock.isHeld()) {
                 wifiLock = wifi.createWifiLock("wifi lock");
@@ -190,7 +192,10 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             scanThread = new ScanThread(this, useFakeMessages, messageType);
             scanThread.start();
         } catch (IOException e) {
-            Log.e(ScanActivity.LOG_TAG, "Can't start thread!", e);
+            final ScanActivity activity = (ScanActivity) getActivity();
+            final Toast failureToast = Toast.makeText(activity,
+                    activity.getString(R.string.no_thread_start), Toast.LENGTH_SHORT);
+            failureToast.show();
         }
     }
 
@@ -199,7 +204,10 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         try {
             scanThread.join();
         } catch (InterruptedException e) {
-            Log.d(ScanActivity.LOG_TAG, "Interrupt while joining thread", e);
+            final ScanActivity activity = (ScanActivity) getActivity();
+            final Toast failureToast = Toast.makeText(activity,
+                    activity.getString(R.string.interrupted_join), Toast.LENGTH_SHORT);
+            failureToast.show();
         }
     }
 
