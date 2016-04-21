@@ -14,7 +14,7 @@ plugins {
 
 description 'Web application launcher for HBM devices.'
 
-version = '0.9.0'
+version = '1.0.0'
 
 ext {
 	isReleaseBuild = false
@@ -92,17 +92,17 @@ android {
 
 	signingConfigs {
 		release {
-			//storeFile file("myReleaseKey.keystore")
-			//storePassword "passwd"
-			//keyAlias "MyReleaseKey"
-			//keyPassword "passwd"
+			//storeFile file(RELEASE_STORE_FILE)
+			//storePassword RELEASE_STORE_PASSWORD
+			//keyAlias RELEASE_KEY_ALIAS
+			//keyPassword RELEASE_KEY_PASSWORD
 		}
 	}
 
 	buildTypes {
 		release {
-			minifyEnabled false
-			//signingConfig signingConfigs.release
+			shrinkResources true
+	//		signingConfig signingConfigs.release
 		}
 	}
 
