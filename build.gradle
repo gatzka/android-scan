@@ -34,7 +34,7 @@ def isDirty() {
 }
 
 def isRelease() {
-	def getRelease = "git describe --exact-match HEAD".execute()
+	def getRelease = "git describe --exact-match --tags HEAD".execute()
 	getRelease.waitFor()
 	return getRelease.exitValue() == 0
 }
