@@ -67,6 +67,10 @@ public final class ScanActivity extends AppCompatActivity {
     private ModuleListAdapter adapter;
     private ScanDrawer drawer;
 
+    /**
+     * Default constructor fot this Activity. This constructor shall never be called directly from code. Activities
+     * are instantiated by the Android runtime..
+     */
     public ScanActivity() {
         super();
     }

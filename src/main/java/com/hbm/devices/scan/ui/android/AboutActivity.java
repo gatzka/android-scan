@@ -38,6 +38,9 @@ import android.widget.TextView;
 
 import java.util.Date;
 
+/**
+ * This activity shows some 'About' information of the app.
+ */
 public class AboutActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {

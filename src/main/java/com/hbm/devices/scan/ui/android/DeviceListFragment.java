@@ -49,6 +49,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Retained fragment holding the announced devices. It is necessary to retain this fragment to let the list of
+ * devices survive configuration events.
+ */
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
     private final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
@@ -60,6 +64,10 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     private WifiLock wifiLock;
     private MulticastLock mcLock;
 
+    /**
+     * Default constructor fot this Fragment. This constructor shall never be called directly from code. Fragments
+     * are instantiated by the Android runtime.
+     */
     public DeviceListFragment() {
         super();
     }

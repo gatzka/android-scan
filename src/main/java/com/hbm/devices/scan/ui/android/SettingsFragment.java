@@ -31,6 +31,9 @@ package com.hbm.devices.scan.ui.android;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
+/**
+ * Fragment holding the GUI elements of the settings.
+ */
 public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {

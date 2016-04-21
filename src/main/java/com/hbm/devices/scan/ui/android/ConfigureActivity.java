@@ -44,6 +44,9 @@ import com.hbm.devices.scan.configure.ConfigurationParams;
 
 import java.io.IOException;
 
+/**
+ * This Activity is provides the GUI to configure devices.
+ */
 public final class ConfigureActivity extends AbstractToolbarActivity {
 
     public static final int CONFIGURATION_TIMEOUT = 5000;
@@ -52,6 +55,10 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
 
     private static final InputFilter[] ipAddressFilter;
 
+    /**
+     * Default constructor fot this Activity. This constructor shall never be called directly from code. Activities
+     * are instantiated by the Android runtime.
+     */
     public ConfigureActivity() {
         super();
     }

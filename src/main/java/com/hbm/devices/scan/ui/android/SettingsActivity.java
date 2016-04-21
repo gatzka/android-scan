@@ -36,6 +36,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 
+/**
+ * Activity to show the settings of the app.
+ */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class SettingsActivity extends AppCompatActivity {
     @Override

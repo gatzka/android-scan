@@ -38,12 +38,19 @@ import android.view.MenuItem;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 
+/**
+ * Activity to show all announce information of a single device.
+ */
 public final class DeviceDetailsActivity extends AbstractToolbarActivity {
 
     public static final String DETAILS = "Details";
 
     private Announce announce;
 
+    /**
+     * Default constructor fot this Activity. This constructor shall never be called directly from code. Activities
+     * are instantiated by the Android runtime.
+     */
     public DeviceDetailsActivity() {
         super();
     }
