@@ -29,8 +29,29 @@
 package com.hbm.devices.scan.ui.android;
 
 interface DisplayNotifier {
+
+    /**
+     * Notifies that an element has been remove at a certain position.
+     * @param position where the element was removed
+     */
     void notifyRemoveAt(int position);
+
+    /**
+     * Notifies that an element has been added at a certain position.
+     * @param position where the element was added
+     */
     void notifyAddAt(int position);
+
+    /**
+     * Notifies that an element has been changed at a certain position.
+     * @param position where the element was changed
+     */
     void notifyChangeAt(int position);
+
+    /**
+     * Notifies that an element has been moved at a certain position.
+     * @param fromPosition position where the elements was
+     * @param toPosition position where the element was moved to
+     */
     void notifyMoved(int fromPosition, int toPosition);
 }
