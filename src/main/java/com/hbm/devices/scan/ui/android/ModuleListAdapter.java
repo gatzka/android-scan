@@ -34,11 +34,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hbm.devices.scan.announce.Announce;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.hbm.devices.scan.announce.Announce;
 
 final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> implements DisplayNotifier {
 
@@ -71,7 +71,7 @@ final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> imp
     @Override
     public long getItemId(int position) {
         final Announce announce = filteredAnnounces.get(position);
-        return announce.getCommunicationPathId();
+        return announce.hashCode();
     }
 
     @Override
