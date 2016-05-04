@@ -30,8 +30,6 @@ package com.hbm.devices.scan.ui.android;
 
 import com.hbm.devices.scan.announce.Announce;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 class DisplayUpdateEventGenerator {
@@ -41,29 +39,10 @@ class DisplayUpdateEventGenerator {
         this.notifier = n;
     }
 
-    List<Announce> oldListClone;
-    List<Announce> newListClone;
-
     void compareLists(final List<Announce> oldList, final List<Announce> newList) {
-        checkList(oldList);
-        checkList(newList);
-        oldListClone = (List<Announce>) ((ArrayList<Announce>)oldList).clone();
-        newListClone = (List<Announce>) ((ArrayList<Announce>)newList).clone();
         updateRemovals(oldList, newList);
         updateAdditions(oldList, newList);
         updateMoves(oldList, newList);
-    }
-
-    private void checkList(List<Announce> list) {
-        for(int i = 0; i < list.size(); i++) {
-            Announce a = list.get(i);
-            for (int j = i + 1; j < list.size(); j++) {
-                Announce b = list.get(j);
-                if (a.sameCommunicationPath(b)) {
-                    System.out.println("err");
-                }
-            }
-        }
     }
 
     private void updateRemovals(final List<Announce> oldList, final List<Announce> newList) {
@@ -75,7 +54,6 @@ class DisplayUpdateEventGenerator {
                 notifier.notifyRemoveAt(i);
             }
         }
-        checkList(oldList);
     }
 
     private void updateAdditions(final List<Announce> oldList, final List<Announce> newList) {
@@ -85,13 +63,11 @@ class DisplayUpdateEventGenerator {
             final int changeIndex = getIndexInList(oldList, announce);
             if (changeIndex == -1) {
                 oldList.add(announce);
-                checkList(oldList);
                 notifier.notifyAddAt(oldList.size() - 1);
             } else {
                 Announce oldAnnounce = oldList.get(changeIndex);
                 if (!oldAnnounce.equals(announce)) {
                     oldList.set(changeIndex, announce);
-                    checkList(oldList);
                     notifier.notifyChangeAt(changeIndex);
                 }
             }
@@ -99,9 +75,6 @@ class DisplayUpdateEventGenerator {
     }
 
     private void updateMoves(final List<Announce> oldList, final List<Announce> newList) {
-        if (oldList.size() != newList.size()) {
-            System.out.println("error");
-        }
         for (int toPosition = newList.size() - 1; toPosition >= 0; toPosition--) {
             final Announce model = newList.get(toPosition);
             final int fromPosition = oldList.indexOf(model);
@@ -111,7 +84,6 @@ class DisplayUpdateEventGenerator {
                 notifier.notifyMoved(fromPosition, toPosition);
             }
         }
-        checkList(oldList);
     }
 
     private static int getIndexInList(final List<Announce> list, final Announce announce) {
