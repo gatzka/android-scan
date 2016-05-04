@@ -49,7 +49,7 @@ class DisplayUpdateEventGenerator {
         final int count = oldList.size();
         for (int i = count - 1; i >= 0; i--) {
             final Announce announce = oldList.get(i);
-            if (isNotInList(newList, announce)) {
+            if (getIndexInList(newList, announce) == -1) {
                 oldList.remove(i);
                 notifier.notifyRemoveAt(i);
             }
@@ -60,13 +60,15 @@ class DisplayUpdateEventGenerator {
         final int count = newList.size();
         for (int i = 0; i < count; i++) {
             final Announce announce = newList.get(i);
-            if (isNotInList(oldList, announce)) {
+            final int changeIndex = getIndexInList(oldList, announce);
+            if (changeIndex == -1) {
                 oldList.add(announce);
-                notifier.notifyAddAt(i);
+                notifier.notifyAddAt(oldList.size() - 1);
             } else {
-                if (!oldList.contains(announce)) {
-                    oldList.set(i, announce);
-                    notifier.notifyChangeAt(i);
+                Announce oldAnnounce = oldList.get(changeIndex);
+                if (!oldAnnounce.equals(announce)) {
+                    oldList.set(changeIndex, announce);
+                    notifier.notifyChangeAt(changeIndex);
                 }
             }
         }
@@ -84,12 +86,14 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private static boolean isNotInList(final List<Announce> list, final Announce announce) {
-        for (final Announce element : list) {
+    private static int getIndexInList(final List<Announce> list, final Announce announce) {
+        final int size = list.size();
+        for (int i = 0; i < size; i++) {
+            final Announce element = list.get(i);
             if (element.sameCommunicationPath(announce)) {
-                return false;
+                return i;
             }
         }
-        return true;
+        return -1;
     }
 }

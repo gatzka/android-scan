@@ -42,7 +42,7 @@ import java.util.Observer;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertTrue;
 /**
  * Unit test for testing the DisplayUpdateEventGenerator.
  */
@@ -98,7 +98,31 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
         final DisplayUpdateEventGenerator eventGenerator = new DisplayUpdateEventGenerator(this);
         eventGenerator.compareLists(oldList, newList);
         assertEquals("oldList not the same as newList after compareList", oldList, newList);
-        assertEquals("updated events list not the same as newList after compareList", oldListClone, newList);
+        assertTrue("updated events list not the same as newList after compareList", sameContent(oldListClone, newList));
+    }
+
+    private boolean sameContent(List<Announce> l1, List<Announce> l2) {
+        if (l1.size() != l2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < l1.size(); i++) {
+            final Announce a = l1.get(i);
+            if (!foundInList(l2, a)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean foundInList(List<Announce> list, final Announce a) {
+        for (int i = 0; i < list.size(); i++) {
+            final Announce b = list.get(i);
+            if (a.equals(b)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -114,12 +138,12 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
     @Override
     public void notifyChangeAt(int position) {
-        oldListClone.set(position, newList.get(position));
+        oldListClone.set(position, oldList.get(position));
     }
 
     @Override
     public void notifyAddAt(int position) {
-        oldListClone.add(newList.get(position));
+        oldListClone.add(oldList.get(position));
     }
 
     @Override
