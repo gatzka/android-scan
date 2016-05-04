@@ -14,7 +14,7 @@ plugins {
 
 description 'Web application launcher for HBM devices.'
 
-version = '1.0.2'
+version = '1.0.3'
 
 ext {
 	isReleaseBuild = false
