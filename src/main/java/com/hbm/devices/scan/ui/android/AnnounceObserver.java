@@ -83,6 +83,19 @@ class AnnounceObserver implements Observer {
         }
         final List<Announce> copiedList = new ArrayList<>(collectedAnnounces);
         listFragment.notify(copiedList);
+        checkList(copiedList);
+    }
+
+    private void checkList(List<Announce> list) {
+        for(int i = 0; i < list.size(); i++) {
+            Announce a = list.get(i);
+            for (int j = i + 1; j < list.size(); j++) {
+                Announce b = list.get(j);
+                if (a.sameCommunicationPath(b)) {
+                    System.out.println("err");
+                }
+            }
+        }
     }
 
     private void findConnectableAddress(Announce announce) {
