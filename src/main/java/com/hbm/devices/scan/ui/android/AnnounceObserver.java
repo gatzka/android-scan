@@ -28,15 +28,12 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
 import com.hbm.devices.scan.announce.NewDeviceEvent;
 import com.hbm.devices.scan.announce.UpdateDeviceEvent;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;

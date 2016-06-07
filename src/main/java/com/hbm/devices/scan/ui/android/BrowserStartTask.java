@@ -32,20 +32,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
-import java.net.Inet6Address;
-import java.net.SocketException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.ServiceEntry;
 
+import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
 
