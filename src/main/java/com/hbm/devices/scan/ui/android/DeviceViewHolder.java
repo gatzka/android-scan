@@ -43,8 +43,6 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
 import com.squareup.picasso.Picasso;
 
-import java.net.InetSocketAddress;
-
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     public static final String DETAILS = "Details";
@@ -81,20 +79,12 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String uuid = device.getUuid();
 
         final DeviceHolderResources resources = DeviceHolderResources.getInstance(context);
-        if (announce.getCookie() == null) {
-            cardView.setCardBackgroundColor(resources.getCardBackgroundNotConnectable());
-            tvModuleType.setTextColor(resources.getModuleTypeTextColorNotConnectable());
-            tvModuleName.setTextColor(resources.getModuleNameTextColorNotConnectable());
-            tvModuleId.setTextColor(resources.getModuleIdTextColorNotConnectable());
-            infoButton.setImageDrawable(resources.getWhiteInfo());
-        } else {
-            final int alpha = resources.getAlpha();
-            cardView.setCardBackgroundColor(resources.getCardBackgroundConnectable());
-            tvModuleType.setTextColor(setTextAlpha(resources.getModuleTypeTextColorConnectable(), alpha));
-            tvModuleName.setTextColor(setTextAlpha(resources.getModuleNameTextColorConnectable(), alpha));
-            tvModuleId.setTextColor(setTextAlpha(resources.getModuleIdTextColorConnectable(), alpha));
-            infoButton.setImageDrawable(resources.getBlackInfo());
-        }
+        final int alpha = resources.getAlpha();
+        cardView.setCardBackgroundColor(resources.getCardBackgroundConnectable());
+        tvModuleType.setTextColor(setTextAlpha(resources.getModuleTypeTextColorConnectable(), alpha));
+        tvModuleName.setTextColor(setTextAlpha(resources.getModuleNameTextColorConnectable(), alpha));
+        tvModuleId.setTextColor(setTextAlpha(resources.getModuleIdTextColorConnectable(), alpha));
+        infoButton.setImageDrawable(resources.getBlackInfo());
 
         tvModuleType.setText(moduleType);
         tvModuleName.setText(displayName);
@@ -106,10 +96,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final InetSocketAddress address  = (InetSocketAddress) announce.getCookie();
-                if (address != null) {
-                    openBrowser(address);
-                }
+                openBrowser(announce);
             }
         });
 
@@ -159,8 +146,8 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         return displayName;
     }
 
-    private void openBrowser(InetSocketAddress address) {
+    private void openBrowser(Announce announce) {
         final BrowserStartTask browserTask = new BrowserStartTask(context);
-        browserTask.execute(address);
+        browserTask.execute(announce);
     }
 }
