@@ -218,6 +218,11 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         http.addProperty("type", "http");
         http.addProperty("port", HTTP_PORT);
 
+        final JsonObject https = new JsonObject();
+        services.add(https);
+        https.addProperty("type", "https");
+        https.addProperty("port", 443);
+
         final JsonObject ssh = new JsonObject();
         services.add(ssh);
         ssh.addProperty("type", "ssh");
