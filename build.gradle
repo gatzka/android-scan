@@ -77,13 +77,13 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25"
 
     defaultConfig {
         applicationId "com.hbm.devices.scan.ui.android"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode totalCommits.toInteger()
         versionName version
 		buildConfigField("long", "TIMESTAMP", System.currentTimeMillis() + "L")
