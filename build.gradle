@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
@@ -101,7 +101,9 @@ android {
 
 	buildTypes {
 		release {
-			shrinkResources true
+			shrinkResources false
+			debuggable false
+			zipAlignEnabled true
 	//		signingConfig signingConfigs.release
 		}
 	}
@@ -125,6 +127,6 @@ sonarqube {
 tasks.sonarqube.dependsOn = ["build"]
 
 task createWrapper(type: Wrapper) {
-	gradleVersion = '2.14.1'
+	gradleVersion = '3.1'
 }
 
