@@ -120,7 +120,7 @@ sonarqube {
 		property "sonar.sourceEncoding", "UTF-8"
 		property "sonar.sources", "src"
 		property "sonar.java.binaries", "build/intermediates/classes/release/"
-		property "sonar.java.libraries", "${android_sdk}/platforms/android-23/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
+		property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
 	}
 }
 
