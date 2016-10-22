@@ -40,7 +40,7 @@
                     android:digits="0123456789."
                     android:inputType="number|numberDecimal"
                     android:layout_gravity="start|bottom"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:hint="@string/configure_ip_address_label"
                     android:layout_marginTop="@dimen/configure_margins"
                     android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 android:digits="0123456789."
                 android:inputType="number|numberDecimal"
                 android:layout_gravity="start|bottom"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:hint="@string/configure_subnet_label"
                 android:layout_marginTop="@dimen/configure_margins"
                 />
@@ -74,7 +74,7 @@
                     android:ems="15"
                     android:digits="0123456789."
                     android:layout_gravity="start|bottom"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:hint="@string/configure_gateway_label"
                     android:layout_marginTop="@dimen/configure_margins"
                     />
