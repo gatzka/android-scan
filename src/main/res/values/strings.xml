@@ -42,6 +42,7 @@
     <string name="about">About</string>
     <string name="share_devices">Share devices&#8230;</string>
     <string name="submit">Submit</string>
+    <string name="third_party">Third Party Information</string>
     <string name="toast_exit">Please click BACK again to exit</string>
     <string name="unknown">Unknown</string>
     <string name="use_dhcp">Use DHCP</string>

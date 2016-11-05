@@ -73,6 +73,7 @@ dependencies {
 	compile 'com.android.support:design:25.0.0'
 	compile 'com.android.support:recyclerview-v7:25.0.0'
 	compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     testCompile 'junit:junit:4.12'
 }
 

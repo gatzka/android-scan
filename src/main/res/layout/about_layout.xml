@@ -39,7 +39,8 @@
                 android:layout_marginTop="@dimen/details_card_margin_top"
                 android:layout_marginBottom="@dimen/details_card_margin_bottom"
                 android:layout_marginStart="@dimen/details_card_margin_start"
-                android:layout_marginEnd="@dimen/details_card_margin_end"                android:textAppearance="@style/DetailsTextView"
+                android:layout_marginEnd="@dimen/details_card_margin_end"
+                android:textAppearance="@style/DetailsTextView"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -73,6 +74,15 @@
                 android:layout_marginStart="@dimen/details_card_margin_start"
                 android:layout_marginEnd="@dimen/details_card_margin_end"
                 android:textAppearance="@style/DetailsTextView"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/third_party"
+                android:textColor="@color/button_text_color"
+                android:id="@+id/third_party"
+                style="?attr/borderlessButtonStyle"
+                android:layout_gravity="end|bottom"
                 />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

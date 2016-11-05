@@ -34,9 +34,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Date;
+
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.MITLicense;
+import de.psdev.licensesdialog.model.Notice;
+import de.psdev.licensesdialog.model.Notices;
 
 /**
  * This activity shows some 'About' information of the app.
@@ -48,6 +56,32 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.about_layout);
         initToolbar();
         fillVersion();
+
+        final Button thirdParty = (Button) findViewById(R.id.third_party);
+        if (thirdParty!= null) {
+            thirdParty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    final Notices notices = new Notices();
+                    notices.addNotice(new Notice("gson", "https://github.com/google/gson", "Google Inc.", new
+                            ApacheSoftwareLicense20()));
+                    notices.addNotice(new Notice("devscan", "https://github.com/HBM/java-scan", "Hottinger Baldwin " +
+                            "Messtechnik GmbH", new MITLicense()));
+                    notices.addNotice(new Notice("LicensesDialog", "https://psdev.de/LicensesDialog", "Philip Schiffer", new
+                            ApacheSoftwareLicense20()));
+                    notices.addNotice(new Notice("Picasso", "http://square.github.io/picasso", "Square, Inc.", new
+                            ApacheSoftwareLicense20()));
+
+                    new LicensesDialog.Builder(view.getContext())
+                            .setTitle(R.string.third_party)
+                            .setNotices(notices)
+                            .setIncludeOwnLicense(false)
+                            .build()
+                            .show();
+                }
+            });
+        }
     }
 
     private void initToolbar() {
