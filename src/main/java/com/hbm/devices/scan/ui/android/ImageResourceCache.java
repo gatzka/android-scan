@@ -53,7 +53,7 @@ class ImageResourceCache {
         resourceCache.put("MX1601B", R.drawable.mx1601b);
         resourceCache.put("MX1601BR", R.drawable.mx1601br);
 
-        resourceCache.put("MX1609KBR", R.drawable.mx1609kbr);
+        resourceCache.put("MX1609KB-R", R.drawable.mx1609kbr);
         resourceCache.put("MX1609", R.drawable.mx1609kb);
         resourceCache.put("MX1609KB", R.drawable.mx1609kb);
         resourceCache.put("MX1609TB", R.drawable.mx1609tb);
