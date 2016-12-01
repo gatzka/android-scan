@@ -107,6 +107,8 @@ class ImageResourceCache {
         resourceCache.put("MX238", R.drawable.mx238b);
         resourceCache.put("MX238B", R.drawable.mx238b);
 
+        resourceCache.put("MX590", R.drawable.mx590);
+
         resourceCache.put("PMX", R.drawable.pmx);
     }
 }
