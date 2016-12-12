@@ -29,7 +29,12 @@
 package com.hbm.devices.scan.ui.android;
 
 import com.hbm.devices.scan.announce.Announce;
+import com.hbm.devices.scan.announce.AnnounceParams;
+import com.hbm.devices.scan.announce.Interface;
+import com.hbm.devices.scan.announce.NetSettings;
+import com.hbm.devices.scan.announce.Router;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DisplayUpdateEventGenerator {
@@ -40,9 +45,52 @@ class DisplayUpdateEventGenerator {
     }
 
     void compareLists(final List<Announce> oldList, final List<Announce> newList) {
-        updateRemovals(oldList, newList);
-        updateAdditions(oldList, newList);
-        updateMoves(oldList, newList);
+        try {
+            ArrayList<Announce> oldListClone = new ArrayList<>(oldList);
+            ArrayList<Announce> newListClone = new ArrayList<>(newList);
+            updateRemovals(oldList, newList);
+            updateAdditions(oldList, newList);
+            updateMoves(oldList, newList);
+        } catch (IndexOutOfBoundsException e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("oldList size: ").append(oldList.size()).append('\n');
+            sb.append("newList size: ").append(newList.size()).append('\n');
+            sb.append("oldList:\n");
+            addList(oldList, sb);
+            sb.append("\n\n");
+            sb.append("newList:\n");
+            addList(newList, sb);
+            IndexOutOfBoundsException ex = new IndexOutOfBoundsException(sb.toString());
+            throw ex;
+        }
+    }
+
+    private void addList(List<Announce> list, StringBuilder sb) {
+        final int count = list.size();
+        for (int i = 0; i < count; i++) {
+            final Announce a = list.get(i);
+            sb.append("uuid: ").append(a.getParams().getDevice().getUuid()).append(" commPath: ").append
+                    (getCommunicationPath(a)).append('\n');
+            sb.append("json: ").append(a.getJsonrpc()).append("\n\n");
+        }
+    }
+
+    private String getCommunicationPath(Announce a) {
+        final AnnounceParams parameters = a.getParams();
+
+        final StringBuilder hashBuilder = new StringBuilder();
+        hashBuilder.append(parameters.getDevice().getUuid());
+
+        final Router router = parameters.getRouter();
+        if (router != null) {
+            hashBuilder.append(router.getUuid());
+        }
+
+        final NetSettings settings = parameters.getNetSettings();
+        final Interface iface = settings.getInterface();
+        final String interfaceName = iface.getName();
+        hashBuilder.append(interfaceName);
+        return hashBuilder.toString();
     }
 
     private void updateRemovals(final List<Announce> oldList, final List<Announce> newList) {
