@@ -32,10 +32,14 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,16 +47,9 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-/**
- * Unit test for testing the DisplayUpdateEventGenerator.
- */
-public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observer {
 
-    private final List<Announce> oldList = new ArrayList<>();
-    private final List<Announce> newList = new ArrayList<>();
-    private List<Announce> oldListClone;
-
-    private boolean fillNewList;
+@RunWith(Parameterized.class)
+public class DisplayUpdateEventGeneratorTest implements DisplayNotifier, Observer {
 
     private static final String DEVICE1;
     private static final String DEVICE1UPDATE;
@@ -62,21 +59,35 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
     private static final String DEVICE5;
     private static final String DEVICE6;
 
-    /**
-     * Default constructor. This is called by the junit environment.
-     */
-    public DisplayUpdateEventGeneratorTest() {
-        super();
+    private String[] oldArray;
+    private String[] newArray;
+
+    private final List<Announce> oldList = new ArrayList<>();
+    private final List<Announce> newList = new ArrayList<>();
+    private List<Announce> oldListClone;
+
+    private boolean fillNewList;
+
+    @Parameterized.Parameters
+    public static Collection deviceLists() {
+        return Arrays.asList(new Object[][] {
+                {new String[]{DEVICE2, DEVICE3, DEVICE4, DEVICE5}, new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}},
+                {new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4}, new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}},
+                {new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}, new String[]{DEVICE2, DEVICE3, DEVICE4, DEVICE5}},
+                {new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}, new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4}},
+                {new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}, new String[]{DEVICE1UPDATE, DEVICE2, DEVICE3, DEVICE4, DEVICE5}},
+                {new String[]{DEVICE2, DEVICE3, DEVICE4, DEVICE5, DEVICE1}, new String[]{DEVICE2, DEVICE3, DEVICE4, DEVICE5, DEVICE1UPDATE}},
+                {new String[]{DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5}, new String[]{DEVICE6, DEVICE2, DEVICE3, DEVICE4, DEVICE1UPDATE, DEVICE5}},
+        });
     }
 
-    /**
-     * Test case to ensure that a list is correctly updated by the events fired from the DisplayUpdateEventGenerator.
-     */
-    @Test
-    public void testCompareLists()  {
-        final String[] oldArray = {DEVICE1, DEVICE2, DEVICE3, DEVICE4, DEVICE5};
-        final String[] newArray = {DEVICE1UPDATE, DEVICE2, DEVICE6, DEVICE5, DEVICE4};
+    public DisplayUpdateEventGeneratorTest(String[] oldArray, String[] newArray) {
+        this.oldArray = oldArray;
+        this.newArray = newArray;
+    }
 
+    @Test
+    public void testUpdates() {
         final AnnounceDeserializer parser = new AnnounceDeserializer();
         parser.addObserver(this);
 
@@ -90,6 +101,7 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
 
         assertEquals(oldList.size(), oldArray.length);
         assertEquals(newList.size(), newArray.length);
+
         oldListClone = new ArrayList<>(oldList.size());
         for (final Announce item: oldList) {
             oldListClone.add(item);
@@ -101,29 +113,6 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
         assertTrue("updated events list not the same as newList after compareList", sameContent(oldListClone, newList));
     }
 
-    private boolean sameContent(List<Announce> l1, List<Announce> l2) {
-        if (l1.size() != l2.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < l1.size(); i++) {
-            final Announce a = l1.get(i);
-            if (!foundInList(l2, a)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean foundInList(List<Announce> list, final Announce a) {
-        for (int i = 0; i < list.size(); i++) {
-            final Announce b = list.get(i);
-            if (a.equals(b)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void notifyRemoveAt(int position) {
@@ -154,6 +143,30 @@ public class DisplayUpdateEventGeneratorTest  implements DisplayNotifier, Observ
         } else {
             oldList.add(announce);
         }
+    }
+
+    private boolean sameContent(List<Announce> l1, List<Announce> l2) {
+        if (l1.size() != l2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < l1.size(); i++) {
+            final Announce a = l1.get(i);
+            if (!foundInList(l2, a)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean foundInList(List<Announce> list, final Announce a) {
+        for (int i = 0; i < list.size(); i++) {
+            final Announce b = list.get(i);
+            if (a.equals(b)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static {
