@@ -61,12 +61,12 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
 
     private static final String[] devices = {
         "CX23R",
-        "MX1601BR",
-        "MX1609KBR",
-        "MX1615BR",
-        "MX411BR",
-        "MX471BR",
-        "MX840BR",
+        "MX1601B-R",
+        "MX1609KB-R",
+        "MX1615B-R",
+        "MX411B-R",
+        "MX471B-R",
+        "MX840B-R",
         "MX879B",
         "MX878B",
         "MX840B",
