@@ -71,7 +71,7 @@ class DisplayUpdateEventGenerator {
             final Announce a = list.get(i);
             sb.append("uuid: ").append(a.getParams().getDevice().getUuid()).append(" commPath: ").append
                     (getCommunicationPath(a)).append('\n');
-            sb.append("json: ").append(a.getJsonrpc()).append("\n\n");
+            sb.append("json: ").append(a.getJSONString()).append("\n\n");
         }
     }
 
