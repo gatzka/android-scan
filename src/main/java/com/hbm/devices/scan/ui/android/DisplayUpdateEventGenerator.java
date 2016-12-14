@@ -126,7 +126,7 @@ class DisplayUpdateEventGenerator {
         for (int toPosition = newList.size() - 1; toPosition >= 0; toPosition--) {
             final Announce model = newList.get(toPosition);
             final int fromPosition = oldList.indexOf(model);
-            if (fromPosition >= 0 && fromPosition != toPosition) {
+            if ((fromPosition >= 0) && (fromPosition != toPosition)) {
                 final Announce announce = oldList.remove(fromPosition);
                 oldList.add(toPosition, announce);
                 notifier.notifyMoved(fromPosition, toPosition);
