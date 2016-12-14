@@ -45,21 +45,22 @@ class DisplayUpdateEventGenerator {
     }
 
     void compareLists(final List<Announce> oldList, final List<Announce> newList) {
+        ArrayList<Announce> oldListClone = new ArrayList<>(oldList);
+        ArrayList<Announce> newListClone = new ArrayList<>(newList);
+
         try {
-            ArrayList<Announce> oldListClone = new ArrayList<>(oldList);
-            ArrayList<Announce> newListClone = new ArrayList<>(newList);
             updateRemovals(oldList, newList);
             updateAdditions(oldList, newList);
             updateMoves(oldList, newList);
         } catch (IndexOutOfBoundsException e) {
             StringBuilder sb = new StringBuilder();
-            sb.append("oldList size: ").append(oldList.size()).append('\n');
-            sb.append("newList size: ").append(newList.size()).append('\n');
+            sb.append("oldList size: ").append(oldListClone.size()).append('\n');
+            sb.append("newList size: ").append(newListClone.size()).append('\n');
             sb.append("oldList:\n");
-            addList(oldList, sb);
+            addList(oldListClone, sb);
             sb.append("\n\n");
             sb.append("newList:\n");
-            addList(newList, sb);
+            addList(newListClone, sb);
             IndexOutOfBoundsException ex = new IndexOutOfBoundsException(sb.toString());
             throw ex;
         }
@@ -69,9 +70,9 @@ class DisplayUpdateEventGenerator {
         final int count = list.size();
         for (int i = 0; i < count; i++) {
             final Announce a = list.get(i);
-            sb.append("uuid: ").append(a.getParams().getDevice().getUuid()).append(" commPath: ").append
-                    (getCommunicationPath(a)).append('\n');
-            sb.append("json: ").append(a.getJSONString()).append("\n\n");
+//            sb.append("uuid: ").append(a.getParams().getDevice().getUuid()).append(" commPath: ").append
+//                    (getCommunicationPath(a)).append('\n');
+            sb.append("json: ").append(a.getJSONString()).append('\n');
         }
     }
 
