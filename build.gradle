@@ -67,11 +67,11 @@ allprojects {
 
 dependencies {
 	compile 'com.google.code.gson:gson:2.8.0'
-	compile 'com.hbm:devscan:1.7.0'
-	compile 'com.android.support:appcompat-v7:25.0.1'
-	compile 'com.android.support:cardview-v7:25.0.1'
-	compile 'com.android.support:design:25.0.1'
-	compile 'com.android.support:recyclerview-v7:25.0.1'
+	compile 'com.hbm:devscan:1.8.0'
+	compile 'com.android.support:appcompat-v7:25.1.0'
+	compile 'com.android.support:cardview-v7:25.1.0'
+	compile 'com.android.support:design:25.1.0'
+	compile 'com.android.support:recyclerview-v7:25.1.0'
 	compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     testCompile 'junit:junit:4.12'
