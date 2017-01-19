@@ -14,5 +14,6 @@ android:
     - tools
 
 script:
-   - ./gradlew build connectedCheck
+   - ./gradlew build
+
 
