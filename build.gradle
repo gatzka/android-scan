@@ -5,11 +5,12 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
 plugins {
-	id "org.sonarqube" version "2.2"
+    id "org.sonarqube" version "2.2"
 }
 
 description 'Web application launcher for HBM devices.'
@@ -17,7 +18,7 @@ description 'Web application launcher for HBM devices.'
 version = '1.6.0'
 
 ext {
-	isReleaseBuild = false
+    isReleaseBuild = false
 }
 
 String getGitHash() {
@@ -25,18 +26,18 @@ String getGitHash() {
 }
 
 def getTotalCommits() {
-  return 'git rev-list HEAD --count'.execute().text.trim()
+    return 'git rev-list HEAD --count'.execute().text.trim()
 }
 
 def isDirty() {
-	def dirty = 'git diff --shortstat'.execute().text.trim()
-	return dirty != ""
+    def dirty = 'git diff --shortstat'.execute().text.trim()
+    return dirty != ""
 }
 
 def isRelease() {
-	def getRelease = "git describe --exact-match --tags HEAD".execute()
-	getRelease.waitFor()
-	return getRelease.exitValue() == 0
+    def getRelease = "git describe --exact-match --tags HEAD".execute()
+    getRelease.waitFor()
+    return getRelease.exitValue() == 0
 }
 //set build variables based on build type (release, continuous integration, development)
 
@@ -44,15 +45,15 @@ ext.isReleaseBuild = isRelease()
 def totalCommits = getTotalCommits()
 
 if (!ext.isReleaseBuild) {
-	version = version + "-" + totalCommits
+    version = version + "-" + totalCommits
 }
 
 if (isDirty()) {
-	version = version + "+dirty"
+    version = version + "+dirty"
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 apply plugin: 'com.android.application'
@@ -66,14 +67,15 @@ allprojects {
 }
 
 dependencies {
-	compile 'com.google.code.gson:gson:2.8.0'
-	compile 'com.hbm:devscan:1.8.0'
-	compile 'com.android.support:appcompat-v7:25.1.0'
-	compile 'com.android.support:cardview-v7:25.1.0'
-	compile 'com.android.support:design:25.1.0'
-	compile 'com.android.support:recyclerview-v7:25.1.0'
-	compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.hbm:devscan:1.8.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:cardview-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+    compile 'com.google.firebase:firebase-crash:10.0.1'
     testCompile 'junit:junit:4.12'
 }
 
@@ -87,47 +89,49 @@ android {
         targetSdkVersion 25
         versionCode totalCommits.toInteger()
         versionName version
-		buildConfigField("long", "TIMESTAMP", System.currentTimeMillis() + "L")
-		buildConfigField("String", "GITHASH", "\"${getGitHash()}\"")
+        buildConfigField("long", "TIMESTAMP", System.currentTimeMillis() + "L")
+        buildConfigField("String", "GITHASH", "\"${getGitHash()}\"")
     }
 
-	signingConfigs {
-		release {
-			//storeFile file(RELEASE_STORE_FILE)
-			//storePassword RELEASE_STORE_PASSWORD
-			//keyAlias RELEASE_KEY_ALIAS
-			//keyPassword RELEASE_KEY_PASSWORD
-		}
-	}
+    signingConfigs {
+        release {
+            //storeFile file(RELEASE_STORE_FILE)
+            //storePassword RELEASE_STORE_PASSWORD
+            //keyAlias RELEASE_KEY_ALIAS
+            //keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
 
-	buildTypes {
-		release {
-			shrinkResources false
-			debuggable false
-			zipAlignEnabled true
-	//		signingConfig signingConfigs.release
-		}
-	}
+    buildTypes {
+        release {
+            shrinkResources false
+            debuggable false
+            zipAlignEnabled true
+            //		signingConfig signingConfigs.release
+        }
+    }
 
-	lintOptions {
-		checkAllWarnings true
+    lintOptions {
+        checkAllWarnings true
     }
 }
 
 sonarqube {
-	properties {
-		def android_sdk = System.getenv("ANDROID_SDK")
+    properties {
+        def android_sdk = System.getenv("ANDROID_SDK")
 
-		property "sonar.sourceEncoding", "UTF-8"
-		property "sonar.sources", "src"
-		property "sonar.java.binaries", "build/intermediates/classes/release/"
-		property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
-	}
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sources", "src"
+        property "sonar.java.binaries", "build/intermediates/classes/release/"
+        property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
+    }
 }
 
 tasks.sonarqube.dependsOn = ["build"]
 
 task createWrapper(type: Wrapper) {
-	gradleVersion = '3.1'
+    gradleVersion = '3.1'
 }
 
+
+apply plugin: 'com.google.gms.google-services'
