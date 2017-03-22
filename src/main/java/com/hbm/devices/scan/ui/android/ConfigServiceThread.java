@@ -49,8 +49,8 @@ class ConfigServiceThread extends Thread {
     private final ConfigurationService configService;
     private final ConfigurationMessageReceiver responseReceiver;
 
-    ConfigServiceThread(String name) throws IOException {
-        super(name);
+    ConfigServiceThread() throws IOException {
+        super(ConfigureActivity.CONFIG_SERVICE_THREAD_NAME);
         responseReceiver = new ConfigurationMessageReceiver();
         final ResponseDeserializer responseParser = new ResponseDeserializer();
         responseReceiver.addObserver(responseParser);

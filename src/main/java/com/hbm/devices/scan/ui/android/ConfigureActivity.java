@@ -68,7 +68,7 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_layout);
         try {
-            this.configThread = new ConfigServiceThread(CONFIG_SERVICE_THREAD_NAME);
+            this.configThread = new ConfigServiceThread();
             configThread.start();
 
             final Announce announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
