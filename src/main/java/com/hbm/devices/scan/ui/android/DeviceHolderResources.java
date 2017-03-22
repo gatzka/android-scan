@@ -51,7 +51,7 @@ class DeviceHolderResources {
     private final int alpha;
     private final String unknown;
 
-    DeviceHolderResources(Context context) {
+    private DeviceHolderResources(Context context) {
         cardBackgroundNotConnectable = ContextCompat.getColor(context, R.color.color_not_connectable);
         cardBackgroundConnectable = ContextCompat.getColor(context, android.R.color.background_light);
         moduleTypeTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.primary_text_dark);
