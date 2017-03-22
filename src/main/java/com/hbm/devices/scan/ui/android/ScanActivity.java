@@ -57,7 +57,6 @@ import java.util.List;
  * Main activity for the scan app.
  */
 public final class ScanActivity extends AppCompatActivity {
-    public static final String LOG_TAG = "Scanner";
 
     private static final int TOAST_TIMEOUT = 2000;
     private boolean doubleBackToExitPressedOnce;

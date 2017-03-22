@@ -86,36 +86,16 @@ class DeviceHolderResources {
         return blackInfo;
     }
 
-    Drawable getWhiteInfo() {
-        return whiteInfo;
-    }
-
-    int getCardBackgroundNotConnectable() {
-        return cardBackgroundNotConnectable;
-    }
-
     int getCardBackgroundConnectable() {
         return cardBackgroundConnectable;
-    }
-
-    int getModuleTypeTextColorNotConnectable() {
-        return moduleTypeTextColorNotConnectable;
     }
 
     int getModuleTypeTextColorConnectable() {
         return moduleTypeTextColorConnectable;
     }
 
-    int getModuleNameTextColorNotConnectable() {
-        return moduleNameTextColorNotConnectable;
-    }
-
     int getModuleNameTextColorConnectable() {
         return moduleNameTextColorConnectable;
-    }
-
-    int getModuleIdTextColorNotConnectable() {
-        return moduleIdTextColorNotConnectable;
     }
 
     int getModuleIdTextColorConnectable() {

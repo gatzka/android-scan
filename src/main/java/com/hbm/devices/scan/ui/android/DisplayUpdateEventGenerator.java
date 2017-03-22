@@ -75,24 +75,6 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private String getCommunicationPath(Announce a) {
-        final AnnounceParams parameters = a.getParams();
-
-        final StringBuilder hashBuilder = new StringBuilder();
-        hashBuilder.append(parameters.getDevice().getUuid());
-
-        final Router router = parameters.getRouter();
-        if (router != null) {
-            hashBuilder.append(router.getUuid());
-        }
-
-        final NetSettings settings = parameters.getNetSettings();
-        final Interface iface = settings.getInterface();
-        final String interfaceName = iface.getName();
-        hashBuilder.append(interfaceName);
-        return hashBuilder.toString();
-    }
-
     private void updateRemovals(final List<Announce> oldList, final List<Announce> newList) {
         final int count = oldList.size();
         for (int i = count - 1; i >= 0; i--) {
