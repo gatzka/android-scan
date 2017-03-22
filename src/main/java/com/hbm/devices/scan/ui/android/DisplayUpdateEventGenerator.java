@@ -29,10 +29,6 @@
 package com.hbm.devices.scan.ui.android;
 
 import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.AnnounceParams;
-import com.hbm.devices.scan.announce.Interface;
-import com.hbm.devices.scan.announce.NetSettings;
-import com.hbm.devices.scan.announce.Router;
 
 import java.util.ArrayList;
 import java.util.List;
