@@ -121,8 +121,8 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
     }
 
     class HttpInfo {
-        String scheme;
-        int port;
+        final String scheme;
+        final int port;
 
         HttpInfo(String s, int p) {
             scheme = s;
