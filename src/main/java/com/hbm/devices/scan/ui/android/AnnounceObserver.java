@@ -46,7 +46,7 @@ class AnnounceObserver implements Observer {
     private final List<Announce> collectedAnnounces;
     private final DeviceListFragment listFragment;
 
-    AnnounceObserver(DeviceListFragment listFragment) throws IOException {
+    AnnounceObserver(DeviceListFragment listFragment) {
         this.listFragment = listFragment;
         collectedAnnounces = new ArrayList<>(INITIAL_ANNOUNCE_CAPACITY);
     }
