@@ -96,7 +96,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
          * Has to be clarified if these methods are called when activity goes into background.
          */
         final ScanActivity activity = (ScanActivity) getActivity();
-        final WifiManager wifi = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wifi = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifi == null) {
             final Toast failureToast = Toast.makeText(activity,
                     activity.getString(R.string.could_not_get_wifimanager), Toast.LENGTH_SHORT);
