@@ -21,20 +21,20 @@ ext {
     isReleaseBuild = false
 }
 
-String getGitHash() {
+static String getGitHash() {
     return 'git rev-parse --verify HEAD'.execute().text.trim()
 }
 
-def getTotalCommits() {
+static def getTotalCommits() {
     return 'git rev-list HEAD --count'.execute().text.trim()
 }
 
-def isDirty() {
+static def isDirty() {
     def dirty = 'git diff --shortstat'.execute().text.trim()
     return dirty != ""
 }
 
-def isRelease() {
+static def isRelease() {
     def getRelease = "git describe --exact-match --tags HEAD".execute()
     getRelease.waitFor()
     return getRelease.exitValue() == 0
