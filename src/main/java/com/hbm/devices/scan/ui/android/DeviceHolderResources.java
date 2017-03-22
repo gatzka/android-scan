@@ -47,20 +47,15 @@ class DeviceHolderResources {
     private final String unknown;
 
     private DeviceHolderResources(Context context) {
-        int cardBackgroundNotConnectable = ContextCompat.getColor(context, R.color.color_not_connectable);
         cardBackgroundConnectable = ContextCompat.getColor(context, android.R.color.background_light);
-        int moduleTypeTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.primary_text_dark);
         moduleTypeTextColorConnectable = ContextCompat.getColor(context, android.R.color.primary_text_light);
-        int moduleNameTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
         moduleNameTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
-        int moduleIdTextColorNotConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
         moduleIdTextColorConnectable = ContextCompat.getColor(context, android.R.color.secondary_text_light);
         unknown = context.getString(R.string.unknown);
 
         blackInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_black_48dp);
         alpha = context.getResources().getInteger(R.integer.text_alpha);
         setImageAlpha(blackInfo, alpha);
-        Drawable whiteInfo = ContextCompat.getDrawable(context, R.drawable.ic_info_outline_white_48dp);
     }
 
     static DeviceHolderResources getInstance(Context context) {
