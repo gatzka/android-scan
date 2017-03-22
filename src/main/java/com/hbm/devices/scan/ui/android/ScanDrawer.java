@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +48,7 @@ class ScanDrawer {
         final NavigationView view = (NavigationView) act.findViewById(R.id.navigation_view);
         if (view != null) {
             view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
+                @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.drawer_settings:
                             act.startActivity(new Intent(act.getApplicationContext(),
