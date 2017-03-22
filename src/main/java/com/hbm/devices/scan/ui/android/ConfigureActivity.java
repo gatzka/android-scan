@@ -51,7 +51,7 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
 
     public static final int CONFIGURATION_TIMEOUT = 5000;
     private ConfigServiceThread configThread;
-    private static final String CONFIG_SERVICE_THREAD_NAME = "Configuration Service Thread";
+    static final String CONFIG_SERVICE_THREAD_NAME = "Configuration Service Thread";
 
     private static final InputFilter[] ipAddressFilter;
 
