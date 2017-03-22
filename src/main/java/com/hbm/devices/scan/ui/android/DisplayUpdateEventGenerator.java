@@ -61,8 +61,7 @@ class DisplayUpdateEventGenerator {
             sb.append("\n\n");
             sb.append("newList:\n");
             addList(newListClone, sb);
-            IndexOutOfBoundsException ex = new IndexOutOfBoundsException(sb.toString());
-            throw ex;
+            throw new IndexOutOfBoundsException(sb.toString());
         }
     }
 
