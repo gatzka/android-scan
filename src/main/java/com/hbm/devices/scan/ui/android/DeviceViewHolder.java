@@ -105,7 +105,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 final Intent intent = new Intent(context, DeviceDetailsActivity.class);
                 intent.putExtra(DETAILS, announce);
-                ActivityCompat.startActivity((ScanActivity) context, intent, null);
+                ActivityCompat.startActivity(context, intent, null);
                 ((ScanActivity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
