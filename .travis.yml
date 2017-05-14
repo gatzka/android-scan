@@ -16,11 +16,11 @@ android:
 script:
    - ./gradlew build
 
-licenses:
-  - 'android-sdk-preview-license-52d11cd2'
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
-  - '.+'
+#licenses:
+#  - 'android-sdk-preview-license-52d11cd2'
+#  - 'android-sdk-license-.+'
+#  - 'google-gdk-license-.+'
+#  - '.+'
 
 cache:
   directories:
