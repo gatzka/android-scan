@@ -4,14 +4,16 @@ jdk:
 android:
   components:
     - tools
-    - build-tools-25.0.3
+    - tools # Running this twice get's you the latest build tools
     - platform-tools
-    - addon-google_apis-google-25
-    - extra-android-m2repository
-    - extra-android-support
+    - android-25
+    - build-tools-25.0.3
+    - extra
     - extra-google-google_play_services
     - extra-google-m2repository
-    - android-25
+    - extra-android-m2repository
+#    - extra-android-support
+    - addon-google_apis-google-25
 
 script:
    - ./gradlew build
