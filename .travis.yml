@@ -22,3 +22,8 @@ licenses:
   - 'google-gdk-license-.+'
   - '.+'
 
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
