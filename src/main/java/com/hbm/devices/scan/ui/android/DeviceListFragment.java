@@ -64,6 +64,9 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     private WifiLock wifiLock;
     private MulticastLock mcLock;
 
+    private String prefUseFakeMessages;
+    private String prefFakeMessageType;
+
     /**
      * Default constructor fot this Fragment. This constructor shall never be called directly from code. Fragments
      * are instantiated by the Android runtime.
@@ -114,6 +117,9 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         if (adapter.get() != null) {
             updateList();
         }
+
+        prefUseFakeMessages = getString(R.string.pref_use_fake_messages);
+        prefFakeMessageType = getString(R.string.pref_fake_message_type);
     }
 
     @Override
@@ -133,8 +139,6 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        final String prefUseFakeMessages = getString(R.string.pref_use_fake_messages);
-        final String prefFakeMessageType = getString(R.string.pref_fake_message_type);
         if (key.equals(prefUseFakeMessages) || key.equals(prefFakeMessageType)) {
             stopScanThread();
             startScanThread(sharedPreferences);
