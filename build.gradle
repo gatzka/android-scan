@@ -87,7 +87,7 @@ android {
     defaultConfig {
         applicationId "com.hbm.devices.scan.ui.android"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode totalCommits.toInteger()
         versionName version
         buildConfigField("long", "TIMESTAMP", System.currentTimeMillis() + "L")
