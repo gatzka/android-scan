@@ -49,41 +49,44 @@ class ImageResourceCache {
 
         resourceCache.put("CX23R", R.drawable.cx23);
 
-        resourceCache.put("MX1601", R.drawable.mx1601b);
+        resourceCache.put("MX1601", R.drawable.mx1601);
         resourceCache.put("MX1601B", R.drawable.mx1601b);
         resourceCache.put("MX1601B-R", R.drawable.mx1601br);
 
         resourceCache.put("MX1609KB-R", R.drawable.mx1609kbr);
         resourceCache.put("MX1609", R.drawable.mx1609kb);
         resourceCache.put("MX1609KB", R.drawable.mx1609kb);
+        resourceCache.put("MX1609TB-R", R.drawable.mx1609tbr);
         resourceCache.put("MX1609TB", R.drawable.mx1609tb);
         resourceCache.put("MX1609T", R.drawable.mx1609t);
 
         resourceCache.put("MX1615B-R", R.drawable.mx1615br);
         resourceCache.put("MX1615B-R S31", R.drawable.mx1615br);
         resourceCache.put("MX1615B", R.drawable.mx1615b);
-        resourceCache.put("MX1615", R.drawable.mx1615b);
+        resourceCache.put("MX1615", R.drawable.mx1615);
 
         resourceCache.put("MX1616B", R.drawable.mx1616b);
 
         resourceCache.put("MX411B-R", R.drawable.mx411br);
         resourceCache.put("MX411P", R.drawable.mx411p);
-        resourceCache.put("MX410", R.drawable.mx410b);
+        resourceCache.put("MX410", R.drawable.mx410);
         resourceCache.put("MX410B", R.drawable.mx410b);
 
         resourceCache.put("MX471B-R", R.drawable.mx471br);
-        resourceCache.put("MX471", R.drawable.mx471b);
+        resourceCache.put("MX471", R.drawable.mx471);
         resourceCache.put("MX471B", R.drawable.mx471b);
 
-        resourceCache.put("MX879", R.drawable.mx879b);
+        resourceCache.put("MX879", R.drawable.mx879);
         resourceCache.put("MX879B", R.drawable.mx879b);
-        resourceCache.put("MX878", R.drawable.mx878b);
+        resourceCache.put("MX878", R.drawable.mx878);
         resourceCache.put("MX878B", R.drawable.mx878b);
 
         resourceCache.put("MX460", R.drawable.mx460b);
+        resourceCache.put("MX460P", R.drawable.mx460p);
         resourceCache.put("MX460B", R.drawable.mx460b);
+        resourceCache.put("MX460B-R", R.drawable.mx460br);
 
-        resourceCache.put("MX440", R.drawable.mx440b);
+        resourceCache.put("MX440", R.drawable.mx440);
         resourceCache.put("MX440A", R.drawable.mx440b);
         resourceCache.put("MX440B", R.drawable.mx440b);
 
@@ -93,11 +96,13 @@ class ImageResourceCache {
         resourceCache.put("CX27", R.drawable.cx27b);
         resourceCache.put("CX27B", R.drawable.cx27b);
 
+        resourceCache.put("CX22BW", R.drawable.cx22bw);
         resourceCache.put("CX22B", R.drawable.cx22b);
         resourceCache.put("CX22W", R.drawable.cx22w);
 
-        resourceCache.put("MX840", R.drawable.mx840b);
-        resourceCache.put("MX840A", R.drawable.mx840b);
+        resourceCache.put("MX840", R.drawable.mx840);
+        resourceCache.put("MX840P", R.drawable.mx840p);
+        resourceCache.put("MX840A", R.drawable.mx840);
         resourceCache.put("MX840B", R.drawable.mx840b);
         resourceCache.put("MX840B-R", R.drawable.mx840br);
 
