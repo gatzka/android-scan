@@ -30,6 +30,7 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
@@ -96,7 +97,14 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openBrowser(announce);
+                if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
+                    Context context = v.getContext();
+                    PackageManager pm = context.getPackageManager();
+                    boolean isInstalled = isPackageInstalled("com.hbm.devices.wtx.ui.android", pm);
+                    System.out.println(isInstalled);
+                } else {
+                    openBrowser(announce);
+                }
             }
         });
 
@@ -149,5 +157,14 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private void openBrowser(Announce announce) {
         final BrowserStartTask browserTask = new BrowserStartTask(context);
         browserTask.execute(announce);
+    }
+
+    private boolean isPackageInstalled(String packagename, PackageManager packageManager) {
+        try {
+            packageManager.getPackageInfo(packagename, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }
