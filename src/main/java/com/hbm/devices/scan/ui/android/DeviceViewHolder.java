@@ -47,6 +47,7 @@ import com.squareup.picasso.Picasso;
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     public static final String DETAILS = "Details";
+    private static final String WTX_MOBILE_PACKAGE = "com.hbm.devices.wtx.ui.android";
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
@@ -100,8 +101,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
                 if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
                     Context context = v.getContext();
                     PackageManager pm = context.getPackageManager();
-                    boolean isInstalled = isPackageInstalled("com.hbm.devices.wtx.ui.android", pm);
-                    System.out.println(isInstalled);
+                    boolean isInstalled = isPackageInstalled(WTX_MOBILE_PACKAGE, pm);
+                    if (isInstalled) {
+                        Intent sendIntent =   pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
+                        sendIntent.putExtra("IPv6", "ipv6 address");
+                        sendIntent.putExtra("IPv4", "best IPv4 address");
+                        context.startActivity(sendIntent);
+                    }
                 } else {
                     openBrowser(announce);
                 }
