@@ -47,6 +47,8 @@ class ImageResourceCache {
     static {
         resourceCache = new HashMap<>();
 
+        resourceCache.put("CP52", R.drawable.cp52);
+
         resourceCache.put("CX23R", R.drawable.cx23);
 
         resourceCache.put("MX1601", R.drawable.mx1601);
