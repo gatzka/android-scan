@@ -18,7 +18,6 @@ install:
 
 script:
    - ./gradlew build
-   - ls -l /usr/local/
 
 licenses:
 #  - 'android-sdk-preview-license-52d11cd2'
