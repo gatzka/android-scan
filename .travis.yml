@@ -4,19 +4,21 @@ jdk:
 android:
   components:
     - tools
+    - build-tools-26.0.0
     - platform-tools
-    - android-25
-    - build-tools-25.0.3
     - tools # Running this twice get's you the latest build tools
-    - extra
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-#    - extra-android-support
-    - addon-google_apis-google-25
+
+install:
+  - echo yes | sdkmanager "tools"
+  - echo yes | sdkmanager "platforms;android-26" # Latest platform required by SDK tools
+  - echo yes | sdkmanager "extras;android;m2repository"
+  - echo yes | sdkmanager "extras;google;m2repository"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 
 script:
    - ./gradlew build
+   - ls -l /usr/local/
 
 licenses:
 #  - 'android-sdk-preview-license-52d11cd2'
