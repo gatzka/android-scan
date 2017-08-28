@@ -92,7 +92,7 @@ class DetailsFiller {
         }
 
         final List<IPEntry> addresses = anInterface.getIPList();
-        final List<IPEntry> ipv4Address = getIPv4Adresses(addresses);
+        final List<IPEntry> ipv4Address = getIPv6Adresses(addresses, Inet4Address.class);
         if (!ipv4Address.isEmpty()) {
             addRule(networkLayout);
             for (final IPEntry entry : ipv4Address) {
@@ -101,7 +101,7 @@ class DetailsFiller {
             addLabel(networkLayout, activity.getString(R.string.ipv4_addresses));
         }
 
-        final List<IPEntry> ipv6Address = getIPv6Adresses(addresses);
+        final List<IPEntry> ipv6Address = getIPv6Adresses(addresses, Inet6Address.class);
         if (!ipv6Address.isEmpty()) {
             addRule(networkLayout);
             for (final IPEntry entry : ipv6Address) {
@@ -124,21 +124,10 @@ class DetailsFiller {
         }
     }
 
-    private static List<IPEntry> getIPv4Adresses(List<IPEntry> list) {
+    private static List<IPEntry> getIPv6Adresses(List<IPEntry> list, Class<?> cls) {
         List<IPEntry> adresses = new LinkedList<>();
         for (IPEntry entry : list) {
-            if (entry.getAddress() instanceof Inet4Address) {
-                adresses.add(entry);
-            }
-        }
-
-        return adresses;
-    }
-
-    private static List<IPEntry> getIPv6Adresses(List<IPEntry> list) {
-        List<IPEntry> adresses = new LinkedList<>();
-        for (IPEntry entry : list) {
-            if (entry.getAddress() instanceof Inet6Address) {
+            if (cls.isInstance(entry.getAddress())) {
                 adresses.add(entry);
             }
         }
