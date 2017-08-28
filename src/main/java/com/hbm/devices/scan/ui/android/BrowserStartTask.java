@@ -81,7 +81,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         try {
             final ScanInterfaces interfaces = new ScanInterfaces();
             ConnectionFinder connectionFinder = new ConnectionFinder(interfaces.getInterfaces());
-            List<InetAddress> addresses = connectionFinder.getConnectableAddresses(announce);
+            List<InetAddress> addresses = connectionFinder.getSameNetworkAddresses(announce);
             addresses = removeIPv6LinkLocal(addresses);
             BestConnectableAddressComparator addressComparator = new BestConnectableAddressComparator();
             Collections.sort(addresses, addressComparator);

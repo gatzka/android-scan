@@ -122,5 +122,6 @@ class ImageResourceCache {
         resourceCache.put("PMX", R.drawable.pmx);
 
         resourceCache.put("WTX120", R.drawable.wtx120);
+        resourceCache.put("WTX110", R.drawable.wtx110);
     }
 }

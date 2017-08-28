@@ -36,11 +36,13 @@ import android.widget.LinearLayout;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.IPv4Entry;
-import com.hbm.devices.scan.announce.IPv6Entry;
+import com.hbm.devices.scan.announce.IPEntry;
 import com.hbm.devices.scan.announce.Interface;
 import com.hbm.devices.scan.announce.ServiceEntry;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.util.LinkedList;
 import java.util.List;
 
 class DetailsFiller {
@@ -89,20 +91,21 @@ class DetailsFiller {
                     activity.getString(R.string.interface_description));
         }
 
-        final List<IPv4Entry> ipv4Address = anInterface.getIPv4();
+        final List<IPEntry> addresses = anInterface.getIPList();
+        final List<IPEntry> ipv4Address = getIPv4Adresses(addresses);
         if (!ipv4Address.isEmpty()) {
             addRule(networkLayout);
-            for (final IPv4Entry entry : ipv4Address) {
-                addTextNoSeparator(networkLayout, entry.getAddress() + '/' + entry.getNetmask());
+            for (final IPEntry entry : ipv4Address) {
+                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress() + '/' + entry.getPrefix());
             }
             addLabel(networkLayout, activity.getString(R.string.ipv4_addresses));
         }
 
-        final List<IPv6Entry> ipv6Address = anInterface.getIPv6();
+        final List<IPEntry> ipv6Address = getIPv6Adresses(addresses);
         if (!ipv6Address.isEmpty()) {
             addRule(networkLayout);
-            for (final IPv6Entry entry : ipv6Address) {
-                addTextNoSeparator(networkLayout, entry.getAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
+            for (final IPEntry entry : ipv6Address) {
+                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
                         entry.getPrefix());
             }
             addLabel(networkLayout, activity.getString(R.string.ipv6_addresses));
@@ -119,6 +122,28 @@ class DetailsFiller {
             }
             addBottomMargin(serviceLayout);
         }
+    }
+
+    private static List<IPEntry> getIPv4Adresses(List<IPEntry> list) {
+        List<IPEntry> adresses = new LinkedList<>();
+        for (IPEntry entry : list) {
+            if (entry.getAddress() instanceof Inet4Address) {
+                adresses.add(entry);
+            }
+        }
+
+        return adresses;
+    }
+
+    private static List<IPEntry> getIPv6Adresses(List<IPEntry> list) {
+        List<IPEntry> adresses = new LinkedList<>();
+        for (IPEntry entry : list) {
+            if (entry.getAddress() instanceof Inet6Address) {
+                adresses.add(entry);
+            }
+        }
+
+        return adresses;
     }
 
     private void addDeviceUuid(Device device) {
