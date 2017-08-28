@@ -106,45 +106,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final Picasso picasso = Picasso.with(context);
         picasso.load(getImageResourceId(a)).into(devicePhoto);
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
-                    final Context context = v.getContext();
-                    final PackageManager pm = context.getPackageManager();
-                    boolean isInstalled = isPackageInstalled(WTX_MOBILE_PACKAGE, pm);
-                    if (isInstalled) {
-                        final Intent sendIntent =   pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
-
-                        final Collection<IPEntry> announceAddresses = announce.getParams().getNetSettings()
-                                .getInterface().getIPList();
-
-                        final ArrayList<InetAddress> ips = new ArrayList<>();
-                        final ArrayList<Integer> prefixes = new ArrayList<>();
-                        for (IPEntry entry: announceAddresses) {
-                            ips.add(entry.getAddress());
-                            prefixes.add(entry.getPrefix());
-                        }
-
-                        sendIntent.putExtra("addresses", ips);
-                        sendIntent.putExtra("prefixes", prefixes);
-
-                        try {
-                            final ScanInterfaces interfaces = new ScanInterfaces();
-                            Collection<NetworkInterface> ifaces = interfaces.getInterfaces();
-                            ConnectionFinder connectionFinder = new ConnectionFinder(ifaces);
-                            Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
-                            final ArrayList<InetAddress> sameNetIps = new ArrayList<>(sameNetAddresses);
-                            sendIntent.putExtra("same_net_addresses", sameNetIps);
-                            context.startActivity(sendIntent);
-                        } catch (SocketException e) {
-                        }
-                    }
-                } else {
-                    openBrowser(announce);
-                }
-            }
-        });
+        cardView.setOnClickListener(new ModuleCardClickListener(announce, moduleType));
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +124,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (key == null || key.isEmpty()) {
             key = announce.getParams().getDevice().getType();
         }
+
         if (key == null || key.isEmpty()) {
             return R.drawable.ic_no_device;
         }
@@ -181,6 +144,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (moduleType == null || moduleType.length() == 0) {
             moduleType = DeviceHolderResources.getInstance(context).getUnknown();
         }
+
         return moduleType;
     }
 
@@ -189,30 +153,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         if (displayName == null || displayName.length() == 0) {
             displayName = DeviceHolderResources.getInstance(context).getUnknown();
         }
+
         return displayName;
-    }
-
-    private void openBrowser(Announce announce) {
-        final BrowserStartTask browserTask = new BrowserStartTask(context);
-        browserTask.execute(announce);
-    }
-
-    private boolean isPackageInstalled(String packagename, PackageManager packageManager) {
-        try {
-            packageManager.getPackageInfo(packagename, 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
-    private static int calculatePrefix(InetAddress announceNetmask) {
-        final byte[] address = announceNetmask.getAddress();
-        final int length = address.length;
-        int prefix = 0;
-        for (int i = 0; i < length; i++) {
-            prefix += Integer.bitCount(address[i] & 0xff);
-        }
-        return prefix;
     }
 }
