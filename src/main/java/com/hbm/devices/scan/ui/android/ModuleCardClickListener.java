@@ -64,34 +64,37 @@ final class ModuleCardClickListener implements View.OnClickListener {
             final PackageManager pm = context.getPackageManager();
             boolean isInstalled = isPackageInstalled(WTX_MOBILE_PACKAGE, pm);
             if (isInstalled) {
-                final Intent sendIntent =   pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
-
-                final Collection<IPEntry> announceAddresses = announce.getParams().getNetSettings()
-                        .getInterface().getIPList();
-
-                final ArrayList<InetAddress> ips = new ArrayList<>();
-                final ArrayList<Integer> prefixes = new ArrayList<>();
-                for (IPEntry entry: announceAddresses) {
-                    ips.add(entry.getAddress());
-                    prefixes.add(entry.getPrefix());
-                }
-
-                sendIntent.putExtra("addresses", ips);
-                sendIntent.putExtra("prefixes", prefixes);
-
-                try {
-                    final ScanInterfaces interfaces = new ScanInterfaces();
-                    Collection<NetworkInterface> ifaces = interfaces.getInterfaces();
-                    ConnectionFinder connectionFinder = new ConnectionFinder(ifaces);
-                    Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
-                    final ArrayList<InetAddress> sameNetIps = new ArrayList<>(sameNetAddresses);
-                    sendIntent.putExtra("same_net_addresses", sameNetIps);
-                    context.startActivity(sendIntent);
-                } catch (SocketException e) {
-                }
+                final Intent sendIntent = pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
+                fillIntent(sendIntent);
+                context.startActivity(sendIntent);
             }
         } else {
             openBrowser(view.getContext(), announce);
+        }
+    }
+
+    private void fillIntent(Intent sendIntent) {
+        final Collection<IPEntry> announceAddresses = announce.getParams().getNetSettings()
+                .getInterface().getIPList();
+
+        final ArrayList<InetAddress> ips = new ArrayList<>();
+        final ArrayList<Integer> prefixes = new ArrayList<>();
+        for (IPEntry entry: announceAddresses) {
+            ips.add(entry.getAddress());
+            prefixes.add(entry.getPrefix());
+        }
+
+        sendIntent.putExtra("addresses", ips);
+        sendIntent.putExtra("prefixes", prefixes);
+
+        try {
+            final ScanInterfaces interfaces = new ScanInterfaces();
+            Collection<NetworkInterface> networkInterfaces = interfaces.getInterfaces();
+            ConnectionFinder connectionFinder = new ConnectionFinder(networkInterfaces);
+            Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
+            final ArrayList<InetAddress> sameNetIps = new ArrayList<>(sameNetAddresses);
+            sendIntent.putExtra("same_net_addresses", sameNetIps);
+        } catch (SocketException e) {
         }
     }
 
