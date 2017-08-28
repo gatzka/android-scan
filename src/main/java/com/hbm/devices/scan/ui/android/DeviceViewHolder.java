@@ -40,9 +40,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
+import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.Device;
+import com.hbm.devices.scan.announce.IPEntry;
 import com.squareup.picasso.Picasso;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
@@ -99,14 +110,35 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
-                    Context context = v.getContext();
-                    PackageManager pm = context.getPackageManager();
+                    final Context context = v.getContext();
+                    final PackageManager pm = context.getPackageManager();
                     boolean isInstalled = isPackageInstalled(WTX_MOBILE_PACKAGE, pm);
                     if (isInstalled) {
-                        Intent sendIntent =   pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
-                        sendIntent.putExtra("IPv6", "ipv6 address");
-                        sendIntent.putExtra("IPv4", "best IPv4 address");
-                        context.startActivity(sendIntent);
+                        final Intent sendIntent =   pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
+
+                        final Collection<IPEntry> announceAddresses = announce.getParams().getNetSettings()
+                                .getInterface().getIPList();
+
+                        final ArrayList<InetAddress> ips = new ArrayList<>();
+                        final ArrayList<Integer> prefixes = new ArrayList<>();
+                        for (IPEntry entry: announceAddresses) {
+                            ips.add(entry.getAddress());
+                            prefixes.add(entry.getPrefix());
+                        }
+
+                        sendIntent.putExtra("addresses", ips);
+                        sendIntent.putExtra("prefixes", prefixes);
+
+                        try {
+                            final ScanInterfaces interfaces = new ScanInterfaces();
+                            Collection<NetworkInterface> ifaces = interfaces.getInterfaces();
+                            ConnectionFinder connectionFinder = new ConnectionFinder(ifaces);
+                            Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
+                            final ArrayList<InetAddress> sameNetIps = new ArrayList<>(sameNetAddresses);
+                            sendIntent.putExtra("same_net_addresses", sameNetIps);
+                            context.startActivity(sendIntent);
+                        } catch (SocketException e) {
+                        }
                     }
                 } else {
                     openBrowser(announce);
@@ -172,5 +204,15 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    private static int calculatePrefix(InetAddress announceNetmask) {
+        final byte[] address = announceNetmask.getAddress();
+        final int length = address.length;
+        int prefix = 0;
+        for (int i = 0; i < length; i++) {
+            prefix += Integer.bitCount(address[i] & 0xff);
+        }
+        return prefix;
     }
 }
