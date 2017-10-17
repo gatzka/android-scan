@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -139,6 +140,11 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Activity activity = getActivity();
+        if (!isAdded() || (activity == null)) {
+            return;
+        }
+
         if (key.equals(prefUseFakeMessages) || key.equals(prefFakeMessageType)) {
             stopScanThread();
             startScanThread(sharedPreferences);
