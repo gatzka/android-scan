@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import com.hbm.devices.scan.configure.Response;
 import com.hbm.devices.scan.configure.ResponseDeserializer;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.NetworkInterface;
 import java.util.Collection;
 
@@ -71,17 +73,19 @@ class ConfigServiceThread extends Thread {
     }
 
     void sendConfiguration(ConfigurationParams configParams, ConfigureActivity activity) {
-        new SendConfigTask(activity).execute(configParams);
+        new SendConfigTask(activity, configService).execute(configParams);
     }
 
-    private class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void>
+    private static class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void>
             implements ConfigurationCallback {
-        private final ConfigureActivity activity;
+        private final WeakReference<Context> context;
+        private final ConfigurationService service;
         private String message;
 
-        SendConfigTask(final ConfigureActivity act) {
+        SendConfigTask(final Context context, final ConfigurationService service) {
             super();
-            activity = act;
+            this.service = service;
+            this.context = new WeakReference<>(context.getApplicationContext());
         }
 
         @Override
@@ -89,11 +93,14 @@ class ConfigServiceThread extends Thread {
 
             for (final ConfigurationParams sendParam : params) {
                 try {
-                    configService.sendConfiguration(sendParam,
+                    service.sendConfiguration(sendParam,
                             this, ConfigureActivity.CONFIGURATION_TIMEOUT);
                 } catch (IOException e) {
                     synchronized (this) {
-                        message = activity.getString(R.string.could_not_send_config_req) + ": " + e;
+                        Context ctx = context.get();
+                        if (ctx != null) {
+                            message = ctx.getString(R.string.could_not_send_config_req) + ": " + e;
+                        }
                     }
                 }
                 // Escape early if cancel() is called
@@ -107,7 +114,10 @@ class ConfigServiceThread extends Thread {
                         wait();
                     }
                 } catch (InterruptedException e) {
-                    message = activity.getString(R.string.config_error, activity.getString(R.string.interrupted_wait));
+                    Context ctx = context.get();
+                    if (ctx != null) {
+                        message = ctx.getString(R.string.config_error, ctx.getString(R.string.interrupted_wait));
+                    }
                 }
             }
             return null;
@@ -116,21 +126,32 @@ class ConfigServiceThread extends Thread {
         @Override
         protected void onPostExecute(Void result) {
             synchronized (this) {
-                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+                Context ctx = context.get();
+                if (ctx != null) {
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
+                }
             }
         }
 
         @Override
         public void onSuccess(final Response response) {
             synchronized (this) {
-                message = activity.getString(R.string.config_successful);
+                Context ctx = context.get();
+                if (ctx != null) {
+                    message = ctx.getString(R.string.config_successful);
+                }
+
                 notifyAll();
             }
         }
         @Override
         public void onTimeout(long t) {
             synchronized (this) {
-                message = activity.getString(R.string.config_timeout);
+                Context ctx = context.get();
+                if (ctx != null) {
+                    message = ctx.getString(R.string.config_timeout);
+                }
+
                 notifyAll();
             }
         }
@@ -138,7 +159,11 @@ class ConfigServiceThread extends Thread {
         @Override
         public void onError(final Response response) {
             synchronized (this) {
-                message = activity.getString(R.string.config_error, response.getError().getMessage());
+                Context ctx = context.get();
+                if (ctx != null) {
+                    message = ctx.getString(R.string.config_error, response.getError().getMessage());
+                }
+
                 notifyAll();
             }
         }
