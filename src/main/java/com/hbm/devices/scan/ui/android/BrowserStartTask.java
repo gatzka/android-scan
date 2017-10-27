@@ -38,6 +38,7 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.ServiceEntry;
 
+import java.lang.ref.WeakReference;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -47,11 +48,11 @@ import java.util.List;
 
 final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
 
-    private final Context context;
+    private final WeakReference<Context> context;
 
     BrowserStartTask(Context context) {
         super();
-        this.context = context;
+        this.context = new WeakReference<>(context.getApplicationContext());
     }
 
     @Override
@@ -73,7 +74,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         uriBuilder.encodedAuthority(hostName + ':' + info.port);
 
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build().normalizeScheme());
-        context.startActivity(browserIntent);
+        context.get().startActivity(browserIntent);
         return 0;
     }
 
