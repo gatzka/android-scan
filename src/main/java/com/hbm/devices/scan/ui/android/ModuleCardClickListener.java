@@ -37,7 +37,6 @@ import android.view.View;
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.ConnectionFinder;
-import com.hbm.devices.scan.announce.Device;
 import com.hbm.devices.scan.announce.IPEntry;
 
 import java.net.InetAddress;
