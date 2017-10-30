@@ -17,7 +17,7 @@ install:
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" > /dev/null
-  - echo yes | $ANDROID_HOME/tools/bin/sdkmanagersdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" > /dev/null
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" > /dev/null
 
 script:
    - ./gradlew build
