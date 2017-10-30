@@ -12,12 +12,12 @@ before_install:
   - touch /home/travis/.android/repositories.cfg
 
 install:
-  - echo yes | sdkmanager "tools"
-  - echo yes | sdkmanager "platforms;android-26" # Latest platform required by SDK tools
-  - echo yes | sdkmanager "extras;android;m2repository"
-  - echo yes | sdkmanager "extras;google;m2repository"
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "tools"
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-26" # Latest platform required by SDK tools
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;android;m2repository"
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;google;m2repository"
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanagersdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 
 script:
    - ./gradlew build
