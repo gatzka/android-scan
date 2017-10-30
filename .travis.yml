@@ -8,6 +8,9 @@ android:
     - platform-tools
     - tools # Running this twice get's you the latest build tools
 
+before_install:
+  - touch /home/travis/.android/repositories.cfg
+
 install:
   - echo yes | sdkmanager "tools"
   - echo yes | sdkmanager "platforms;android-26" # Latest platform required by SDK tools
