@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -76,7 +77,11 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build().normalizeScheme());
         final Context ctx = context.get();
         if (ctx != null) {
-            context.get().startActivity(browserIntent);
+            try {
+                ctx.startActivity(browserIntent);
+            } catch (ActivityNotFoundException e) {
+                // deliberately ignore this exception, which will be thrown if no browser is installed.
+            }
         }
 
         return 0;
