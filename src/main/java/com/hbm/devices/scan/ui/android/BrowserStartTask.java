@@ -75,6 +75,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         uriBuilder.encodedAuthority(hostName + ':' + info.port);
 
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriBuilder.build().normalizeScheme());
+        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         final Context ctx = context.get();
         if (ctx != null) {
             try {
