@@ -103,7 +103,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         tvModuleName.setText(displayName);
         tvModuleId.setText(uuid);
         devicePhoto.setImageDrawable(null);
-        final Picasso picasso = Picasso.with(context);
+        final Picasso picasso = Picasso.get();
         picasso.load(getImageResourceId(a)).into(devicePhoto);
 
         cardView.setOnClickListener(new ModuleCardClickListener(announce, moduleType));
