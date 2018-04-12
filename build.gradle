@@ -132,7 +132,7 @@ sonarqube {
 tasks.sonarqube.dependsOn = ["build"]
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
+    gradleVersion = '4.6'
 }
 
 
