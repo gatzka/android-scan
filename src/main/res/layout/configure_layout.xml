@@ -73,6 +73,7 @@
                     android:layout_height="match_parent"
                     android:ems="15"
                     android:digits="0123456789."
+                    android:inputType="number|numberDecimal"
                     android:layout_gravity="start|bottom"
                     android:maxLines="1"
                     android:hint="@string/configure_gateway_label"
