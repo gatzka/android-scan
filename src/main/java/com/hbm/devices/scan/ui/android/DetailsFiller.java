@@ -61,7 +61,7 @@ class DetailsFiller {
         serviceLayout = (LinearLayout) activity.findViewById(R.id.service_container);
     }
 
-    void addDeviceInformation() {
+    final void addDeviceInformation() {
         final Device device = announce.getParams().getDevice();
 
         addDeviceUuid(device);
@@ -75,7 +75,7 @@ class DetailsFiller {
         addBottomMargin(deviceLayout);
     }
 
-    void addNetSettings() {
+    final void addNetSettings() {
         final Interface anInterface = announce.getParams().getNetSettings().getInterface();
 
         addTextWithLabelNoSeparator(networkLayout, anInterface.getName(), activity.getString(R.string.interface_name));
@@ -91,25 +91,8 @@ class DetailsFiller {
                     activity.getString(R.string.interface_description));
         }
 
-        final List<IPEntry> addresses = anInterface.getIPList();
-        final List<IPEntry> ipv4Address = getIPv6Adresses(addresses, Inet4Address.class);
-        if (!ipv4Address.isEmpty()) {
-            addRule(networkLayout);
-            for (final IPEntry entry : ipv4Address) {
-                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress() + '/' + entry.getPrefix());
-            }
-            addLabel(networkLayout, activity.getString(R.string.ipv4_addresses));
-        }
-
-        final List<IPEntry> ipv6Address = getIPv6Adresses(addresses, Inet6Address.class);
-        if (!ipv6Address.isEmpty()) {
-            addRule(networkLayout);
-            for (final IPEntry entry : ipv6Address) {
-                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
-                        entry.getPrefix());
-            }
-            addLabel(networkLayout, activity.getString(R.string.ipv6_addresses));
-        }
+        addIPv4Entries(anInterface);
+        addIPv6Entries(anInterface);
 
         addBottomMargin(networkLayout);
     }
@@ -133,6 +116,31 @@ class DetailsFiller {
         }
 
         return adresses;
+    }
+
+    private final void addIPv4Entries(final Interface anInterface) {
+        final List<IPEntry> addresses = anInterface.getIPList();
+        final List<IPEntry> ipv4Address = getIPv6Adresses(addresses, Inet4Address.class);
+        if (!ipv4Address.isEmpty()) {
+            addRule(networkLayout);
+            for (final IPEntry entry : ipv4Address) {
+                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress() + '/' + entry.getPrefix());
+            }
+            addLabel(networkLayout, activity.getString(R.string.ipv4_addresses));
+        }
+    }
+
+    private final void addIPv6Entries(final Interface anInterface) {
+        final List<IPEntry> addresses = anInterface.getIPList();
+        final List<IPEntry> ipv6Address = getIPv6Adresses(addresses, Inet6Address.class);
+        if (!ipv6Address.isEmpty()) {
+            addRule(networkLayout);
+            for (final IPEntry entry : ipv6Address) {
+                addTextNoSeparator(networkLayout, entry.getAddress().getHostAddress().replaceFirst("(^|:)(0+(:|$)){2,8}", "::") + '/' +
+                        entry.getPrefix());
+            }
+            addLabel(networkLayout, activity.getString(R.string.ipv6_addresses));
+        }
     }
 
     private void addDeviceUuid(Device device) {
@@ -213,6 +221,7 @@ class DetailsFiller {
         } else {
             textView.setTextAppearance(R.style.DetailsTextView);
         }
+
         textView.setText(text);
         layout.addView(textView);
 
