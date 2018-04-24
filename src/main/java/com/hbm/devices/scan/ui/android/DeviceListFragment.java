@@ -69,7 +69,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     private String prefFakeMessageType;
 
     /**
-     * Default constructor fot this Fragment. This constructor shall never be called directly from code. Fragments
+     * Default constructor for this Fragment. This constructor shall never be called directly from code. Fragments
      * are instantiated by the Android runtime.
      */
     public DeviceListFragment() {
