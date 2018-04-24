@@ -146,7 +146,7 @@ sonarqube {
 tasks.sonarqube.dependsOn = ["build"]
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+    gradleVersion = '4.5.1'
 }
 
 apply plugin: 'com.google.firebase.firebase-perf'
