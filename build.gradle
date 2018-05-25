@@ -11,7 +11,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
         classpath 'io.fabric.tools:gradle:1.25.2'
-        classpath 'com.google.gms:google-services:3.2.1'
+        classpath 'com.google.gms:google-services:3.3.1'
     }
 }
 
@@ -79,7 +79,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.hbm:devscan:2.1.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
@@ -89,9 +89,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
-    implementation 'com.google.firebase:firebase-crash:15.0.0'
-    implementation 'com.google.firebase:firebase-perf:15.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
+    implementation 'com.google.firebase:firebase-crash:16.0.0'
+    implementation 'com.google.firebase:firebase-perf:16.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
     testImplementation 'junit:junit:4.12'
 }
 
