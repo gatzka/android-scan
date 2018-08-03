@@ -91,14 +91,6 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         final String moduleType = getModuleType(device);
         final String uuid = device.getUuid();
 
-        final DeviceHolderResources resources = DeviceHolderResources.getInstance(context);
-        final int alpha = resources.getAlpha();
-        cardView.setCardBackgroundColor(resources.getCardBackgroundConnectable());
-        tvModuleType.setTextColor(setTextAlpha(resources.getModuleTypeTextColorConnectable(), alpha));
-        tvModuleName.setTextColor(setTextAlpha(resources.getModuleNameTextColorConnectable(), alpha));
-        tvModuleId.setTextColor(setTextAlpha(resources.getModuleIdTextColorConnectable(), alpha));
-        infoButton.setImageDrawable(resources.getBlackInfo());
-
         tvModuleType.setText(moduleType);
         tvModuleName.setText(displayName);
         tvModuleId.setText(uuid);
@@ -131,18 +123,10 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
         return ImageResourceCache.getResourceFromCache(key);
     }
 
-    private static int setTextAlpha(int color, int alphaPercent) {
-        final int red = Color.red(color);
-        final int green = Color.green(color);
-        final int blue = Color.blue(color);
-        final int alpha = alphaPercent * 255 / 100;
-        return Color.argb(alpha, red, green, blue);
-    }
-
     private String getModuleType(final Device device) {
         String moduleType = device.getType();
         if (moduleType == null || moduleType.length() == 0) {
-            moduleType = DeviceHolderResources.getInstance(context).getUnknown();
+            moduleType = context.getString(R.string.unknown);
         }
 
         return moduleType;
@@ -151,7 +135,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private String getDisplayName(final Device device) {
         String displayName = device.getName();
         if (displayName == null || displayName.length() == 0) {
-            displayName = DeviceHolderResources.getInstance(context).getUnknown();
+            displayName = context.getString(R.string.unknown);
         }
 
         return displayName;
