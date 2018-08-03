@@ -29,16 +29,14 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 /**
  * Fragment holding the GUI elements of the settings.
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onCreatePreferences (Bundle savedInstanceState, String s) {
         addPreferencesFromResource(R.xml.preferences);
     }
 }

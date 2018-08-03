@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/hbm_blue</item>
     </style>
 
+    <style name="SettingsTheme" parent="ScannerTheme">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
     <style name="DetailsHeading" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">16sp</item>
