@@ -6,4 +6,7 @@
     <color name="details_label_color">#80000000</color>
     <color name="details_horizontal_rule_color">#c0c0c0</color>
     <color name="button_text_color">#0a7e07</color>
+    <color name="textColorPrimaryDefault">#000000</color>
+    <color name="textColorSecondaryDefault">#000000</color>
+    <color name="textColorTertiaryDefault">#000000</color>
 </resources>

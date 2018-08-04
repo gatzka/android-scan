@@ -3,6 +3,10 @@
     <style name="ScannerTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/hbm_blue_dark</item>
         <item name="colorPrimary">@color/hbm_blue</item>
+        <item name="android:textColorPrimary">@color/textColorPrimaryDefault</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryDefault</item>
+        <item name="android:textColorTertiary">@color/textColorTertiaryDefault</item>
+
 		<item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>
