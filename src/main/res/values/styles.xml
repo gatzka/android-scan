@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ScannerTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="ScannerTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/hbm_blue_dark</item>
         <item name="colorPrimary">@color/hbm_blue</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryDefault</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryDefault</item>
         <item name="android:textColorTertiary">@color/textColorTertiaryDefault</item>
-    </style>
-
-    <style name="SettingsTheme" parent="ScannerTheme">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="DetailsHeading" parent="TextAppearance.AppCompat">
