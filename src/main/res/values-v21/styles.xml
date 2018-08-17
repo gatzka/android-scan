@@ -6,7 +6,7 @@
         <item name="android:textColorPrimary">@color/textColorPrimaryDefault</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryDefault</item>
         <item name="android:textColorTertiary">@color/textColorTertiaryDefault</item>
-
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>
