@@ -118,7 +118,7 @@ class DetailsFiller {
         return adresses;
     }
 
-    private final void addIPv4Entries(final Interface anInterface) {
+    private void addIPv4Entries(final Interface anInterface) {
         final List<IPEntry> addresses = anInterface.getIPList();
         final List<IPEntry> ipv4Address = getIPv6Adresses(addresses, Inet4Address.class);
         if (!ipv4Address.isEmpty()) {
@@ -130,7 +130,7 @@ class DetailsFiller {
         }
     }
 
-    private final void addIPv6Entries(final Interface anInterface) {
+    private void addIPv6Entries(final Interface anInterface) {
         final List<IPEntry> addresses = anInterface.getIPList();
         final List<IPEntry> ipv6Address = getIPv6Adresses(addresses, Inet6Address.class);
         if (!ipv6Address.isEmpty()) {
