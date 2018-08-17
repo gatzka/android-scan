@@ -74,28 +74,28 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
             final Announce announce = (Announce) getIntent().getSerializableExtra(DeviceDetailsActivity.DETAILS);
             initToolbar(announce);
 
-            final EditText ipv4Address = (EditText) findViewById(R.id.configure_ip_address_edit);
+            final EditText ipv4Address = findViewById(R.id.configure_ip_address_edit);
             if (ipv4Address != null) {
                 ipv4Address.setFilters(ipAddressFilter);
             }
-            final EditText ipv4Mask = (EditText) findViewById(R.id.configure_subnet_edit);
+            final EditText ipv4Mask = findViewById(R.id.configure_subnet_edit);
             if (ipv4Mask != null) {
                 ipv4Mask.setFilters(ipAddressFilter);
             }
-            final EditText gateway = (EditText) findViewById(R.id.configure_gateway_ip_edit);
+            final EditText gateway = findViewById(R.id.configure_gateway_ip_edit);
             if (gateway != null) {
                 gateway.setFilters(ipAddressFilter);
             }
 
             final ConfigurationSubmitter submitter = new ConfigurationSubmitter(announce, this);
 
-            final Switch dhcpSwitch = (Switch) findViewById(R.id.dhcp_switch);
+            final Switch dhcpSwitch = findViewById(R.id.dhcp_switch);
             if (dhcpSwitch != null) {
                 dhcpSwitch.setChecked(true);
                 dhcpSwitch.setOnCheckedChangeListener(submitter);
             }
 
-            final Button submit = (Button) findViewById(R.id.submit);
+            final Button submit = findViewById(R.id.submit);
             if (submit != null) {
                 submit.setOnClickListener(submitter);
             }

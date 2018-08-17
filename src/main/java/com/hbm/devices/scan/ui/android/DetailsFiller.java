@@ -56,9 +56,9 @@ class DetailsFiller {
     DetailsFiller(Announce a, DeviceDetailsActivity act) {
         announce = a;
         activity = act;
-        deviceLayout = (LinearLayout) activity.findViewById(R.id.device_container);
-        networkLayout = (LinearLayout) activity.findViewById(R.id.network_container);
-        serviceLayout = (LinearLayout) activity.findViewById(R.id.service_container);
+        deviceLayout = activity.findViewById(R.id.device_container);
+        networkLayout = activity.findViewById(R.id.network_container);
+        serviceLayout = activity.findViewById(R.id.service_container);
     }
 
     final void addDeviceInformation() {

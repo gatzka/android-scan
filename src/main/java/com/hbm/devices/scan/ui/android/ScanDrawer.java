@@ -43,9 +43,9 @@ class ScanDrawer {
 
     ScanDrawer(final AppCompatActivity act) {
 
-        drawerLayout = (DrawerLayout) act.findViewById(R.id.drawer_layout);
+        drawerLayout = act.findViewById(R.id.drawer_layout);
 
-        final NavigationView view = (NavigationView) act.findViewById(R.id.navigation_view);
+        final NavigationView view = act.findViewById(R.id.navigation_view);
         if (view != null) {
             view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -68,7 +68,7 @@ class ScanDrawer {
 
             final View headerView = view.getHeaderView(0);
             if (headerView != null) {
-                final ImageView avatar = (ImageView) headerView.findViewById(R.id.avatar);
+                final ImageView avatar = headerView.findViewById(R.id.avatar);
                 if (avatar != null) {
                     avatar.setPadding(0, getStatusBarHeight(act), 0, 0);
                 }

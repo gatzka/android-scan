@@ -39,6 +39,7 @@ import android.view.WindowManager;
 /**
  * Activity to show the settings of the app.
  */
+@SuppressWarnings("RedundantCast")
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class SettingsActivity extends AppCompatActivity {
     @Override
@@ -55,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();

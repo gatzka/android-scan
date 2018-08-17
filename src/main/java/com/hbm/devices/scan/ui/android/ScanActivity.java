@@ -198,7 +198,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     private void initDevicesView() {
-        devicesView = (RecyclerView) findViewById(R.id.devicesView);
+        devicesView = findViewById(R.id.devicesView);
         devicesView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -209,7 +209,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         setTitle(getString(R.string.app_name));

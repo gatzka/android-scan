@@ -95,7 +95,7 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
     }
 
     private IPv4EntryManual getManualConfiguration() {
-        final EditText ipv4Address = (EditText) activity.findViewById(R.id.configure_ip_address_edit);
+        final EditText ipv4Address = activity.findViewById(R.id.configure_ip_address_edit);
         String ip = null;
         if (ipv4Address != null) {
             final Editable ipv4Text = ipv4Address.getText();
@@ -104,7 +104,7 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
             }
         }
 
-        final EditText ipv4Mask = (EditText) activity.findViewById(R.id.configure_subnet_edit);
+        final EditText ipv4Mask = activity.findViewById(R.id.configure_subnet_edit);
         String mask = null;
         if (ipv4Mask != null) {
             final Editable ipv4MaskText = ipv4Mask.getText();
@@ -120,7 +120,7 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
     }
 
     private ConfigurationDefaultGateway getDefaultGateway() {
-        final EditText gateway = (EditText) activity.findViewById(R.id.configure_gateway_ip_edit);
+        final EditText gateway = activity.findViewById(R.id.configure_gateway_ip_edit);
         if (gateway == null) {
             return null;
         } else {
@@ -134,7 +134,7 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
     }
 
     private void setEdit(boolean edit) {
-        final EditText ipv4 = (EditText) activity.findViewById(R.id.configure_ip_address_edit);
+        final EditText ipv4 = activity.findViewById(R.id.configure_ip_address_edit);
         if (ipv4 != null) {
             ipv4.setEnabled(edit);
             if (edit) {
@@ -142,11 +142,11 @@ class ConfigurationSubmitter implements View.OnClickListener, CompoundButton.OnC
                         (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(ipv4, InputMethodManager.SHOW_IMPLICIT);
             }
-            final EditText ipv4Mask = (EditText) activity.findViewById(R.id.configure_subnet_edit);
+            final EditText ipv4Mask = activity.findViewById(R.id.configure_subnet_edit);
             if (ipv4Mask != null) {
                 ipv4Mask.setEnabled(edit);
             }
-            final EditText gateway = (EditText) activity.findViewById(R.id.configure_gateway_ip_edit);
+            final EditText gateway = activity.findViewById(R.id.configure_gateway_ip_edit);
             if (gateway != null) {
                 gateway.setEnabled(edit);
             }

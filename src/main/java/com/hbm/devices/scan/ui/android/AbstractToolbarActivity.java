@@ -45,7 +45,7 @@ abstract class AbstractToolbarActivity extends AppCompatActivity {
     }
 
     void initToolbar(Announce announce) {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();

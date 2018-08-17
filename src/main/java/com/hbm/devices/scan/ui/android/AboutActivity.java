@@ -57,7 +57,7 @@ public class AboutActivity extends AppCompatActivity {
         initToolbar();
         fillVersion();
 
-        final Button thirdParty = (Button) findViewById(R.id.third_party);
+        final Button thirdParty = findViewById(R.id.third_party);
         if (thirdParty!= null) {
             thirdParty.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,7 +85,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
@@ -96,17 +96,17 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void fillVersion() {
-        final TextView versionView = (TextView) findViewById(R.id.about_version);
+        final TextView versionView = findViewById(R.id.about_version);
         if (versionView == null) {
             return;
         }
         versionView.setText(this.getResources().getString(R.string.about_version, BuildConfig.VERSION_NAME));
-        final TextView imageCourtesy = (TextView) findViewById(R.id.about_images);
+        final TextView imageCourtesy = findViewById(R.id.about_images);
         final MovementMethod method = LinkMovementMethod.getInstance();
         if ((imageCourtesy != null) && (method != null)) {
             imageCourtesy.setMovementMethod(method);
         }
-        final TextView buildInfo = (TextView) findViewById(R.id.about_build_info);
+        final TextView buildInfo = findViewById(R.id.about_build_info);
         if (buildInfo == null) {
             return;
         }

@@ -30,8 +30,6 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,21 +38,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
-import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.Device;
-import com.hbm.devices.scan.announce.IPEntry;
 import com.squareup.picasso.Picasso;
-
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     public static final String DETAILS = "Details";
@@ -74,11 +60,11 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         context = itemView.getContext();
 
-        tvModuleId = (TextView) itemView.findViewById(R.id.moduleID);
-        tvModuleType = (TextView) itemView.findViewById(R.id.moduleType);
-        tvModuleName = (TextView) itemView.findViewById(R.id.moduleName);
-        devicePhoto = (ImageView) itemView.findViewById(R.id.device_photo);
-        infoButton = (ImageButton) itemView.findViewById(R.id.infoButton);
+        tvModuleId = itemView.findViewById(R.id.moduleID);
+        tvModuleType = itemView.findViewById(R.id.moduleType);
+        tvModuleName = itemView.findViewById(R.id.moduleName);
+        devicePhoto = itemView.findViewById(R.id.device_photo);
+        infoButton = itemView.findViewById(R.id.infoButton);
         cardView = itemView;
 
     }
