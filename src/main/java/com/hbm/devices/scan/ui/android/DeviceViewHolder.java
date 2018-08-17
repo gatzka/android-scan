@@ -58,7 +58,6 @@ import java.util.List;
 final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     public static final String DETAILS = "Details";
-    private static final String WTX_MOBILE_PACKAGE = "com.hbm.devices.wtx.ui.android";
 
     private final TextView tvModuleId;
     private final TextView tvModuleType;
