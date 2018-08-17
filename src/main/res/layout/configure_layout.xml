@@ -87,7 +87,7 @@
                 android:text="@string/submit"
                 android:textColor="@color/button_text_color"
                 android:id="@+id/submit"
-                style="?attr/borderlessButtonStyle"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="end|bottom"
                 />
 
