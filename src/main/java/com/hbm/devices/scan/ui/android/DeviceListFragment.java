@@ -56,8 +56,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
-    private final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
-    private AtomicReference<List<Announce>> collectedAnnounces;
+    protected final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
+    protected AtomicReference<List<Announce>> collectedAnnounces;
     private boolean paused;
     private String filterString;
     private ScanThread scanThread;
@@ -221,7 +221,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         }
     }
 
-    private class DeviceFilter extends Filter {
+    protected class DeviceFilter extends Filter {
         @Override
         protected FilterResults performFiltering(final CharSequence constraint) {
             final FilterResults filteredResults = new FilterResults();

@@ -39,7 +39,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 class ScanDrawer {
-    private final DrawerLayout drawerLayout;
+    protected final DrawerLayout drawerLayout;
 
     ScanDrawer(final AppCompatActivity act) {
 

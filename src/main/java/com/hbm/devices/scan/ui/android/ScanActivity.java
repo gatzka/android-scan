@@ -58,11 +58,11 @@ import java.util.List;
 public final class ScanActivity extends AppCompatActivity {
 
     private static final int TOAST_TIMEOUT = 2000;
-    private boolean doubleBackToExitPressedOnce;
+    protected boolean doubleBackToExitPressedOnce;
     private DeviceListFragment listFragment;
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
-    private ModuleListAdapter adapter;
+    protected ModuleListAdapter adapter;
     private ScanDrawer drawer;
 
     /**

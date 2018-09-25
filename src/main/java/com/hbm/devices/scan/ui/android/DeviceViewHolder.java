@@ -51,9 +51,9 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final ImageView devicePhoto;
     private final ImageButton infoButton;
     private final CardView cardView;
-    private final Context context;
+    protected final Context context;
 
-    private Announce announce;
+    protected Announce announce;
 
     DeviceViewHolder(CardView itemView) {
         super(itemView);
