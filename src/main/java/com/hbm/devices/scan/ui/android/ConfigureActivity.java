@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -64,7 +65,7 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_layout);
         try {
@@ -117,7 +118,7 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
             finish();

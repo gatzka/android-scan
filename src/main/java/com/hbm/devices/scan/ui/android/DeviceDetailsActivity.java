@@ -30,6 +30,8 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +45,7 @@ import com.hbm.devices.scan.announce.Device;
  */
 public final class DeviceDetailsActivity extends AbstractToolbarActivity {
 
-    public static final String DETAILS = "Details";
+    @NonNull public static final String DETAILS = "Details";
 
     private Announce announce;
 
@@ -56,7 +58,7 @@ public final class DeviceDetailsActivity extends AbstractToolbarActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_details);
 
@@ -70,7 +72,7 @@ public final class DeviceDetailsActivity extends AbstractToolbarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_details_actions, menu);
         return true;
@@ -86,7 +88,7 @@ public final class DeviceDetailsActivity extends AbstractToolbarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_share:
