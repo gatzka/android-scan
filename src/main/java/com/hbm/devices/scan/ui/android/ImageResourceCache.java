@@ -28,10 +28,13 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 
 class ImageResourceCache {
 
+    @NonNull
     private static final HashMap<String, Integer> resourceCache;
 
     private ImageResourceCache() {}

@@ -30,6 +30,7 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -50,12 +51,13 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
     private final TextView tvModuleName;
     private final ImageView devicePhoto;
     private final ImageButton infoButton;
+    @NonNull
     private final CardView cardView;
     protected final Context context;
 
     protected Announce announce;
 
-    DeviceViewHolder(CardView itemView) {
+    DeviceViewHolder(@NonNull CardView itemView) {
         super(itemView);
 
         context = itemView.getContext();
@@ -69,7 +71,7 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    void bind(Announce a) {
+    void bind(@NonNull Announce a) {
         this.announce = a;
         final Device device = announce.getParams().getDevice();
         final String displayName = getDisplayName(device);

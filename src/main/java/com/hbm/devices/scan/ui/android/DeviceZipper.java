@@ -29,6 +29,8 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -57,13 +59,14 @@ final class DeviceZipper {
 
     private DeviceZipper() {}
 
-    static Uri saveAnnounce(Announce announce, AppCompatActivity activity) {
+    @Nullable
+    static Uri saveAnnounce(Announce announce, @NonNull AppCompatActivity activity) {
         final List<Announce> list = new ArrayList<>();
         list.add(announce);
         return saveAnnounces(list, activity);
     }
 
-    static Uri saveAnnounces(List<Announce> announces, AppCompatActivity activity) {
+    static Uri saveAnnounces(@NonNull List<Announce> announces, @NonNull AppCompatActivity activity) {
         final TimeZone tz = TimeZone.getTimeZone("UTC");
         final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.US);
         df.setTimeZone(tz);

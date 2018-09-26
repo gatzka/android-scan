@@ -37,6 +37,8 @@ import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Filter;
 import android.widget.Toast;
@@ -56,8 +58,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
-    protected final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
-    protected AtomicReference<List<Announce>> collectedAnnounces;
+    @NonNull protected final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
+    @NonNull protected AtomicReference<List<Announce>> collectedAnnounces;
     private boolean paused;
     private String filterString;
     private ScanThread scanThread;
@@ -77,7 +79,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
@@ -90,7 +92,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         /*
@@ -139,7 +141,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences sharedPreferences, @NonNull String key) {
         Activity activity = getActivity();
         if (!isAdded() || (activity == null)) {
             return;
@@ -222,8 +224,9 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
     }
 
     protected class DeviceFilter extends Filter {
+        @NonNull
         @Override
-        protected FilterResults performFiltering(final CharSequence constraint) {
+        protected FilterResults performFiltering(@Nullable final CharSequence constraint) {
             final FilterResults filteredResults = new FilterResults();
             CharSequence filterConstraint = "";
             if (constraint != null) {
@@ -246,7 +249,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
 
         @SuppressWarnings("unchecked")
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
+        protected void publishResults(CharSequence constraint, @NonNull FilterResults results) {
             final List<Announce> filteredAnnounces = (List<Announce>) results.values;
             final ModuleListAdapter a = adapter.get();
             if (a != null) {
@@ -254,19 +257,19 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             }
         }
 
-        private boolean displayNameMatches(final Announce announce, final CharSequence constraint) {
+        private boolean displayNameMatches(final Announce announce, @NonNull final CharSequence constraint) {
             final Device device = announce.getParams().getDevice();
             final String name = getDisplayName(device).toUpperCase(Locale.US);
             return name.contains(constraint);
         }
 
-        private boolean moduleTypeMatches(final Announce announce, final CharSequence constraint) {
+        private boolean moduleTypeMatches(final Announce announce, @NonNull final CharSequence constraint) {
             final Device device = announce.getParams().getDevice();
             final String type = device.getType().toUpperCase(Locale.US);
             return type.contains(constraint);
         }
 
-        private boolean uuidMatches(final Announce announce, final CharSequence constraint) {
+        private boolean uuidMatches(final Announce announce, @NonNull final CharSequence constraint) {
             final Device device = announce.getParams().getDevice();
             final String uuid = device.getUuid().toUpperCase(Locale.US);
             return uuid.contains(constraint);

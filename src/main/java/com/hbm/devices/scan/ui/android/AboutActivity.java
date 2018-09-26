@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +63,7 @@ public class AboutActivity extends AppCompatActivity {
         if (thirdParty!= null) {
             thirdParty.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(@NonNull View view) {
 
                     final Notices notices = new Notices();
                     notices.addNotice(new Notice("gson", "https://github.com/google/gson", "Google Inc.", new

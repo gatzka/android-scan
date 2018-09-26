@@ -28,6 +28,8 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -49,7 +51,7 @@ class BestConnectableAddressComparator implements Comparator<InetAddress>, Seria
         }
     }
 
-    private static int compareLinkLocal(InetAddress first, InetAddress second) {
+    private static int compareLinkLocal(InetAddress first, @NonNull InetAddress second) {
         if (!first.isLinkLocalAddress() && second.isLinkLocalAddress()) {
             return -1;
         } else if (first.isLinkLocalAddress() && !second.isLinkLocalAddress()) {

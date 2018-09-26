@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,8 +43,10 @@ import java.util.List;
 
 final class ModuleListAdapter extends RecyclerView.Adapter<DeviceViewHolder> implements DisplayNotifier {
 
+    @NonNull
     private final List<Announce> filteredAnnounces;
     private final DeviceListFragment listFragment;
+    @NonNull
     private final DisplayUpdateEventGenerator eventGenerator;
 
     ModuleListAdapter(DeviceListFragment fragment) {

@@ -29,6 +29,7 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 /**
@@ -36,7 +37,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
  */
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
-    public void onCreatePreferences (Bundle savedInstanceState, String s) {
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String s) {
         addPreferencesFromResource(R.xml.preferences);
     }
 }

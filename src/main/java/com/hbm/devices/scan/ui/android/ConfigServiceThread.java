@@ -30,6 +30,8 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.hbm.devices.scan.ScanInterfaces;
@@ -48,7 +50,9 @@ import java.net.NetworkInterface;
 import java.util.Collection;
 
 class ConfigServiceThread extends Thread {
+    @NonNull
     private final ConfigurationService configService;
+    @NonNull
     private final ConfigurationMessageReceiver responseReceiver;
 
     ConfigServiceThread() throws IOException {
@@ -72,12 +76,13 @@ class ConfigServiceThread extends Thread {
         configService.close();
     }
 
-    void sendConfiguration(ConfigurationParams configParams, ConfigureActivity activity) {
+    void sendConfiguration(ConfigurationParams configParams, @NonNull ConfigureActivity activity) {
         new SendConfigTask(activity, configService).execute(configParams);
     }
 
     private static class SendConfigTask extends AsyncTask<ConfigurationParams, Integer, Void>
             implements ConfigurationCallback {
+        @NonNull
         private final WeakReference<Context> context;
         private final ConfigurationService service;
         private String message;
@@ -88,8 +93,9 @@ class ConfigServiceThread extends Thread {
             this.context = new WeakReference<>(context.getApplicationContext());
         }
 
+        @Nullable
         @Override
-        protected Void doInBackground(ConfigurationParams... params) {
+        protected Void doInBackground(@NonNull ConfigurationParams... params) {
 
             for (final ConfigurationParams sendParam : params) {
                 try {
@@ -157,7 +163,7 @@ class ConfigServiceThread extends Thread {
         }
 
         @Override
-        public void onError(final Response response) {
+        public void onError(@NonNull final Response response) {
             synchronized (this) {
                 Context ctx = context.get();
                 if (ctx != null) {

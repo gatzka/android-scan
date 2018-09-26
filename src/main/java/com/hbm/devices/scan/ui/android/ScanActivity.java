@@ -30,6 +30,8 @@ package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -59,9 +61,11 @@ public final class ScanActivity extends AppCompatActivity {
 
     private static final int TOAST_TIMEOUT = 2000;
     protected boolean doubleBackToExitPressedOnce;
+    @Nullable
     private DeviceListFragment listFragment;
     private static final String TAG_DEVICE_LIST_FRAGMENT = "deviceListFragment";
     private RecyclerView devicesView;
+    @Nullable
     protected ModuleListAdapter adapter;
     private ScanDrawer drawer;
 
@@ -74,7 +78,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         doubleBackToExitPressedOnce = false;
@@ -107,7 +111,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.device_list_actions, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -140,7 +144,7 @@ public final class ScanActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_pause_control:
@@ -220,7 +224,7 @@ public final class ScanActivity extends AppCompatActivity {
         }
     }
 
-    private void handlePause(MenuItem item) {
+    private void handlePause(@NonNull MenuItem item) {
         if (adapter.isPaused()) {
             item.setIcon(R.drawable.ic_action_pause);
             adapter.resumeDeviceUpdates();

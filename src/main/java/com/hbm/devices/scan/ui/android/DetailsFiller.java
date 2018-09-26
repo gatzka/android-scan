@@ -29,6 +29,8 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -107,7 +109,8 @@ class DetailsFiller {
         }
     }
 
-    private static List<IPEntry> getIPv6Adresses(List<IPEntry> list, Class<?> cls) {
+    @NonNull
+    private static List<IPEntry> getIPv6Adresses(List<IPEntry> list, @NonNull Class<?> cls) {
         List<IPEntry> adresses = new LinkedList<>();
         for (IPEntry entry : list) {
             if (cls.isInstance(entry.getAddress())) {
@@ -194,19 +197,19 @@ class DetailsFiller {
         }
     }
 
-    private void addTextWithLabelTopSeparator(LinearLayout layout, String text, String label) {
+    private void addTextWithLabelTopSeparator(@NonNull LinearLayout layout, String text, String label) {
         addText(layout, text, label, true);
     }
 
-    private void addTextWithLabelNoSeparator(LinearLayout layout, String text, String label) {
+    private void addTextWithLabelNoSeparator(@NonNull LinearLayout layout, String text, String label) {
         addText(layout, text, label, false);
     }
 
-    private void addTextNoSeparator(LinearLayout layout, String text) {
+    private void addTextNoSeparator(@NonNull LinearLayout layout, String text) {
         addText(layout, text, null, false);
     }
 
-    private void addText(LinearLayout layout, String text, String label, boolean withTopSeparator) {
+    private void addText(@NonNull LinearLayout layout, String text, @Nullable String label, boolean withTopSeparator) {
         if (withTopSeparator) {
             addRule(layout);
         }
@@ -242,7 +245,7 @@ class DetailsFiller {
         layout.addView(rule);
     }
 
-    private void addLabel(LinearLayout layout, String label) {
+    private void addLabel(@NonNull LinearLayout layout, String label) {
         final AppCompatTextView labelView = new AppCompatTextView(activity);
         labelView.setPadding(
                 activity.getResources().getDimensionPixelSize(R.dimen.device_info_padding_left),

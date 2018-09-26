@@ -32,6 +32,7 @@ package com.hbm.devices.scan.ui.android;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.hbm.devices.scan.ScanInterfaces;
@@ -57,7 +58,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
             final PackageManager pm = context.getPackageManager();
@@ -72,7 +73,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
         }
     }
 
-    private void fillIntent(Intent sendIntent) {
+    private void fillIntent(@NonNull Intent sendIntent) {
         final Collection<IPEntry> announceAddresses = announce.getParams().getNetSettings()
                 .getInterface().getIPList();
 
@@ -106,7 +107,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
         }
     }
 
-    private void openBrowser(Context context, Announce announce) {
+    private void openBrowser(@NonNull Context context, Announce announce) {
         final BrowserStartTask browserTask = new BrowserStartTask(context);
         browserTask.execute(announce);
     }

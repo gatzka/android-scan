@@ -28,6 +28,9 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.hbm.devices.scan.AbstractMessageReceiver;
 import com.hbm.devices.scan.announce.AnnounceDeserializer;
 import com.hbm.devices.scan.announce.AnnounceReceiver;
@@ -37,10 +40,12 @@ import java.io.IOException;
 
 final class ScanThread extends Thread {
 
+    @Nullable
     private final AbstractMessageReceiver messageReceiver;
+    @NonNull
     private final DeviceMonitor deviceMonitor;
 
-    ScanThread(DeviceListFragment listFragment, boolean useFakeMessages,
+    ScanThread(@NonNull DeviceListFragment listFragment, boolean useFakeMessages,
                FakeMessageType fakeMessageType) throws IOException {
         super("device scan thread");
 

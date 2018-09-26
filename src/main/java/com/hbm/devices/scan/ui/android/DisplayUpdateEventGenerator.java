@@ -28,6 +28,8 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
+
 import com.hbm.devices.scan.announce.Announce;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ class DisplayUpdateEventGenerator {
         this.notifier = n;
     }
 
-    void compareLists(final List<Announce> oldList, final List<Announce> newList) {
+    void compareLists(@NonNull final List<Announce> oldList, @NonNull final List<Announce> newList) {
         ArrayList<Announce> oldListClone = new ArrayList<>(oldList);
         ArrayList<Announce> newListClone = new ArrayList<>(newList);
 
@@ -61,7 +63,7 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private void addList(List<Announce> list, StringBuilder sb) {
+    private void addList(List<Announce> list, @NonNull StringBuilder sb) {
         final int count = list.size();
         for (int i = 0; i < count; i++) {
             final Announce a = list.get(i);
@@ -71,7 +73,7 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private void updateRemovals(final List<Announce> oldList, final List<Announce> newList) {
+    private void updateRemovals(final List<Announce> oldList, @NonNull final List<Announce> newList) {
         final int count = oldList.size();
         for (int i = count - 1; i >= 0; i--) {
             final Announce announce = oldList.get(i);
@@ -82,7 +84,7 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private void updateAdditions(final List<Announce> oldList, final List<Announce> newList) {
+    private void updateAdditions(@NonNull final List<Announce> oldList, final List<Announce> newList) {
         final int count = newList.size();
         for (int i = 0; i < count; i++) {
             final Announce announce = newList.get(i);
@@ -100,7 +102,7 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private void updateMoves(final List<Announce> oldList, final List<Announce> newList) {
+    private void updateMoves(@NonNull final List<Announce> oldList, final List<Announce> newList) {
         for (int toPosition = newList.size() - 1; toPosition >= 0; toPosition--) {
             final Announce model = newList.get(toPosition);
             final int fromPosition = oldList.indexOf(model);
@@ -112,7 +114,7 @@ class DisplayUpdateEventGenerator {
         }
     }
 
-    private static int getIndexInList(final List<Announce> list, final Announce announce) {
+    private static int getIndexInList(final List<Announce> list, @NonNull final Announce announce) {
         final int size = list.size();
         for (int i = 0; i < size; i++) {
             final Announce element = list.get(i);

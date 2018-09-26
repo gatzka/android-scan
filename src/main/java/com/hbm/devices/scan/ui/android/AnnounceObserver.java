@@ -28,6 +28,8 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
+
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.LostDeviceEvent;
 import com.hbm.devices.scan.announce.NewDeviceEvent;
@@ -42,6 +44,7 @@ class AnnounceObserver implements Observer {
 
     private static final int INITIAL_ANNOUNCE_CAPACITY = 100;
 
+    @NonNull
     private final List<Announce> collectedAnnounces;
     private final DeviceListFragment listFragment;
 
@@ -69,7 +72,7 @@ class AnnounceObserver implements Observer {
         listFragment.notify(copiedList);
     }
 
-    private void remove(Announce announce) {
+    private void remove(@NonNull Announce announce) {
         final int count = collectedAnnounces.size();
         for (int i = count - 1; i >= 0; i--) {
             final Announce element = collectedAnnounces.get(i);

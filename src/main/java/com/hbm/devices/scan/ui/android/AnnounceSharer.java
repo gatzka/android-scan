@@ -30,6 +30,8 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -45,7 +47,7 @@ class AnnounceSharer {
         this.activity = activity;
     }
 
-    void handleShare(List<Announce> announces) {
+    void handleShare(@NonNull List<Announce> announces) {
         final Uri uri = DeviceZipper.saveAnnounces(announces, activity);
         share(uri);
     }
@@ -55,7 +57,7 @@ class AnnounceSharer {
         share(uri);
     }
 
-    private void share(Uri uri) {
+    private void share(@Nullable Uri uri) {
         if (uri == null) {
             final Toast exitToast = Toast.makeText(activity, R.string.create_devices_file_error, Toast.LENGTH_SHORT);
             exitToast.show();

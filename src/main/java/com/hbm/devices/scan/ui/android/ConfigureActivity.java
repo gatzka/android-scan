@@ -54,6 +54,7 @@ public final class ConfigureActivity extends AbstractToolbarActivity {
     private ConfigServiceThread configThread;
     static final String CONFIG_SERVICE_THREAD_NAME = "Configuration Service Thread";
 
+    @NonNull
     private static final InputFilter[] ipAddressFilter;
 
     /**
@@ -151,7 +152,7 @@ class IPv4InputFilter implements InputFilter {
     private static final int MAX_IPV4_NUMBER = 255;
     @Nullable
     @Override
-    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+    public CharSequence filter(@NonNull CharSequence source, int start, int end, @NonNull Spanned dest, int dstart, int dend) {
         if (end > start) {
             final String destTxt = dest.toString();
             final String resultingTxt = destTxt.substring(0, dstart) +

@@ -28,6 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,7 +45,7 @@ abstract class AbstractToolbarActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
-    void initToolbar(Announce announce) {
+    void initToolbar(@NonNull Announce announce) {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

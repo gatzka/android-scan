@@ -33,6 +33,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.hbm.devices.scan.ScanInterfaces;
 import com.hbm.devices.scan.announce.Announce;
@@ -49,6 +51,7 @@ import java.util.List;
 
 final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
 
+    @NonNull
     private final WeakReference<Context> context;
 
     BrowserStartTask(Context context) {
@@ -88,7 +91,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         return 0;
     }
 
-    private static InetAddress findConnectableAddress(Announce announce) {
+    private static InetAddress findConnectableAddress(@NonNull Announce announce) {
         try {
             final ScanInterfaces interfaces = new ScanInterfaces();
             ConnectionFinder connectionFinder = new ConnectionFinder(interfaces.getInterfaces());
@@ -105,6 +108,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         }
     }
 
+    @NonNull
     private static List<InetAddress> removeIPv6LinkLocal(List<InetAddress> addresses) {
         final Iterator<InetAddress> iterator = addresses.iterator();
         while (iterator.hasNext()) {
@@ -116,6 +120,7 @@ final class BrowserStartTask extends AsyncTask<Announce, Void, Integer> {
         return addresses;
     }
 
+    @Nullable
     private HttpInfo getHttpInfo(Announce announce) {
         HttpInfo info = null;
 
