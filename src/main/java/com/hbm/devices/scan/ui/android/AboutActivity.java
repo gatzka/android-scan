@@ -28,10 +28,14 @@
 
 package com.hbm.devices.scan.ui.android;
 
+import android.content.DialogInterface;
+import android.content.res.AssetManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
@@ -39,7 +43,10 @@ import android.text.method.MovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import de.psdev.licensesdialog.LicensesDialog;
@@ -47,6 +54,7 @@ import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.licenses.MITLicense;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
+import ru.noties.markwon.Markwon;
 
 /**
  * This activity shows some 'About' information of the app.
@@ -81,6 +89,46 @@ public class AboutActivity extends AppCompatActivity {
                             .setIncludeOwnLicense(false)
                             .build()
                             .show();
+                }
+            });
+        }
+
+        final Button privacy = findViewById(R.id.privacy);
+        if (privacy!= null) {
+            privacy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(@NonNull View view) {
+                    AssetManager assetManager = getAssets();
+                    InputStream input;
+                    try {
+                        input = assetManager.open("privacy_policy.md");
+                        int size = input.available();
+                        byte[] buffer = new byte[size];
+                        input.read(buffer);
+                        input.close();
+                        String text = new String(buffer);
+                        final CharSequence markdown = Markwon.markdown(view.getContext(), text);
+                        AlertDialog.Builder builder;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            builder = new AlertDialog.Builder(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+                        } else {
+                            builder = new AlertDialog.Builder(view.getContext());
+                        }
+
+                        builder.setTitle("Privacy Policy")
+                                .setMessage(markdown)
+                                .setNeutralButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .show();
+
+                    } catch (IOException e) {
+                        final Toast privacyToast = Toast.makeText(view.getContext(), R.string.could_not_open_privacy, Toast.LENGTH_SHORT);
+                        privacyToast.show();
+                    }
                 }
             });
         }
