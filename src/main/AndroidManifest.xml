@@ -59,6 +59,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ScanActivity"/>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="1c2155e1343c90f4085291c0e67c91d6902cd39c"
+            />
 
 		<provider
 		    android:name="android.support.v4.content.FileProvider"
