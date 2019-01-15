@@ -183,16 +183,16 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         ipv4Addresses.add(ipv4Entry);
         if ((counter / NUMBER_CONNECTABLE_MODULES) % NUMBER_OF_MODULE_GROUPS == 0) {
             ipv4Entry.addProperty(ADDRESS_KEY, context.getString(R.string.ip1));
-            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask1));
+            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask24));
         } else {
             ipv4Entry.addProperty(ADDRESS_KEY, context.getString(R.string.ip2));
-            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask2));
+            ipv4Entry.addProperty(NETMASK_KEY, context.getString(R.string.netmask16));
         }
 
         final JsonObject apipa = new JsonObject();
         ipv4Addresses.add(apipa);
         apipa.addProperty(ADDRESS_KEY, context.getString(R.string.apipaIP));
-        apipa.addProperty(NETMASK_KEY, context.getString(R.string.apipaNetmask));
+        apipa.addProperty(NETMASK_KEY, context.getString(R.string.netmask16));
 
 
         final JsonArray ipv6Addresses = new JsonArray();

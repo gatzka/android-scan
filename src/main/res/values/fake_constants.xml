@@ -2,11 +2,10 @@
 <resources>
     <string name="defaultGW">172.19.169.254</string>
     <string name="ip1">192.168.23.100</string>
-    <string name="netmask1">255.255.255.0</string>
+    <string name="netmask24">255.255.255.0</string>
     <string name="ip2">172.19.1.1</string>
-    <string name="netmask2">255.255.0.0</string>
+    <string name="netmask16">255.255.0.0</string>
     <string name="apipaIP">169.254.3.223</string>
-    <string name="apipaNetmask">255.255.0.0</string>
     <string name="ipv6address1">fdfb:84a3:9d2d:0:222:4dff:feaa:4c1e</string>
     <string name="ipv6address2">fe80:0:0:0:222:4dff:feaa:4c1e</string>
 </resources>
