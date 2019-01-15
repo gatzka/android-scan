@@ -48,8 +48,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
 
 import com.hbm.devices.scan.announce.Announce;
 
@@ -82,7 +82,7 @@ public final class ScanActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
 
         doubleBackToExitPressedOnce = false;
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

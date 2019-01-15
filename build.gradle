@@ -1,21 +1,16 @@
 buildscript {
     repositories {
+        google()
         jcenter()
-		google()
-        maven { url 'https://maven.fabric.io/public' }
+        //maven { url 'https://maven.fabric.io/public' }
 		maven { url 'https://maven.google.com' }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath 'com.google.firebase:firebase-plugins:1.1.5'
-        classpath 'io.fabric.tools:gradle:1.26.1'
-        classpath 'com.google.gms:google-services:4.1.0'
+        //classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        //classpath 'io.fabric.tools:gradle:1.26.1'
     }
-}
-
-plugins {
-    id "org.sonarqube" version "2.6.2"
 }
 
 description 'Web application launcher for HBM devices.'
@@ -71,7 +66,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://maven.google.com/' }
-        maven { url 'https://maven.fabric.io/public' }
+        //maven { url 'https://maven.fabric.io/public' }
     }
 }
 
@@ -89,12 +84,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.psdev.licensesdialog:licensesdialog:1.9.0'
-	implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-crash:16.2.1'
-    implementation 'com.google.firebase:firebase-perf:16.2.3'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
-        transitive = true;
-    }
+
 
     testImplementation 'junit:junit:4.12'
 }
@@ -141,23 +131,22 @@ android {
     }
 }
 
-sonarqube {
-    properties {
-        def android_sdk = System.getenv("ANDROID_SDK")
+//sonarqube {
+//    properties {
+//        def android_sdk = System.getenv("ANDROID_SDK")
+//
+//        property "sonar.sourceEncoding", "UTF-8"
+//        property "sonar.sources", "src"
+//        property "sonar.java.binaries", "build/intermediates/classes/release/"
+//       property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
+//    }
+//}
 
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.sources", "src"
-        property "sonar.java.binaries", "build/intermediates/classes/release/"
-        property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
-    }
-}
-
-tasks.sonarqube.dependsOn = ["build"]
+//tasks.sonarqube.dependsOn = ["build"]
 
 task createWrapper(type: Wrapper) {
     gradleVersion = '5.1.1'
 }
-
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+//apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'io.fabric'
