@@ -2,15 +2,12 @@ buildscript {
     repositories {
         google()
         jcenter()
-        //maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://maven.google.com' }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'com.google.gms:google-services:4.1.0'
-        //classpath 'com.google.firebase:firebase-plugins:1.1.5'
-        //classpath 'io.fabric.tools:gradle:1.26.1'
     }
 }
 
@@ -68,7 +65,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://maven.google.com/' }
-        //maven { url 'https://maven.fabric.io/public' }
     }
 }
 
@@ -89,6 +85,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-crash:16.2.1'
+
     testImplementation 'junit:junit:4.12'
 }
 
@@ -134,23 +131,8 @@ android {
     }
 }
 
-//sonarqube {
-//    properties {
-//        def android_sdk = System.getenv("ANDROID_SDK")
-//
-//        property "sonar.sourceEncoding", "UTF-8"
-//        property "sonar.sources", "src"
-//        property "sonar.java.binaries", "build/intermediates/classes/release/"
-//       property "sonar.java.libraries", "${android_sdk}/platforms/android-25/android.jar,${android_sdk}/extras/android/support/v4/android-support-v4.jar"
-//    }
-//}
-
-//tasks.sonarqube.dependsOn = ["build"]
-
 task createWrapper(type: Wrapper) {
     gradleVersion = '5.1.1'
 }
-//apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.firebase-perf'
-//apply plugin: 'io.fabric'
+
 

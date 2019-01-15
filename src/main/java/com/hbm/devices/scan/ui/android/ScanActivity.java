@@ -82,7 +82,6 @@ public final class ScanActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
 
         doubleBackToExitPressedOnce = false;
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
