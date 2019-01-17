@@ -80,6 +80,7 @@ class ImageResourceCache {
         resourceCache.put("MX471B-R", R.drawable.mx471br);
         resourceCache.put("MX471", R.drawable.mx471);
         resourceCache.put("MX471B", R.drawable.mx471b);
+        resourceCache.put("MX471C", R.drawable.mx471c);
 
         resourceCache.put("MX879", R.drawable.mx879);
         resourceCache.put("MX879B", R.drawable.mx879b);
@@ -100,6 +101,7 @@ class ImageResourceCache {
 
         resourceCache.put("CX27", R.drawable.cx27b);
         resourceCache.put("CX27B", R.drawable.cx27b);
+        resourceCache.put("CX27C", R.drawable.cx27c);
 
         resourceCache.put("CX22BW", R.drawable.cx22bw);
         resourceCache.put("CX22B", R.drawable.cx22b);
