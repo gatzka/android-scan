@@ -223,7 +223,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
         }
     }
 
-    protected class DeviceFilter extends Filter {
+    class DeviceFilter extends Filter {
         @NonNull
         @Override
         protected FilterResults performFiltering(@Nullable final CharSequence constraint) {
