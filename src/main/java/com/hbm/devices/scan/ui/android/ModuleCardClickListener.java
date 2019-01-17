@@ -62,7 +62,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
             final PackageManager pm = context.getPackageManager();
-            boolean isInstalled = isPackageInstalled(WTX_MOBILE_PACKAGE, pm);
+            boolean isInstalled = isPackageInstalled(pm);
             if (isInstalled) {
                 final Intent sendIntent = pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
                 fillIntent(sendIntent);
@@ -94,13 +94,13 @@ final class ModuleCardClickListener implements View.OnClickListener {
             Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
             final ArrayList<InetAddress> sameNetIps = new ArrayList<>(sameNetAddresses);
             sendIntent.putExtra("same_net_addresses", sameNetIps);
-        } catch (SocketException e) {
+        } catch (SocketException ignored) {
         }
     }
 
-    private boolean isPackageInstalled(String packagename, PackageManager packageManager) {
+    private boolean isPackageInstalled(PackageManager packageManager) {
         try {
-            packageManager.getPackageInfo(packagename, 0);
+            packageManager.getPackageInfo(ModuleCardClickListener.WTX_MOBILE_PACKAGE, 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;

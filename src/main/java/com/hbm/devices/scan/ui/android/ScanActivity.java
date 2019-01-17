@@ -194,12 +194,7 @@ public final class ScanActivity extends AppCompatActivity {
         final Toast exitToast = Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT);
         exitToast.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, TOAST_TIMEOUT);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, TOAST_TIMEOUT);
     }
 
     private void initDevicesView() {

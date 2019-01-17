@@ -59,7 +59,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class DeviceListFragment extends Fragment implements OnSharedPreferenceChangeListener {
 
     @NonNull protected final AtomicReference<ModuleListAdapter> adapter = new AtomicReference<>();
-    @NonNull protected AtomicReference<List<Announce>> collectedAnnounces;
+    @Nullable protected AtomicReference<List<Announce>> collectedAnnounces;
     private boolean paused;
     private String filterString;
     private ScanThread scanThread;
@@ -199,7 +199,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             messageType = FakeMessageType.CONSTANT_NUMBER_OF_DEVICES;
         }
 
-        notify(new ArrayList<Announce>());
+        notify(new ArrayList<>());
         try {
             scanThread = new ScanThread(this, useFakeMessages, messageType);
             scanThread.start();

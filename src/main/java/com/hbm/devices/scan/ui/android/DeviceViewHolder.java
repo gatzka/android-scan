@@ -34,7 +34,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -87,14 +86,11 @@ final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         cardView.setOnClickListener(new ModuleCardClickListener(announce, moduleType));
 
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(context, DeviceDetailsActivity.class);
-                intent.putExtra(DETAILS, announce);
-                ActivityCompat.startActivity(context, intent, null);
-                ((ScanActivity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-            }
+        infoButton.setOnClickListener(v -> {
+            final Intent intent = new Intent(context, DeviceDetailsActivity.class);
+            intent.putExtra(DETAILS, announce);
+            ActivityCompat.startActivity(context, intent, null);
+            ((ScanActivity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         });
     }
 

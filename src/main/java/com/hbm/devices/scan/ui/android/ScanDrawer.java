@@ -29,12 +29,10 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -47,22 +45,20 @@ class ScanDrawer {
 
         final NavigationView view = act.findViewById(R.id.navigation_view);
         if (view != null) {
-            view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.drawer_settings:
-                            act.startActivity(new Intent(act.getApplicationContext(),
-                                    SettingsActivity.class));
-                            return true;
+            view.setNavigationItemSelectedListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.drawer_settings:
+                        act.startActivity(new Intent(act.getApplicationContext(),
+                                SettingsActivity.class));
+                        return true;
 
-                        case R.id.drawer_about:
-                            act.startActivity(new Intent(act.getApplicationContext(), AboutActivity.class));
-                            return true;
+                    case R.id.drawer_about:
+                        act.startActivity(new Intent(act.getApplicationContext(), AboutActivity.class));
+                        return true;
 
-                        default:
-                            drawerLayout.closeDrawers();
-                            return true;
-                    }
+                    default:
+                        drawerLayout.closeDrawers();
+                        return true;
                 }
             });
 
