@@ -1,92 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="false"
     card_view:cardCornerRadius="2dp"
-    >
+    card_view:cardElevation="2dp"
+    card_view:cardUseCompatPadding="false">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/device_photo"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:contentDescription="@string/device_photo"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_no_device"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-        />
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/moduleType"
-            android:singleLine="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxEms="7"
+            android:singleLine="true"
+            android:textIsSelectable="false"
             android:textSize="24sp"
-            android:textIsSelectable="false"
             card_view:layout_constraintLeft_toRightOf="@+id/device_photo"
-            android:layout_marginStart="32dp"
+            card_view:layout_constraintRight_toLeftOf="@+id/infoButton"
+            card_view:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            card_view:layout_constraintTop_toTopOf="parent"/>
+            />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/moduleName"
-            android:singleLine="true"
-            android:maxEms="12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:textSize="14sp"
+            android:maxEms="12"
+            android:singleLine="true"
             android:textIsSelectable="false"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@id/moduleType"
+            card_view:layout_constraintStart_toStartOf="@+id/moduleType"
             card_view:layout_constraintTop_toBottomOf="@+id/moduleType"
-            card_view:layout_constraintLeft_toLeftOf="@+id/moduleType"
-        />
+            />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/moduleID"
-            android:singleLine="true"
-            android:maxEms="12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:ellipsize="start"
-            android:textSize="14sp"
+            android:maxEms="12"
+            android:singleLine="true"
             android:textIsSelectable="false"
-            android:paddingBottom="10dp"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@id/moduleType"
+            card_view:layout_constraintStart_toStartOf="@+id/moduleType"
             card_view:layout_constraintTop_toBottomOf="@+id/moduleName"
-            card_view:layout_constraintLeft_toLeftOf="@+id/moduleName"
-            android:layout_marginTop="4dp"/>
+            card_view:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageButton
             android:id="@+id/infoButton"
-            android:src="@drawable/ic_info_outline_black_48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/info_button"
+            android:layout_marginEnd="8dp"
             android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/info_button"
+            android:src="@drawable/ic_info_outline_black_48dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
-            android:layout_marginEnd="8dp"/>
+            card_view:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
