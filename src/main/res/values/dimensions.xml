@@ -9,5 +9,4 @@
     <dimen name="details_card_margin_end">8dp</dimen>
     <dimen name="details_card_margin_bottom">4dp</dimen>
     <dimen name="ruler_height">1dp</dimen>
-    <dimen name="configure_margins">30dp</dimen>
 </resources>

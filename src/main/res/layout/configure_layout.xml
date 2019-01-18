@@ -15,59 +15,70 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            >
+            android:layout_height="match_parent">
 
             <Switch
                 android:id="@+id/dhcp_switch"
                 android:hint="@string/use_dhcp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 />
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/configure_ip_address_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/dhcp_switch"
+                app:layout_constraintStart_toStartOf="@id/dhcp_switch"
+                app:layout_constraintEnd_toEndOf="@id/dhcp_switch"
+                >
+
                 <EditText
                     android:id="@+id/configure_ip_address_edit"
                     android:ems="15"
                     android:digits="0123456789."
                     android:inputType="number|numberDecimal"
-                    android:layout_gravity="start|bottom"
                     android:maxLines="1"
                     android:hint="@string/configure_ip_address_label"
-                    android:layout_marginTop="@dimen/configure_margins"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/configure_subnet_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="15"
-                android:digits="0123456789."
-                android:inputType="number|numberDecimal"
-                android:layout_gravity="start|bottom"
-                android:maxLines="1"
-                android:hint="@string/configure_subnet_label"
-                android:layout_marginTop="@dimen/configure_margins"
-                />
+                android:id="@+id/configure_subnet_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/configure_ip_address_text"
+                app:layout_constraintStart_toStartOf="@id/dhcp_switch"
+                app:layout_constraintEnd_toEndOf="@id/dhcp_switch"
+                >
+                <EditText
+                    android:id="@+id/configure_subnet_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="15"
+                    android:digits="0123456789."
+                    android:inputType="number|numberDecimal"
+                    android:maxLines="1"
+                    android:hint="@string/configure_subnet_label"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/configure_gateway_ip_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/configure_subnet_text"
+                app:layout_constraintStart_toStartOf="@id/dhcp_switch"
+                app:layout_constraintEnd_toEndOf="@id/dhcp_switch"
+                >
                 <EditText
                     android:id="@+id/configure_gateway_ip_edit"
                     android:layout_width="match_parent"
@@ -75,24 +86,22 @@
                     android:ems="15"
                     android:digits="0123456789."
                     android:inputType="number|numberDecimal"
-                    android:layout_gravity="start|bottom"
                     android:maxLines="1"
                     android:hint="@string/configure_gateway_label"
-                    android:layout_marginTop="@dimen/configure_margins"
                     />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/configure_gateway_ip_text"
                 android:text="@string/submit"
                 android:textColor="@color/button_text_color"
                 android:id="@+id/submit"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_gravity="end|bottom"
                 />
+        </android.support.constraint.ConstraintLayout>
 
-        </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.AppBarLayout
