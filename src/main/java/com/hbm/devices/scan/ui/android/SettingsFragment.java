@@ -29,8 +29,8 @@
 package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.annotation.Nullable;
+import androidx.preference.PreferenceFragmentCompat;
 
 /**
  * Fragment holding the GUI elements of the settings.

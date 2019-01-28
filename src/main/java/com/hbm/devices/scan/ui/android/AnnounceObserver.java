@@ -28,7 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.LostDeviceEvent;

@@ -28,7 +28,7 @@
 
 package com.hbm.devices.scan.ui.android;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.net.Inet4Address;
