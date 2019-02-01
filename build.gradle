@@ -75,7 +75,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha03'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-crash:16.2.1'
     implementation 'com.hbm:devscan:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
