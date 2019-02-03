@@ -87,7 +87,8 @@ final class FakeMessageReceiver extends AbstractMessageReceiver {
         "CX27B",
         "CX22B",
         "CX22W",
-        "PMX"
+        "PMX",
+        "WTX110"
     };
 
     FakeMessageReceiver(FakeMessageType messageType, Context context) {
