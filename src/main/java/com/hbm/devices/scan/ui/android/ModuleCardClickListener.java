@@ -31,8 +31,8 @@ package com.hbm.devices.scan.ui.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.hbm.devices.scan.ScanInterfaces;
@@ -45,6 +45,9 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import androidx.annotation.NonNull;
 
 final class ModuleCardClickListener implements View.OnClickListener {
 
@@ -62,15 +65,32 @@ final class ModuleCardClickListener implements View.OnClickListener {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
             final PackageManager pm = context.getPackageManager();
-            boolean isInstalled = isPackageInstalled(pm);
-            if (isInstalled) {
-                final Intent sendIntent = pm.getLaunchIntentForPackage(WTX_MOBILE_PACKAGE);
+            String pad2Package = getPAD2PackageName(pm);
+
+            if (pad2Package != null) {
+                final Intent sendIntent = pm.getLaunchIntentForPackage(pad2Package);
                 fillIntent(sendIntent);
                 context.startActivity(sendIntent);
             }
         } else {
             openBrowser(view.getContext(), announce);
         }
+    }
+
+
+    private static String getPAD2PackageName(PackageManager pm) {
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo packageInfo : packages) {
+            CharSequence nonLocalizedName = pm.getApplicationLabel(packageInfo);
+            if (nonLocalizedName != null) {
+                if (nonLocalizedName.toString().equals("PAD 2")) {
+                    return packageInfo.packageName;
+                }
+            }
+        }
+
+        return null;
     }
 
     private void fillIntent(@NonNull Intent sendIntent) {
