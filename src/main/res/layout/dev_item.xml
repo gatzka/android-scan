@@ -32,7 +32,7 @@
             card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/moduleType"
+            android:id="@+id/moduleName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -49,7 +49,7 @@
             />
 
         <TextView
-            android:id="@+id/moduleName"
+            android:id="@+id/moduleType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -57,9 +57,9 @@
             android:singleLine="true"
             android:textIsSelectable="false"
             android:textSize="14sp"
-            card_view:layout_constraintEnd_toEndOf="@id/moduleType"
-            card_view:layout_constraintStart_toStartOf="@+id/moduleType"
-            card_view:layout_constraintTop_toBottomOf="@+id/moduleType"
+            card_view:layout_constraintEnd_toEndOf="@id/moduleName"
+            card_view:layout_constraintStart_toStartOf="@+id/moduleName"
+            card_view:layout_constraintTop_toBottomOf="@+id/moduleName"
             />
 
         <TextView
@@ -74,7 +74,7 @@
             android:textSize="14sp"
             card_view:layout_constraintEnd_toEndOf="@id/moduleType"
             card_view:layout_constraintStart_toStartOf="@+id/moduleType"
-            card_view:layout_constraintTop_toBottomOf="@+id/moduleName"
+            card_view:layout_constraintTop_toBottomOf="@+id/moduleType"
             card_view:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageButton
