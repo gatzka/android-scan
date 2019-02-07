@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 
 import com.hbm.devices.scan.ScanInterfaces;
@@ -64,6 +65,11 @@ final class ModuleCardClickListener implements View.OnClickListener {
     public void onClick(@NonNull View view) {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
+            String url = "https://hbm-pwa.herokuapp.com";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            context.startActivity(i);
+/*
             final PackageManager pm = context.getPackageManager();
             String pad2Package = getPAD2PackageName(pm);
 
@@ -72,6 +78,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
                 fillIntent(sendIntent);
                 context.startActivity(sendIntent);
             }
+*/
         } else {
             openBrowser(view.getContext(), announce);
         }
