@@ -41,6 +41,7 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.IPEntry;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -65,15 +66,20 @@ final class ModuleCardClickListener implements View.OnClickListener {
     public void onClick(@NonNull View view) {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
-            String url = "https://hbm-pwa.herokuapp.com/";
+            StringBuilder url = new StringBuilder("https://hbm-pwa.herokuapp.com/");
+            String ip = getSameNetIpAddress();
+            if (ip != null) {
+                url.append("?ip=");
+                url.append(ip);
+            }
+
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
+            i.setData(Uri.parse(url.toString()));
             context.startActivity(i);
         } else {
             openBrowser(view.getContext(), announce);
         }
     }
-
 
     private static String getPAD2PackageName(PackageManager pm) {
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -85,6 +91,23 @@ final class ModuleCardClickListener implements View.OnClickListener {
                     return packageInfo.packageName;
                 }
             }
+        }
+
+        return null;
+    }
+
+    private String getSameNetIpAddress() {
+        try {
+            final ScanInterfaces interfaces = new ScanInterfaces();
+            Collection<NetworkInterface> networkInterfaces = interfaces.getInterfaces();
+            ConnectionFinder connectionFinder = new ConnectionFinder(networkInterfaces);
+            Collection<InetAddress> sameNetAddresses = connectionFinder.getSameNetworkAddresses(announce);
+            for (InetAddress address : sameNetAddresses) {
+                if (address instanceof Inet4Address) {
+                    return address.getHostAddress();
+                }
+            }
+        } catch (SocketException ignored) {
         }
 
         return null;
