@@ -69,16 +69,6 @@ final class ModuleCardClickListener implements View.OnClickListener {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             context.startActivity(i);
-/*
-            final PackageManager pm = context.getPackageManager();
-            String pad2Package = getPAD2PackageName(pm);
-
-            if (pad2Package != null) {
-                final Intent sendIntent = pm.getLaunchIntentForPackage(pad2Package);
-                fillIntent(sendIntent);
-                context.startActivity(sendIntent);
-            }
-*/
         } else {
             openBrowser(view.getContext(), announce);
         }
