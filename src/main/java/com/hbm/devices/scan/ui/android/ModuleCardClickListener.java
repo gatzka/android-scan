@@ -65,7 +65,7 @@ final class ModuleCardClickListener implements View.OnClickListener {
     public void onClick(@NonNull View view) {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
-            String url = "https://hbm-pwa.herokuapp.com";
+            String url = "https://hbm-pwa.herokuapp.com/";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             context.startActivity(i);
