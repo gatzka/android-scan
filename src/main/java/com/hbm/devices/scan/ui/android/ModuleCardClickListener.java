@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 
 import com.hbm.devices.scan.ScanInterfaces;
@@ -40,11 +41,16 @@ import com.hbm.devices.scan.announce.Announce;
 import com.hbm.devices.scan.announce.ConnectionFinder;
 import com.hbm.devices.scan.announce.IPEntry;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -64,19 +70,20 @@ final class ModuleCardClickListener implements View.OnClickListener {
     public void onClick(@NonNull View view) {
         if ("WTX120".equals(moduleType) || ("WTX110".equals(moduleType))) {
             final Context context = view.getContext();
-            final PackageManager pm = context.getPackageManager();
-            String pad2Package = getPAD2PackageName(pm);
-
-            if (pad2Package != null) {
-                final Intent sendIntent = pm.getLaunchIntentForPackage(pad2Package);
-                fillIntent(sendIntent);
-                context.startActivity(sendIntent);
+            StringBuilder url = new StringBuilder("https://hbm-pwa.herokuapp.com/");
+            String ip = getBestIP4Address();
+            if (ip != null) {
+                url.append("?ip=");
+                url.append(ip);
             }
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url.toString()));
+            context.startActivity(i);
         } else {
             openBrowser(view.getContext(), announce);
         }
     }
-
 
     private static String getPAD2PackageName(PackageManager pm) {
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -88,6 +95,32 @@ final class ModuleCardClickListener implements View.OnClickListener {
                     return packageInfo.packageName;
                 }
             }
+        }
+
+        return null;
+    }
+
+    private String getBestIP4Address() {
+        try {
+            final ScanInterfaces interfaces = new ScanInterfaces();
+            Collection<NetworkInterface> networkInterfaces = interfaces.getInterfaces();
+
+            List<IPEntry> ipList = announce.getParams().getNetSettings().getInterface().getIPList();
+            LinkedList<IPEntry> connectCandidates = new LinkedList<>();
+
+            for (IPEntry entry: ipList) {
+                InetAddress address = entry.getAddress();
+                if (address instanceof Inet4Address) {
+                    connectCandidates.add(entry);
+                }
+            }
+
+            Collections.sort(connectCandidates, new BestIpComparator(networkInterfaces));
+
+            if (!connectCandidates.isEmpty()) {
+                return connectCandidates.get(0).getAddress().getHostAddress();
+            }
+        } catch (SocketException ignored) {
         }
 
         return null;
@@ -130,5 +163,65 @@ final class ModuleCardClickListener implements View.OnClickListener {
     private void openBrowser(@NonNull Context context, Announce announce) {
         final BrowserStartTask browserTask = new BrowserStartTask(context);
         browserTask.execute(announce);
+    }
+}
+
+class BestIpComparator implements Comparator<IPEntry> {
+
+    private Collection<NetworkInterface> networkInterfaces;
+
+    BestIpComparator(Collection<NetworkInterface> networkInterfaces) {
+        this.networkInterfaces = networkInterfaces;
+    }
+
+    @Override
+    public int compare(IPEntry e1, IPEntry e2) {
+        final Inet4Address e1Address = (Inet4Address)e1.getAddress();
+        final int e1Prefix = e1.getPrefix();
+        final Inet4Address e2Address = (Inet4Address)e2.getAddress();
+        final int e2Prefix = e2.getPrefix();
+
+        for (final NetworkInterface iface : networkInterfaces) {
+            final List<InterfaceAddress> niAddresses = iface.getInterfaceAddresses();
+            for (final InterfaceAddress niAddress : niAddresses) {
+                final InetAddress interfaceAddress = niAddress.getAddress();
+                if (interfaceAddress instanceof Inet4Address) {
+                    final Inet4Address interfaceAddress4 = (Inet4Address)interfaceAddress;
+                    final int niPrefix = niAddress.getNetworkPrefixLength();
+                    boolean e1SameNet = sameIPv4Net(e1Address, e1Prefix, interfaceAddress4, niPrefix);
+                    boolean e2SameNet = sameIPv4Net(e2Address, e2Prefix, interfaceAddress4, niPrefix);
+                    if (e1SameNet && e2SameNet) {
+                        return 0;
+                    }
+
+                    if (e1SameNet && !e2SameNet) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    private static boolean sameIPv4Net(Inet4Address announceAddress, int announcePrefix,
+                               Inet4Address interfaceAddress, int interfacePrefix) {
+        final byte[] announceBytes = announceAddress.getAddress();
+        final byte[] interfaceBytes = interfaceAddress.getAddress();
+        int announceInteger = convertToInteger(announceBytes);
+        int interfaceInteger = convertToInteger(interfaceBytes);
+        announceInteger = announceInteger >>> (Integer.SIZE - announcePrefix);
+        interfaceInteger = interfaceInteger >>> (Integer.SIZE - interfacePrefix);
+        return announceInteger == interfaceInteger;
+    }
+
+    private static int convertToInteger(byte... address) {
+        int value = 0;
+        for (final byte b: address) {
+            value = (value << Byte.SIZE) | (b & 0xff);
+        }
+        return value;
     }
 }
