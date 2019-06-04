@@ -194,6 +194,18 @@ class BestIpComparator implements Comparator<IPEntry> {
                         return 0;
                     }
 
+                    if (!e1SameNet && !e2SameNet) {
+                        if (!e1Address.isLinkLocalAddress() && e2Address.isLinkLocalAddress()) {
+                            return -1;
+                        }
+
+                        if (e1Address.isLinkLocalAddress() && !e2Address.isLinkLocalAddress()) {
+                            return 1;
+                        }
+
+                        return 0;
+                    }
+
                     if (e1SameNet && !e2SameNet) {
                         return -1;
                     } else {
