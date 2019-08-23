@@ -36,7 +36,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.net.wifi.WifiManager.WifiLock;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -51,6 +51,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static android.net.wifi.WifiManager.WIFI_MODE_FULL_HIGH_PERF;
 
 /**
  * Retained fragment holding the announced devices. It is necessary to retain this fragment to let the list of
@@ -109,7 +111,7 @@ public final class DeviceListFragment extends Fragment implements OnSharedPrefer
             failureToast.show();
         } else {
             if (wifiLock == null || !wifiLock.isHeld()) {
-                wifiLock = wifi.createWifiLock("wifi lock");
+                wifiLock = wifi.createWifiLock( WIFI_MODE_FULL_HIGH_PERF, "wifi lock");
                 wifiLock.acquire();
             }
             if (mcLock == null || !mcLock.isHeld()) {
