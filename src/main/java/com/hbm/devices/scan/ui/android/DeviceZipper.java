@@ -68,7 +68,7 @@ final class DeviceZipper {
 
     static Uri saveAnnounces(@NonNull List<Announce> announces, @NonNull AppCompatActivity activity) {
         final TimeZone tz = TimeZone.getTimeZone("UTC");
-        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.US);
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
         df.setTimeZone(tz);
         final String isoDate = df.format(new Date());
         final Charset charSet = Charset.forName("UTF-8");
