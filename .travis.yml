@@ -4,7 +4,7 @@ jdk:
 android:
   components:
     - tools
-    - build-tools-29.0.2
+    - build-tools-30.0.0
     - platform-tools
     - tools # Running this twice get's you the latest build tools
 
@@ -13,7 +13,7 @@ before_install:
 
 install:
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "tools" > /dev/null
-  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-29" > /dev/null # Latest platform required by SDK tools
+  - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-30" > /dev/null # Latest platform required by SDK tools
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null
   - echo yes | $ANDROID_HOME/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null
 
